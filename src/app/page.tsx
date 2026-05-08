@@ -275,7 +275,9 @@ export default function Home() {
                 sichert ihr euch gleichzeitig eure Plätze auf der Abendfahrt.
               </p>
               <a
-                href="#reservierung"
+                href="https://tally.so/r/9q6Wp1"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="btn-outline inline-block rounded-full px-8 py-3 text-sm"
               >
                 Tisch reservieren →
