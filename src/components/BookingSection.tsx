@@ -313,8 +313,12 @@ export default function BookingSection() {
                 </div>
 
                 {totalPersons < MIN_TOTAL && (
-                  <p className="font-outfit text-xs mt-2 px-1" style={{ color: 'rgba(252,165,165,0.7)' }}>
-                    {t.minPersons}
+                  <p className="font-outfit text-xs mt-2 px-1 leading-relaxed" style={{ color: 'rgba(252,165,165,0.7)' }}>
+                    {totalPersons === 1
+                      ? (lang === 'de'
+                          ? 'Alleine? Schau später nochmal rein — sobald sich jemand dazubucht, kannst du solo mitfahren.'
+                          : 'Going solo? Check back later — once someone else books, you can join on your own.')
+                      : t.minPersons}
                   </p>
                 )}
                 {MIN_TOTAL === 1 && booked >= 1 && (
