@@ -17,11 +17,12 @@ export default function Home() {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      {/* ── HERO — full navy, logo floats via multiply blend ── */}
-      <section className="relative px-4 pb-16 overflow-hidden" style={{ background: '#0A1628' }}>
+      {/* ── HERO — frost blue background ── */}
+      <section className="relative px-4 pb-16 overflow-hidden"
+        style={{ background: 'linear-gradient(160deg, #daeef8 0%, #b8d8ee 50%, #9dc8e4 100%)' }}>
 
-        {/* Logo direkt auf Navy — transparenter Hintergrund */}
-        <div className="flex justify-center pt-10 pb-6">
+        {/* Logo auf frost-blauem Hintergrund — transparent */}
+        <div className="flex justify-center pt-10 pb-4">
           <div className="animate-float">
             <Image
               src="/logo.png"
@@ -34,35 +35,24 @@ export default function Home() {
           </div>
         </div>
 
-      {/* ── HEADLINE ── */}
-        {/* Stars */}
-        <div className="stars">
-          {STARS.map(s => (
-            <div key={s.id} className="star" style={{
-              top: s.top, left: s.left,
-              width: `${s.size}px`, height: `${s.size}px`,
-              ['--duration' as string]: s.duration,
-              ['--delay' as string]: s.delay,
-            }} />
-          ))}
-        </div>
-
         <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-amber/30 bg-amber/5">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-light animate-shimmer" />
-            <span className="font-outfit text-xs tracking-[0.18em] uppercase text-amber-light/80">
+          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
+            style={{ border: '1px solid rgba(10,22,40,0.2)', background: 'rgba(10,22,40,0.07)' }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#0A1628', opacity: 0.5 }} />
+            <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: 'rgba(10,22,40,0.65)' }}>
               11. Mai – 30. September 2026
             </span>
           </div>
 
-          <h1 className="font-cormorant font-light leading-[1.1] mb-4 text-cream"
-            style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)' }}>
+          <h1 className="font-cormorant font-light leading-[1.1] mb-4"
+            style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)', color: '#0A1628' }}>
             Die etwas andere
             <br />
             <em className="gold-text italic">Grachten Rundfahrt</em>
           </h1>
 
-          <p className="font-outfit text-sm md:text-base tracking-wider text-cream/50 mb-10 leading-relaxed">
+          <p className="font-outfit text-sm md:text-base tracking-wider mb-10 leading-relaxed"
+            style={{ color: 'rgba(10,22,40,0.55)' }}>
             Täglich 19:00 Uhr · Friedrichstadt · Max. 6 Personen
           </p>
 
@@ -70,13 +60,14 @@ export default function Home() {
             <a href="#buchen" className="btn-primary rounded-full px-10 py-4 text-sm">
               <span>⚓&nbsp; Platz sichern</span>
             </a>
-            <a href="#info" className="btn-outline rounded-full px-7 py-3.5 text-sm">
+            <a href="#info" className="rounded-full px-7 py-3.5 text-sm font-outfit font-medium"
+              style={{ border: '1.5px solid rgba(10,22,40,0.3)', color: '#0A1628', transition: 'all 0.2s' }}>
               Mehr erfahren
             </a>
           </div>
         </div>
 
-        {/* Wave into info section */}
+        {/* Wave into dark info section */}
         <div className="wave-container" style={{ height: '70px' }}>
           <div className="wave-track wave-1">
             {[0, 1].map(k => (
