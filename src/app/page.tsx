@@ -5,7 +5,7 @@ import BookingSection from '@/components/BookingSection'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Home() {
-  const { t } = useLanguage()
+  const { t, lang } = useLanguage()
 
   return (
     <main className="min-h-screen bg-navy">
@@ -313,14 +313,36 @@ export default function Home() {
           {t.footerAddress}
         </p>
         <div className="rope-divider w-16 mx-auto mt-6 opacity-20" />
-        <div className="mt-7 flex items-center justify-center gap-2">
-          <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.28)' }}>
-            {t.automatedBy}
-          </span>
-          <a href="https://optriq.de" target="_blank" rel="noopener noreferrer"
-            className="font-outfit text-xs font-semibold tracking-wide"
-            style={{ color: 'rgba(212,168,67,0.55)', textDecoration: 'none', letterSpacing: '0.06em' }}>
-            OPTRIQ
+        <div className="mt-8">
+          <a
+            href="https://optriq.de"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ textDecoration: 'none', display: 'inline-block' }}
+          >
+            <div className="inline-flex flex-col items-center gap-1 px-6 py-3 rounded-2xl"
+              style={{
+                background: 'rgba(212,168,67,0.07)',
+                border: '1px solid rgba(212,168,67,0.18)',
+                transition: 'background 0.2s, border-color 0.2s',
+              }}
+              onMouseEnter={e => {
+                (e.currentTarget as HTMLDivElement).style.background = 'rgba(212,168,67,0.12)'
+                ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(212,168,67,0.32)'
+              }}
+              onMouseLeave={e => {
+                (e.currentTarget as HTMLDivElement).style.background = 'rgba(212,168,67,0.07)'
+                ;(e.currentTarget as HTMLDivElement).style.borderColor = 'rgba(212,168,67,0.18)'
+              }}
+            >
+              <span className="font-outfit font-bold tracking-[0.15em] text-sm"
+                style={{ color: 'rgba(212,168,67,0.85)', letterSpacing: '0.15em' }}>
+                OPTRIQ
+              </span>
+              <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.3)', letterSpacing: '0.04em' }}>
+                {lang === 'de' ? 'Website & Buchungssystem' : 'Website & Booking System'}
+              </span>
+            </div>
           </a>
         </div>
       </footer>
