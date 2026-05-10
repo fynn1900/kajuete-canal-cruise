@@ -1,15 +1,23 @@
 'use client'
 
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
+import { createClient } from '@supabase/supabase-js'
 
 const MAX_SEATS = 6
 const PRICE_ADULT = 19
 const PRICE_KID = 5
 
+// Direct browser → Supabase connection, no API route needed for reads
+function getSupabase() {
+  return createClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+  )
+}
+
 function getSeasonMin() {
   const today = new Date()
-  const year = today.getFullYear()
-  const seasonStart = new Date(year, 4, 11)
+  const seasonStart = new Date(today.getFullYear(), 4, 11)
   return today > seasonStart ? today : seasonStart
 }
 
@@ -21,26 +29,23 @@ function toDateString(d: Date) {
   return d.toISOString().split('T')[0]
 }
 
-function formatDateDE(dateStr: string) {
-  const [y, m, d] = dateStr.split('-')
+function formatDateDE(s: string) {
+  const [y, m, d] = s.split('-')
   return `${d}.${m}.${y}`
 }
 
-type AvailabilityState = 'idle' | 'loading' | 'ready' | 'soldout' | 'blocked' | 'error'
+type AvState = 'idle' | 'loading' | 'ready' | 'soldout' | 'blocked' | 'error'
 
 export default function BookingSection() {
   const seasonMin = getSeasonMin()
   const seasonMax = getSeasonMax()
   const today = new Date()
-
-  const defaultDate =
-    today >= seasonMin && today <= seasonMax
-      ? toDateString(today)
-      : toDateString(seasonMin)
+  const defaultDate = today >= seasonMin && today <= seasonMax ? toDateString(today) : toDateString(seasonMin)
 
   const [date, setDate] = useState(defaultDate)
-  const [availability, setAvailability] = useState<{ booked: number; available: number } | null>(null)
-  const [avState, setAvState] = useState<AvailabilityState>('idle')
+  const [avState, setAvState] = useState<AvState>('idle')
+  const [booked, setBooked] = useState(0)
+  const [available, setAvailable] = useState(MAX_SEATS)
 
   const [adults, setAdults] = useState(1)
   const [kids, setKids] = useState(0)
@@ -49,154 +54,152 @@ export default function BookingSection() {
 
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [error, setError] = useState<string | null>(null)
-
-  const sectionRef = useRef<HTMLDivElement>(null)
+  const [formError, setFormError] = useState<string | null>(null)
 
   const totalPersons = adults + kids
   const totalPrice = adults * PRICE_ADULT + kids * PRICE_KID
-  const available = availability?.available ?? 0
 
   useEffect(() => {
     if (!date) return
     setAvState('loading')
-    setAvailability(null)
-    const ctrl = new AbortController()
-    fetch(`/api/availability?date=${date}`, { signal: ctrl.signal })
-      .then(r => {
-        if (!r.ok) throw new Error('fetch failed')
-        return r.json()
-      })
-      .then(d => {
-        setAvailability(d)
-        if (d.blocked) setAvState('blocked')
-        else if (d.available === 0) setAvState('soldout')
-        else setAvState('ready')
-        // clamp persons to available
-        const avail = d.available || 0
-        if (adults + kids > avail) {
-          const newAdults = Math.min(adults, avail)
-          const newKids = Math.min(kids, Math.max(0, avail - newAdults))
-          setAdults(newAdults)
-          setKids(newKids)
-        }
-      })
-      .catch(() => { if (!ctrl.signal.aborted) setAvState('error') })
-    return () => ctrl.abort()
+    setSuccess(false)
+    setFormError(null)
+
+    const sb = getSupabase()
+
+    Promise.all([
+      sb.from('canal_cruise_bookings').select('group_size').eq('booking_date', date),
+      sb.from('blocked_dates').select('id').eq('blocked_date', date).maybeSingle(),
+    ]).then(([bookingsRes, blockedRes]) => {
+      if (bookingsRes.error) {
+        console.error(bookingsRes.error)
+        setAvState('error')
+        return
+      }
+      if (blockedRes.data) {
+        setBooked(MAX_SEATS)
+        setAvailable(0)
+        setAvState('blocked')
+        return
+      }
+      const b = (bookingsRes.data || []).reduce((s, r) => s + r.group_size, 0)
+      const a = Math.max(0, MAX_SEATS - b)
+      setBooked(b)
+      setAvailable(a)
+      setAvState(a === 0 ? 'soldout' : 'ready')
+      setAdults(prev => Math.min(prev, a || 1))
+      setKids(prev => Math.min(prev, Math.max(0, a - Math.min(adults, a))))
+    }).catch(() => setAvState('error'))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date])
 
   const maxPersons = avState === 'ready' ? available : MAX_SEATS
 
-  function changeAdults(delta: number) {
-    const next = adults + delta
-    if (next < 0) return
-    if (next + kids > maxPersons) return
+  function changeAdults(d: number) {
+    const next = adults + d
+    if (next < 0 || next + kids > maxPersons) return
     setAdults(next)
   }
-
-  function changeKids(delta: number) {
-    const next = kids + delta
-    if (next < 0) return
-    if (adults + next > maxPersons) return
+  function changeKids(d: number) {
+    const next = kids + d
+    if (next < 0 || adults + next > maxPersons) return
     setKids(next)
   }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setError('Bitte Namen eingeben.'); return }
-    if (totalPersons < 1) { setError('Bitte mindestens 1 Person wählen.'); return }
-    setError(null)
+    if (!name.trim()) { setFormError('Bitte Namen eingeben.'); return }
+    if (totalPersons < 1) { setFormError('Bitte mindestens 1 Person wählen.'); return }
+    setFormError(null)
     setSubmitting(true)
     try {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          booking_date: date,
-          group_size: totalPersons,
-          contact_name: name,
-          email,
-          adults_count: adults,
-          kids_count: kids,
-        }),
+        body: JSON.stringify({ booking_date: date, group_size: totalPersons, contact_name: name, email, adults_count: adults, kids_count: kids }),
       })
       const data = await res.json()
-      if (!res.ok) { setError(data.error || 'Fehler bei der Buchung.') }
+      if (!res.ok) { setFormError(data.error || 'Fehler.') }
       else {
         setSuccess(true)
+        const newAvail = available - totalPersons
+        setBooked(b => b + totalPersons)
+        setAvailable(Math.max(0, newAvail))
+        if (newAvail <= 0) setAvState('soldout')
         setName(''); setEmail(''); setAdults(1); setKids(0)
-        if (availability) {
-          const newAvail = availability.available - totalPersons
-          setAvailability({ booked: availability.booked + totalPersons, available: Math.max(0, newAvail) })
-          if (newAvail <= 0) setAvState('soldout')
-        }
       }
-    } catch {
-      setError('Netzwerkfehler. Bitte erneut versuchen.')
-    } finally {
-      setSubmitting(false)
-    }
+    } catch { setFormError('Netzwerkfehler. Bitte erneut versuchen.') }
+    finally { setSubmitting(false) }
   }
 
-  const booked = availability?.booked ?? 0
-  const canSubmit = avState === 'ready' && totalPersons >= 1
+  function CounterBtn({ onClick, disabled, label }: { onClick: () => void; disabled: boolean; label: string }) {
+    return (
+      <button type="button" onClick={onClick} disabled={disabled}
+        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-light select-none"
+        style={{
+          background: disabled ? 'rgba(255,255,255,0.04)' : 'rgba(212,168,67,0.12)',
+          border: `1.5px solid ${disabled ? 'rgba(255,255,255,0.07)' : 'rgba(212,168,67,0.35)'}`,
+          color: disabled ? 'rgba(245,237,216,0.15)' : '#ECC564',
+          cursor: disabled ? 'default' : 'pointer',
+          transition: 'all 0.15s ease',
+        }}>
+        {label}
+      </button>
+    )
+  }
 
   return (
-    <section id="buchen" ref={sectionRef} className="relative py-20 px-4">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10"
-          style={{ background: 'radial-gradient(circle, #D4A843 0%, transparent 70%)' }} />
-      </div>
+    <section id="buchen" className="relative py-20 px-4">
+      <div className="absolute inset-0 pointer-events-none"
+        style={{ background: 'radial-gradient(ellipse 600px 400px at 50% 40%, rgba(212,168,67,0.05) 0%, transparent 70%)' }} />
 
-      <div className="relative z-10 max-w-xl mx-auto">
-        <div className="text-center mb-12">
-          <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/60 mb-3">Reservierung</p>
+      <div className="relative z-10 max-w-lg mx-auto">
+        <div className="text-center mb-10">
+          <p className="font-outfit text-xs tracking-[0.22em] uppercase mb-3" style={{ color: 'rgba(212,168,67,0.55)' }}>Reservierung</p>
           <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
             Platz <em className="gold-text not-italic">sichern</em>
           </h2>
-          <p className="font-outfit text-sm text-cream/50 mt-3">
-            Täglich 19:00 Uhr · Direkt an der Kajüten-Gracht · Max. 6 Personen
+          <p className="font-outfit text-sm mt-3" style={{ color: 'rgba(245,237,216,0.4)' }}>
+            Täglich 19:00 Uhr · Max. 6 Personen · Kajüten-Gracht
           </p>
         </div>
 
-        <div className="nautical-border rounded-2xl overflow-hidden" style={{ background: 'rgba(19,34,64,0.7)', backdropFilter: 'blur(12px)' }}>
+        <div className="rounded-2xl overflow-hidden" style={{
+          background: 'rgba(19,34,64,0.75)',
+          backdropFilter: 'blur(14px)',
+          border: '1px solid rgba(212,168,67,0.15)',
+          borderTop: '2px solid rgba(212,168,67,0.35)',
+        }}>
 
-          {/* ── Date ── */}
-          <div className="p-6 border-b border-cream/5">
-            <label className="form-label block mb-2">Datum</label>
-            <input
-              type="date"
-              value={date}
-              min={toDateString(seasonMin)}
-              max={toDateString(seasonMax)}
-              onChange={e => { setDate(e.target.value); setSuccess(false); setError(null) }}
-              className="form-input w-full rounded-xl px-4 py-3 text-base"
-            />
-            <p className="font-outfit text-xs text-cream/30 mt-2">Saison: 11. Mai – 30. September</p>
+          {/* Date */}
+          <div className="p-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+            <label className="form-label block mb-2">Datum wählen</label>
+            <input type="date" value={date}
+              min={toDateString(seasonMin)} max={toDateString(seasonMax)}
+              onChange={e => setDate(e.target.value)}
+              className="form-input w-full rounded-xl px-4 py-3 text-base" />
+            <p className="font-outfit text-xs mt-1.5" style={{ color: 'rgba(245,237,216,0.25)' }}>Saison: 11. Mai – 30. September</p>
           </div>
 
-          {/* ── Availability ── */}
-          <div className="px-6 py-4 border-b border-cream/5">
+          {/* Availability */}
+          <div className="px-6 py-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
             {avState === 'loading' && (
               <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  {Array.from({ length: MAX_SEATS }).map((_, i) => (
-                    <div key={i} className="seat-dot animate-pulse" style={{ background: 'rgba(212,168,67,0.15)' }} />
-                  ))}
-                </div>
-                <span className="font-outfit text-sm text-cream/35">Wird geprüft…</span>
+                {Array.from({ length: MAX_SEATS }).map((_, i) => (
+                  <div key={i} className="seat-dot animate-pulse" style={{ background: 'rgba(212,168,67,0.12)' }} />
+                ))}
+                <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.3)' }}>Wird geladen…</span>
               </div>
             )}
-            {avState === 'ready' && availability && (
-              <div className="flex items-center gap-4">
+            {avState === 'ready' && (
+              <div className="flex items-center gap-3 flex-wrap">
                 <div className="flex gap-1.5">
                   {Array.from({ length: MAX_SEATS }).map((_, i) => (
                     <div key={i} className={`seat-dot ${i < booked ? 'taken' : 'available'}`} />
                   ))}
                 </div>
                 <span className="font-outfit text-sm font-medium" style={{ color: '#4ade80' }}>
-                  {available} von {MAX_SEATS} Plätzen frei
+                  {available} von {MAX_SEATS} frei
                 </span>
               </div>
             )}
@@ -207,110 +210,83 @@ export default function BookingSection() {
                     <div key={i} className="seat-dot taken" />
                   ))}
                 </div>
-                <span className="font-outfit text-xs tracking-widest uppercase px-3 py-1 rounded-full"
-                  style={{ background: 'rgba(248,113,113,0.12)', color: '#f87171', border: '1px solid rgba(248,113,113,0.25)' }}>
+                <span className="font-outfit text-xs tracking-wider uppercase px-3 py-1 rounded-full"
+                  style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
                   {avState === 'blocked' ? 'Keine Fahrt' : 'Ausgebucht'}
                 </span>
               </div>
             )}
             {avState === 'error' && (
-              <p className="font-outfit text-sm text-red-400">
-                Verfügbarkeit konnte nicht geladen werden — bitte Seite neu laden.
+              <p className="font-outfit text-sm" style={{ color: '#f87171' }}>
+                Konnte nicht geladen werden — bitte Seite neu laden.
               </p>
             )}
           </div>
 
-          {/* ── Success ── */}
+          {/* Success */}
           {success && (
-            <div className="m-6 success-appear rounded-xl p-6 text-center"
-              style={{ background: 'rgba(74,222,128,0.08)', border: '1px solid rgba(74,222,128,0.2)' }}>
-              <div className="text-3xl mb-2">⚓</div>
-              <p className="font-cormorant text-xl text-green-300 font-medium">Reservierung erhalten!</p>
-              <p className="font-outfit text-sm text-cream/55 mt-1">
-                Bis zum {formatDateDE(date)} um 19:00 Uhr an der Kajüten-Gracht.
+            <div className="m-6 rounded-xl p-6 text-center success-appear"
+              style={{ background: 'rgba(74,222,128,0.07)', border: '1px solid rgba(74,222,128,0.18)' }}>
+              <div className="text-3xl mb-3">⚓</div>
+              <p className="font-cormorant text-xl font-medium" style={{ color: '#86efac' }}>Reservierung erhalten!</p>
+              <p className="font-outfit text-sm mt-1" style={{ color: 'rgba(245,237,216,0.5)' }}>
+                Bis zum {formatDateDE(date)} um 19:00 Uhr!
               </p>
-              <p className="font-outfit text-xs text-cream/35 mt-2">
+              <p className="font-outfit text-xs mt-2" style={{ color: 'rgba(245,237,216,0.3)' }}>
                 Barzahlung vor Ort · 19€ p.P. · Kids 2–7 Jahre 5€
               </p>
             </div>
           )}
 
-          {/* ── Person picker + form ── */}
+          {/* Form */}
           {!success && avState !== 'soldout' && avState !== 'blocked' && (
             <form onSubmit={handleSubmit}>
 
               {/* Person counters */}
-              <div className="px-6 py-5 border-b border-cream/5">
-                <p className="form-label block mb-4">Personen</p>
+              <div className="px-6 py-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+                <p className="form-label block mb-5">Personen</p>
 
-                {/* Adults */}
-                <div className="flex items-center justify-between mb-4">
-                  <div>
-                    <p className="font-outfit text-sm text-cream/80 font-medium">Erwachsene & ab 8 Jahren</p>
-                    <p className="font-outfit text-xs text-cream/35 mt-0.5">{PRICE_ADULT} € pro Person</p>
+                <div className="space-y-5">
+                  {/* Adults */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-outfit text-sm font-medium text-cream">Erwachsene & ab 8 Jahren</p>
+                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_ADULT} € pro Person</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <CounterBtn onClick={() => changeAdults(-1)} disabled={adults <= 0} label="−" />
+                      <span className="font-outfit text-xl font-semibold text-cream w-5 text-center">{adults}</span>
+                      <CounterBtn onClick={() => changeAdults(1)} disabled={totalPersons >= maxPersons} label="+" />
+                    </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <button type="button" onClick={() => changeAdults(-1)} disabled={adults <= 0}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-lg font-light transition-all"
-                      style={{
-                        background: adults > 0 ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${adults > 0 ? 'rgba(212,168,67,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                        color: adults > 0 ? '#ECC564' : 'rgba(245,237,216,0.2)',
-                        cursor: adults > 0 ? 'pointer' : 'default',
-                      }}>−</button>
-                    <span className="font-outfit text-xl font-medium text-cream w-6 text-center">{adults}</span>
-                    <button type="button" onClick={() => changeAdults(1)} disabled={totalPersons >= maxPersons}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-lg font-light transition-all"
-                      style={{
-                        background: totalPersons < available ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${totalPersons < available ? 'rgba(212,168,67,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                        color: totalPersons < available ? '#ECC564' : 'rgba(245,237,216,0.2)',
-                        cursor: totalPersons < available ? 'pointer' : 'default',
-                      }}>+</button>
-                  </div>
-                </div>
 
-                {/* Kids */}
-                <div className="flex items-center justify-between">
-                  <div>
-                    <p className="font-outfit text-sm text-cream/80 font-medium">Kleine Kids (2–7 Jahre)</p>
-                    <p className="font-outfit text-xs text-cream/35 mt-0.5">{PRICE_KID} € pro Person</p>
-                  </div>
-                  <div className="flex items-center gap-3">
-                    <button type="button" onClick={() => changeKids(-1)} disabled={kids <= 0}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-lg font-light transition-all"
-                      style={{
-                        background: kids > 0 ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${kids > 0 ? 'rgba(212,168,67,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                        color: kids > 0 ? '#ECC564' : 'rgba(245,237,216,0.2)',
-                        cursor: kids > 0 ? 'pointer' : 'default',
-                      }}>−</button>
-                    <span className="font-outfit text-xl font-medium text-cream w-6 text-center">{kids}</span>
-                    <button type="button" onClick={() => changeKids(1)} disabled={totalPersons >= maxPersons}
-                      className="w-9 h-9 rounded-full flex items-center justify-center text-lg font-light transition-all"
-                      style={{
-                        background: totalPersons < available ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.04)',
-                        border: `1px solid ${totalPersons < available ? 'rgba(212,168,67,0.4)' : 'rgba(255,255,255,0.08)'}`,
-                        color: totalPersons < available ? '#ECC564' : 'rgba(245,237,216,0.2)',
-                        cursor: totalPersons < available ? 'pointer' : 'default',
-                      }}>+</button>
+                  {/* Kids */}
+                  <div className="flex items-center justify-between">
+                    <div>
+                      <p className="font-outfit text-sm font-medium text-cream">Kleine Kids (2–7 Jahre)</p>
+                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_KID} € pro Person</p>
+                    </div>
+                    <div className="flex items-center gap-4">
+                      <CounterBtn onClick={() => changeKids(-1)} disabled={kids <= 0} label="−" />
+                      <span className="font-outfit text-xl font-semibold text-cream w-5 text-center">{kids}</span>
+                      <CounterBtn onClick={() => changeKids(1)} disabled={totalPersons >= maxPersons} label="+" />
+                    </div>
                   </div>
                 </div>
               </div>
 
-              {/* Price summary */}
+              {/* Price total */}
               {totalPersons > 0 && (
-                <div className="px-6 py-4 border-b border-cream/5 flex items-center justify-between"
-                  style={{ background: 'rgba(212,168,67,0.05)' }}>
-                  <div>
-                    <span className="font-outfit text-sm text-cream/50">{totalPersons} Person{totalPersons !== 1 ? 'en' : ''}</span>
-                    <span className="font-outfit text-xs text-cream/30 ml-3">Barzahlung vor Ort</span>
-                  </div>
-                  <span className="font-cormorant text-2xl font-medium gold-text">{totalPrice} €</span>
+                <div className="px-6 py-3.5 border-b flex items-center justify-between"
+                  style={{ borderColor: 'rgba(255,255,255,0.05)', background: 'rgba(212,168,67,0.04)' }}>
+                  <span className="font-outfit text-sm" style={{ color: 'rgba(245,237,216,0.45)' }}>
+                    {totalPersons} Person{totalPersons !== 1 ? 'en' : ''} · Barzahlung vor Ort
+                  </span>
+                  <span className="font-cormorant text-2xl font-semibold gold-text">{totalPrice} €</span>
                 </div>
               )}
 
-              {/* Contact fields */}
+              {/* Contact */}
               <div className="px-6 py-5 space-y-4">
                 <div>
                   <label className="form-label block mb-2">Name *</label>
@@ -325,13 +301,14 @@ export default function BookingSection() {
                     className="form-input w-full rounded-xl px-4 py-3 text-sm" />
                 </div>
 
-                {error && (
-                  <p className="font-outfit text-sm text-red-400 bg-red-950/30 rounded-lg px-4 py-2 border border-red-900/40">
-                    {error}
+                {formError && (
+                  <p className="font-outfit text-sm rounded-lg px-4 py-2"
+                    style={{ color: '#f87171', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)' }}>
+                    {formError}
                   </p>
                 )}
 
-                <button type="submit" disabled={!canSubmit || submitting}
+                <button type="submit" disabled={submitting || (avState !== 'ready' && avState !== 'idle')}
                   className="btn-primary w-full rounded-xl py-4 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
                   <span>{submitting ? 'Wird gesendet…' : 'Jetzt reservieren'}</span>
                 </button>
@@ -339,19 +316,18 @@ export default function BookingSection() {
             </form>
           )}
 
-          {/* Blocked / soldout message */}
           {!success && (avState === 'soldout' || avState === 'blocked') && (
             <div className="p-8 text-center">
-              <p className="font-cormorant text-2xl text-cream/55 italic">
-                {avState === 'blocked' ? 'An diesem Tag findet keine Fahrt statt.' : 'Alle Plätze für diesen Tag sind vergeben.'}
+              <p className="font-cormorant text-2xl italic" style={{ color: 'rgba(245,237,216,0.5)' }}>
+                {avState === 'blocked' ? 'Keine Fahrt an diesem Tag.' : 'Alle Plätze vergeben.'}
               </p>
-              <p className="font-outfit text-sm text-cream/35 mt-2">Bitte ein anderes Datum wählen.</p>
+              <p className="font-outfit text-sm mt-2" style={{ color: 'rgba(245,237,216,0.3)' }}>Bitte anderes Datum wählen.</p>
             </div>
           )}
         </div>
 
-        <p className="font-outfit text-xs text-center text-cream/25 mt-5 leading-relaxed">
-          Offenes Boot · Fahrt nur bei gutem & trockenem Wetter (mind. 14 °C) · Mind. 2 Personen für Abfahrt nötig
+        <p className="font-outfit text-xs text-center mt-5 leading-relaxed" style={{ color: 'rgba(245,237,216,0.2)' }}>
+          Offenes Boot · Nur bei gutem Wetter (mind. 14°C) · Min. 2 Personen für Abfahrt
         </p>
       </div>
     </section>

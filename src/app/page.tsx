@@ -17,16 +17,31 @@ export default function Home() {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      {/* White top → Navy bottom hero — logo sits naturally in white area */}
-      <section className="relative overflow-hidden" style={{ minHeight: '100svh' }}>
+      {/* ── LOGO SECTION (white) ── */}
+      <section className="relative flex flex-col items-center justify-center px-6 pt-10 pb-0"
+        style={{ background: '#ffffff' }}>
+        <div className="animate-float">
+          <Image
+            src="/logo.png"
+            alt="Skipper Fynn – Kajüte 1876"
+            width={520}
+            height={420}
+            style={{ width: 'clamp(260px, 70vw, 480px)', height: 'auto', display: 'block' }}
+            priority
+          />
+        </div>
+        {/* Curved bottom edge into dark section */}
+        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg"
+          className="w-full" style={{ display: 'block', marginBottom: '-1px' }}>
+          <path d="M0,0 C360,80 1080,80 1440,0 L1440,80 L0,80 Z" fill="#0A1628" />
+        </svg>
+      </section>
 
-        {/* Full-section gradient: white → cream → navy */}
-        <div className="absolute inset-0" style={{
-          background: 'linear-gradient(180deg, #ffffff 0%, #f5eddb 28%, #1e3d6b 48%, #0A1628 62%, #071020 100%)',
-        }} />
-
-        {/* Stars only in dark lower half */}
-        <div className="stars" style={{ top: '50%', bottom: 0, height: '50%' }}>
+      {/* ── HEADLINE SECTION (dark) ── */}
+      <section className="relative px-4 pt-10 pb-16 overflow-hidden"
+        style={{ background: '#0A1628' }}>
+        {/* Stars */}
+        <div className="stars">
           {STARS.map(s => (
             <div key={s.id} className="star" style={{
               top: s.top, left: s.left,
@@ -37,76 +52,41 @@ export default function Home() {
           ))}
         </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center w-full px-4" style={{ paddingTop: '5vh', paddingBottom: '12vh' }}>
-
-          {/* Logo — no container, white bg merges with white hero top */}
-          <div className="animate-float w-full flex justify-center mb-2">
-            <Image
-              src="/logo.png"
-              alt="Skipper Fynn – Kajüte 1876"
-              width={480}
-              height={380}
-              style={{ width: 'clamp(280px, 55vw, 460px)', height: 'auto' }}
-              className="object-contain"
-              priority
-            />
-          </div>
-
-          {/* Season badge */}
-          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
-            style={{ background: 'rgba(10,22,40,0.08)', border: '1px solid rgba(10,22,40,0.15)' }}>
-            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#1A6B9C' }} />
-            <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: '#132240' }}>
+        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
+          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-amber/30 bg-amber/5">
+            <span className="w-1.5 h-1.5 rounded-full bg-amber-light animate-shimmer" />
+            <span className="font-outfit text-xs tracking-[0.18em] uppercase text-amber-light/80">
               11. Mai – 30. September 2025
             </span>
           </div>
 
-          {/* Headline — dark text in transition zone */}
-          <h1
-            className="font-cormorant font-semibold leading-[1.1] mb-4"
-            style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', color: '#0A1628' }}
-          >
+          <h1 className="font-cormorant font-light leading-[1.1] mb-4 text-cream"
+            style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)' }}>
             Die etwas andere
             <br />
-            <em style={{
-              fontStyle: 'italic',
-              background: 'linear-gradient(135deg, #8B6914 0%, #D4A843 50%, #8B6914 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text',
-            }}>Grachten Rundfahrt</em>
+            <em className="gold-text italic">Grachten Rundfahrt</em>
           </h1>
 
-          <p className="font-outfit text-sm md:text-base tracking-wider mb-8 leading-relaxed" style={{ color: '#1C3057' }}>
-            Täglich 19:00 Uhr&nbsp;&nbsp;·&nbsp;&nbsp;Friedrichstadt&nbsp;&nbsp;·&nbsp;&nbsp;Max. 6 Personen
+          <p className="font-outfit text-sm md:text-base tracking-wider text-cream/50 mb-10 leading-relaxed">
+            Täglich 19:00 Uhr · Friedrichstadt · Max. 6 Personen
           </p>
 
           <div className="flex items-center gap-4 flex-wrap justify-center">
             <a href="#buchen" className="btn-primary rounded-full px-10 py-4 text-sm">
               <span>⚓&nbsp; Platz sichern</span>
             </a>
-            <a href="#info"
-              className="rounded-full px-7 py-3.5 text-sm font-outfit font-medium transition-all"
-              style={{ border: '1.5px solid rgba(10,22,40,0.25)', color: '#132240' }}
-            >
+            <a href="#info" className="btn-outline rounded-full px-7 py-3.5 text-sm">
               Mehr erfahren
             </a>
           </div>
         </div>
 
-        {/* Wave transition into dark sections */}
-        <div className="wave-container" style={{ height: '90px' }}>
+        {/* Wave into info section */}
+        <div className="wave-container" style={{ height: '70px' }}>
           <div className="wave-track wave-1">
             {[0, 1].map(k => (
-              <svg key={k} viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <path d="M0,45 C180,90 360,0 540,45 C720,90 900,0 1080,45 C1260,90 1350,22 1440,45 L1440,90 L0,90 Z" fill="#132240" />
-              </svg>
-            ))}
-          </div>
-          <div className="wave-track wave-2" style={{ marginTop: '-70px' }}>
-            {[0, 1].map(k => (
-              <svg key={k} viewBox="0 0 1440 90" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <path d="M0,55 C200,10 400,80 600,40 C800,0 1000,70 1200,35 C1320,15 1380,60 1440,40 L1440,90 L0,90 Z" fill="#0A1628" opacity="0.8" />
+              <svg key={k} viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
+                <path d="M0,35 C180,70 360,0 540,35 C720,70 900,0 1080,35 C1260,70 1350,18 1440,35 L1440,70 L0,70 Z" fill="#132240" />
               </svg>
             ))}
           </div>
