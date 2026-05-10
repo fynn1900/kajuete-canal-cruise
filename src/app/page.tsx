@@ -20,7 +20,7 @@ export default function Home() {
       {/* ── LOGO SECTION (white, rounded ellipse bottom) ── */}
       <section className="relative flex flex-col items-center justify-center px-6 pt-8 pb-10"
         style={{
-          background: '#ffffff',
+          background: 'linear-gradient(180deg, #ffffff 0%, #f0f6fc 55%, #d6e8f5 100%)',
           borderRadius: '0 0 50% 50% / 0 0 70px 70px',
           position: 'relative',
           zIndex: 2,
@@ -315,6 +315,13 @@ export default function Home() {
           Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de
         </p>
         <div className="rope-divider w-16 mx-auto mt-6 opacity-20" />
+        <p className="font-outfit text-xs mt-6" style={{ color: 'rgba(245,237,216,0.12)' }}>
+          Automatisiert mit{' '}
+          <a href="https://optriq.de" target="_blank" rel="noopener noreferrer"
+            style={{ color: 'rgba(212,168,67,0.3)', textDecoration: 'none', fontWeight: 600 }}>
+            Optriq
+          </a>
+        </p>
       </footer>
 
     </main>

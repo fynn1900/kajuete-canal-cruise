@@ -212,16 +212,23 @@ export default function BookingSection() {
               </div>
             )}
             {(avState === 'soldout' || avState === 'blocked') && (
-              <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  {Array.from({ length: MAX_SEATS }).map((_, i) => (
-                    <div key={i} className="seat-dot taken" />
-                  ))}
+              <div className="flex flex-col gap-3">
+                <div className="flex items-center gap-3">
+                  <div className="flex gap-1.5">
+                    {Array.from({ length: MAX_SEATS }).map((_, i) => (
+                      <div key={i} className="seat-dot taken" />
+                    ))}
+                  </div>
+                  <span className="font-outfit text-xs tracking-wider uppercase px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
+                    {avState === 'blocked' ? 'Keine Fahrt' : 'Ausgebucht'}
+                  </span>
                 </div>
-                <span className="font-outfit text-xs tracking-wider uppercase px-3 py-1 rounded-full"
-                  style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
-                  {avState === 'blocked' ? 'Keine Fahrt' : 'Ausgebucht'}
-                </span>
+                <p className="font-outfit text-xs leading-relaxed" style={{ color: 'rgba(245,237,216,0.4)' }}>
+                  {avState === 'blocked'
+                    ? 'Skipper Fynn macht an diesem Tag eine Pause — bitte wähle ein anderes Datum.'
+                    : 'Alle 6 Plätze sind für diesen Tag vergeben — bitte wähle ein anderes Datum.'}
+                </p>
               </div>
             )}
             {avState === 'error' && (
@@ -333,11 +340,17 @@ export default function BookingSection() {
           )}
 
           {!success && (avState === 'soldout' || avState === 'blocked') && (
-            <div className="p-8 text-center">
-              <p className="font-cormorant text-2xl italic" style={{ color: 'rgba(245,237,216,0.5)' }}>
-                {avState === 'blocked' ? 'Keine Fahrt an diesem Tag.' : 'Alle Plätze vergeben.'}
+            <div className="mx-5 my-6 rounded-2xl p-7 text-center"
+              style={{ background: 'rgba(248,113,113,0.05)', border: '1px solid rgba(248,113,113,0.12)' }}>
+              <div className="text-4xl mb-4">{avState === 'blocked' ? '🌧️' : '⚓'}</div>
+              <p className="font-cormorant text-2xl font-light mb-2" style={{ color: '#fca5a5' }}>
+                {avState === 'blocked' ? 'Kein Törn an diesem Tag.' : 'Ausgebucht.'}
               </p>
-              <p className="font-outfit text-sm mt-2" style={{ color: 'rgba(245,237,216,0.3)' }}>Bitte anderes Datum wählen.</p>
+              <p className="font-outfit text-sm leading-relaxed" style={{ color: 'rgba(245,237,216,0.4)' }}>
+                {avState === 'blocked'
+                  ? 'Skipper Fynn legt hier eine Pause ein. Schau gerne auf ein anderes Datum.'
+                  : 'Alle 6 Plätze sind weg — aber vielleicht gibt es noch einen anderen Abend.'}
+              </p>
             </div>
           )}
         </div>
