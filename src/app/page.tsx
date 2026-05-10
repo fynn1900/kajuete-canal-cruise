@@ -24,7 +24,7 @@ export default function Home() {
               alt="Skipper Fynn – Kajüte 1876"
               width={520}
               height={420}
-              style={{ width: 'clamp(200px, 60vw, 400px)', height: 'auto', display: 'block' }}
+              style={{ width: 'clamp(200px, 60vw, 400px)', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
               priority
             />
           </div>
