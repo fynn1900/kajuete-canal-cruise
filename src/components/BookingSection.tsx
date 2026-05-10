@@ -161,12 +161,12 @@ export default function BookingSection() {
   }
 
   return (
-    <section id="buchen" className="relative py-20 px-4">
+    <section id="buchen" className="relative py-14 px-4">
       <div className="absolute inset-0 pointer-events-none"
         style={{ background: 'radial-gradient(ellipse 600px 400px at 50% 40%, rgba(212,168,67,0.05) 0%, transparent 70%)' }} />
 
       <div className="relative z-10 max-w-lg mx-auto">
-        <div className="text-center mb-10">
+        <div className="text-center mb-8">
           <p className="font-outfit text-xs tracking-[0.22em] uppercase mb-3" style={{ color: 'rgba(212,168,67,0.55)' }}>{t.reservation}</p>
           <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
             {t.secureSpot} <em className="gold-text not-italic">{t.secureSpotEm}</em>
@@ -174,6 +174,13 @@ export default function BookingSection() {
           <p className="font-outfit text-sm mt-3" style={{ color: 'rgba(245,237,216,0.4)' }}>
             {t.bookingSub}
           </p>
+          <div className="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-full"
+            style={{ background: 'rgba(212,168,67,0.07)', border: '1px solid rgba(212,168,67,0.2)' }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-pulse" style={{ background: '#ECC564' }} />
+            <span className="font-outfit text-xs" style={{ color: 'rgba(236,197,100,0.65)' }}>
+              {lang === 'de' ? 'Nur 6 Plätze pro Abfahrt – begrenzt' : 'Only 6 spots per trip – limited'}
+            </span>
+          </div>
         </div>
 
         <div className="rounded-2xl overflow-hidden" style={{
@@ -205,15 +212,28 @@ export default function BookingSection() {
               </div>
             )}
             {avState === 'ready' && (
-              <div className="flex items-center gap-3 flex-wrap">
-                <div className="flex gap-1.5">
-                  {Array.from({ length: MAX_SEATS }).map((_, i) => (
-                    <div key={i} className={`seat-dot ${i < booked ? 'taken' : 'available'}`} />
-                  ))}
+              <div className="flex flex-col gap-2">
+                <div className="flex items-center gap-3 flex-wrap">
+                  <div className="flex gap-1.5">
+                    {Array.from({ length: MAX_SEATS }).map((_, i) => (
+                      <div key={i} className={`seat-dot ${i < booked ? 'taken' : 'available'}`} />
+                    ))}
+                  </div>
+                  <span className="font-outfit text-sm font-medium" style={{ color: '#4ade80' }}>
+                    {available} {t.of} {MAX_SEATS} {t.spotsLeft}
+                  </span>
                 </div>
-                <span className="font-outfit text-sm font-medium" style={{ color: '#4ade80' }}>
-                  {available} {t.of} {MAX_SEATS} {t.spotsLeft}
-                </span>
+                {available > 0 && available <= 3 && (
+                  <div className="inline-flex items-center gap-1.5 w-fit px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(248,113,113,0.12)', border: '1px solid rgba(248,113,113,0.3)' }}>
+                    <span className="w-1.5 h-1.5 rounded-full bg-red-400 animate-pulse" />
+                    <span className="font-outfit text-xs font-medium" style={{ color: '#fca5a5' }}>
+                      {lang === 'de'
+                        ? `Nur noch ${available} Platz${available !== 1 ? 'e' : ''} – schnell buchen!`
+                        : `Only ${available} spot${available !== 1 ? 's' : ''} left – book fast!`}
+                    </span>
+                  </div>
+                )}
               </div>
             )}
             {(avState === 'soldout' || avState === 'blocked') && (
