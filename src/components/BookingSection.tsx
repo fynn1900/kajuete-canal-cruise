@@ -183,7 +183,7 @@ export default function BookingSection() {
           </div>
         </div>
 
-        <div className="rounded-2xl overflow-hidden" style={{
+        <div className="rounded-2xl" style={{
           background: 'rgba(19,34,64,0.75)',
           backdropFilter: 'blur(14px)',
           border: '1px solid rgba(212,168,67,0.15)',
