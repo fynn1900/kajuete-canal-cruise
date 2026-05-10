@@ -18,11 +18,11 @@ export default function Home() {
           HERO
       ══════════════════════════════════════ */}
       {/* ── HERO — frost blue background ── */}
-      <section className="relative px-4 pb-16 overflow-hidden"
+      <section className="relative px-4 pb-0"
         style={{ background: 'linear-gradient(180deg, #daeef8 0%, #b8d8ee 60%, #7fb5d8 100%)' }}>
 
         {/* Logo auf frost-blauem Hintergrund — transparent */}
-        <div className="flex justify-center pt-16 pb-4">
+        <div className="flex justify-center pt-24 pb-4">
           <div className="animate-float">
             <Image
               src="/logo.png"
@@ -67,18 +67,20 @@ export default function Home() {
           </div>
         </div>
 
-        {/* Soft gradient fade before wave */}
-        <div style={{ height: '60px', background: 'linear-gradient(180deg, transparent 0%, rgba(10,22,40,0.18) 100%)', marginLeft: '-1rem', marginRight: '-1rem', marginBottom: '-1px' }} />
-
-        {/* Wave into dark info section */}
-        <div className="wave-container" style={{ height: '70px' }}>
-          <div className="wave-track wave-1">
-            {[0, 1].map(k => (
-              <svg key={k} viewBox="0 0 1440 70" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-                <path d="M0,35 C180,70 360,0 540,35 C720,70 900,0 1080,35 C1260,70 1350,18 1440,35 L1440,70 L0,70 Z" fill="#132240" />
-              </svg>
-            ))}
-          </div>
+        {/* Clean elliptical transition into dark section */}
+        <div style={{ marginTop: '3rem', marginLeft: '-1rem', marginRight: '-1rem', lineHeight: 0 }}>
+          <svg viewBox="0 0 1440 110" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ display: 'block', width: '100%' }}>
+            <defs>
+              <linearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stopColor="#7fb5d8" stopOpacity="0" />
+                <stop offset="100%" stopColor="#132240" stopOpacity="1" />
+              </linearGradient>
+            </defs>
+            {/* Fade layer */}
+            <rect width="1440" height="110" fill="url(#heroFade)" />
+            {/* Smooth elliptical arch */}
+            <path d="M0,80 C360,20 1080,20 1440,80 L1440,110 L0,110 Z" fill="#132240" />
+          </svg>
         </div>
       </section>
 
