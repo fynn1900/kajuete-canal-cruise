@@ -14,7 +14,7 @@ export default function Home() {
           HERO — frost blue background
       ══════════════════════════════════════ */}
       <section className="relative px-4 pb-0"
-        style={{ background: 'linear-gradient(180deg, #daeef8 0%, #b8d8ee 60%, #7fb5d8 100%)' }}>
+        style={{ background: 'linear-gradient(180deg, #b8dcf2 0%, #79b8da 60%, #4d97be 100%)' }}>
 
         {/* Logo */}
         <div className="flex justify-center pt-24 pb-4">
@@ -46,7 +46,7 @@ export default function Home() {
             <em className="gold-text italic">{t.heroTitle2}</em>
           </h1>
 
-          <p className="font-outfit text-sm md:text-base tracking-wider mb-10 leading-relaxed"
+          <p className="font-outfit text-sm md:text-base tracking-wider mb-7 leading-relaxed"
             style={{ color: 'rgba(10,22,40,0.55)' }}>
             {t.heroSub}
           </p>
@@ -60,6 +60,9 @@ export default function Home() {
               {t.learnMore}
             </a>
           </div>
+          <p className="mt-4 font-outfit text-xs tracking-wider" style={{ color: 'rgba(10,22,40,0.38)' }}>
+            {lang === 'de' ? 'Nur 6 Plätze pro Abfahrt · Oft schnell ausgebucht' : 'Only 6 spots per trip · Often sold out fast'}
+          </p>
         </div>
 
         {/* Animated wave transition into dark section */}
@@ -102,9 +105,9 @@ export default function Home() {
       {/* ══════════════════════════════════════
           INFO CARDS
       ══════════════════════════════════════ */}
-      <section id="info" className="py-14 md:py-20 px-4" style={{ background: '#132240' }}>
+      <section id="info" className="py-12 md:py-16 px-4" style={{ background: '#132240' }}>
         <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-14">
+          <div className="text-center mb-10">
             <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">{t.onBoard}</p>
             <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
               {t.whatToExpect} <em className="gold-text not-italic">{t.whatToExpectEm}</em>
@@ -113,8 +116,8 @@ export default function Home() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
-            <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
-              <div className="mb-4 text-3xl">⛵</div>
+            <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
+              <div className="mb-3 text-3xl">⛵</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card1Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
                 {t.card1Text}
@@ -123,18 +126,42 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
-              <div className="mb-4 text-3xl">🍺</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card2Title}</h3>
-              <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                {t.card2Text}
-                <br /><br />
+            <div className="card-glow rounded-2xl p-5 relative"
+              style={{
+                background: 'rgba(10,22,40,0.7)',
+                backdropFilter: 'blur(8px)',
+                border: '1px solid rgba(212,168,67,0.3)',
+                borderTop: '2px solid rgba(212,168,67,0.65)',
+              }}>
+              <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full"
+                style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.35)' }}>
+                <span className="font-outfit text-[10px] font-semibold tracking-widest uppercase" style={{ color: '#ECC564' }}>
+                  {t.card2Title}
+                </span>
+              </div>
+              <div className="mb-3 text-3xl">🍺</div>
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-3">
+                {lang === 'de' ? 'Getränk inklusive' : 'Drink included'}
+              </h3>
+              <div className="flex items-center gap-2 mb-3 flex-wrap">
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(212,168,67,0.1)' }}>
+                  <span className="text-sm">🍺</span>
+                  <span className="font-outfit text-xs font-medium text-cream/80">1621 Bier</span>
+                </div>
+                <span className="font-outfit text-xs text-cream/30">{lang === 'de' ? 'oder' : 'or'}</span>
+                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(212,168,67,0.1)' }}>
+                  <span className="text-sm">🥤</span>
+                  <span className="font-outfit text-xs font-medium text-cream/80">Softdrink</span>
+                </div>
+                <span className="font-outfit text-xs text-cream/40">{lang === 'de' ? '— je Person' : '— per person'}</span>
+              </div>
+              <p className="font-outfit text-sm text-cream/50 leading-relaxed">
                 {t.card2Sub}
               </p>
             </div>
 
-            <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
-              <div className="mb-4 text-3xl">💰</div>
+            <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
+              <div className="mb-3 text-3xl">💰</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card3Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
                 <strong className="text-cream/80 text-base">19 €</strong> {t.card3Adult}
@@ -145,8 +172,8 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
-              <div className="mb-4 text-3xl">⚠️</div>
+            <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
+              <div className="mb-3 text-3xl">⚠️</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card4Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
                 {t.card4Text}
@@ -161,11 +188,11 @@ export default function Home() {
       {/* ══════════════════════════════════════
           DESCRIPTION
       ══════════════════════════════════════ */}
-      <section className="py-14 md:py-20 px-4 relative overflow-hidden" style={{ background: '#0A1628' }}>
+      <section className="py-8 md:py-12 px-4 relative overflow-hidden" style={{ background: '#0A1628' }}>
         <div className="absolute right-0 top-0 w-1/2 h-full opacity-5 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at right center, #2589BF, transparent 65%)' }} />
         <div className="max-w-3xl mx-auto text-center relative z-10">
-          <div className="rope-divider mb-12 w-24 mx-auto" />
+          <div className="rope-divider mb-6 w-24 mx-auto" />
 
           <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-6">
             {t.descLabel}
@@ -184,14 +211,14 @@ export default function Home() {
             {t.descText}
           </p>
 
-          <div className="rope-divider mt-12 w-24 mx-auto" />
+          <div className="rope-divider mt-6 w-24 mx-auto" />
         </div>
       </section>
 
       {/* ══════════════════════════════════════
           KAJÜTE 1876 SECTION
       ══════════════════════════════════════ */}
-      <section className="py-14 md:py-20 px-4" style={{ background: '#132240' }}>
+      <section className="py-10 md:py-14 px-4" style={{ background: '#132240' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">{t.startGoal}</p>
