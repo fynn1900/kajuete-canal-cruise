@@ -25,7 +25,7 @@ function formatDateDE(dateStr: string) {
   return `${d}.${m}.${y}`
 }
 
-type AvailabilityState = 'idle' | 'loading' | 'ready' | 'soldout' | 'error'
+type AvailabilityState = 'idle' | 'loading' | 'ready' | 'soldout' | 'blocked' | 'error'
 
 export default function BookingSection() {
   const today = new Date()
@@ -61,7 +61,9 @@ export default function BookingSection() {
       .then((r) => r.json())
       .then((d) => {
         setAvailability(d)
-        setAvState(d.available === 0 ? 'soldout' : 'ready')
+        if (d.blocked) setAvState('blocked')
+        else if (d.available === 0) setAvState('soldout')
+        else setAvState('ready')
         setGroupSize(Math.min(groupSize, d.available || 1))
       })
       .catch(() => {
@@ -180,9 +182,22 @@ export default function BookingSection() {
                     <div key={i} className="seat-dot taken" />
                   ))}
                 </div>
-                <span className="inline-block font-outfit text-xs font-600 tracking-widest uppercase px-3 py-1 rounded-full"
+                <span className="inline-block font-outfit text-xs tracking-widest uppercase px-3 py-1 rounded-full"
                   style={{ background: 'rgba(248,113,113,0.15)', color: '#f87171', border: '1px solid rgba(248,113,113,0.3)' }}>
                   Ausgebucht
+                </span>
+              </div>
+            )}
+            {avState === 'blocked' && (
+              <div className="flex items-center gap-3">
+                <div className="flex gap-2">
+                  {Array.from({ length: MAX_SEATS }).map((_, i) => (
+                    <div key={i} className="seat-dot taken" />
+                  ))}
+                </div>
+                <span className="inline-block font-outfit text-xs tracking-widest uppercase px-3 py-1 rounded-full"
+                  style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.25)' }}>
+                  Keine Fahrt an diesem Tag
                 </span>
               </div>
             )}
@@ -207,7 +222,7 @@ export default function BookingSection() {
           )}
 
           {/* ── Form ── */}
-          {avState !== 'soldout' && !success && (
+          {avState !== 'soldout' && avState !== 'blocked' && !success && (
             <form onSubmit={handleSubmit} className="space-y-5">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
                 <div>
@@ -280,10 +295,12 @@ export default function BookingSection() {
             </form>
           )}
 
-          {avState === 'soldout' && !success && (
+          {(avState === 'soldout' || avState === 'blocked') && !success && (
             <div className="text-center py-6">
               <p className="font-cormorant text-2xl text-cream/60 italic">
-                Alle Plätze für diesen Tag sind vergeben.
+                {avState === 'blocked'
+                  ? 'An diesem Tag findet keine Fahrt statt.'
+                  : 'Alle Plätze für diesen Tag sind vergeben.'}
               </p>
               <p className="font-outfit text-sm text-cream/40 mt-2">
                 Bitte wähle ein anderes Datum.

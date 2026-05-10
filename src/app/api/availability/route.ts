@@ -11,17 +11,22 @@ export async function GET(req: NextRequest) {
   }
 
   const db = supabaseAdmin()
-  const { data, error } = await db
-    .from('canal_cruise_bookings')
-    .select('group_size')
-    .eq('booking_date', date)
 
-  if (error) {
+  const [bookingsRes, blockedRes] = await Promise.all([
+    db.from('canal_cruise_bookings').select('group_size').eq('booking_date', date),
+    db.from('blocked_dates').select('id').eq('blocked_date', date).maybeSingle(),
+  ])
+
+  if (bookingsRes.error) {
     return NextResponse.json({ error: 'Database error' }, { status: 500 })
   }
 
-  const booked = (data || []).reduce((sum, row) => sum + row.group_size, 0)
+  if (blockedRes.data) {
+    return NextResponse.json({ booked: MAX_CAPACITY, available: 0, blocked: true, capacity: MAX_CAPACITY })
+  }
+
+  const booked = (bookingsRes.data || []).reduce((sum, row) => sum + row.group_size, 0)
   const available = Math.max(0, MAX_CAPACITY - booked)
 
-  return NextResponse.json({ booked, available, capacity: MAX_CAPACITY })
+  return NextResponse.json({ booked, available, blocked: false, capacity: MAX_CAPACITY })
 }

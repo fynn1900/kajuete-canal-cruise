@@ -25,3 +25,23 @@ CREATE POLICY "Public availability read"
 CREATE POLICY "Service role insert"
   ON canal_cruise_bookings FOR INSERT
   WITH CHECK (auth.role() = 'service_role');
+
+-- ── Blocked dates (admin can block specific days) ──────────────────────────
+
+CREATE TABLE blocked_dates (
+  id           uuid        DEFAULT gen_random_uuid() PRIMARY KEY,
+  blocked_date date        NOT NULL UNIQUE,
+  reason       text,
+  created_at   timestamptz DEFAULT now()
+);
+
+ALTER TABLE blocked_dates ENABLE ROW LEVEL SECURITY;
+
+CREATE POLICY "Public read blocked dates"
+  ON blocked_dates FOR SELECT
+  USING (true);
+
+CREATE POLICY "Service role manage blocked dates"
+  ON blocked_dates FOR ALL
+  USING (auth.role() = 'service_role')
+  WITH CHECK (auth.role() = 'service_role');
