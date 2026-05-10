@@ -28,7 +28,10 @@ export async function POST(req: NextRequest) {
     if (!booking_date || !group_size || !contact_name) {
       return NextResponse.json({ error: 'Fehlende Pflichtfelder' }, { status: 400 })
     }
-    if (group_size < 1 || group_size > MAX_CAPACITY) {
+    if (group_size < 2) {
+      return NextResponse.json({ error: 'Mindestens 2 Personen für eine Fahrt nötig.' }, { status: 400 })
+    }
+    if (group_size > MAX_CAPACITY) {
       return NextResponse.json({ error: 'Ungültige Gruppengröße' }, { status: 400 })
     }
 
@@ -66,7 +69,8 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({ success: true, booking: data }, { status: 201 })
   } catch (err) {
-    console.error('Booking route error:', err)
-    return NextResponse.json({ error: 'Interner Serverfehler' }, { status: 500 })
+    const msg = err instanceof Error ? err.message : String(err)
+    console.error('Booking route error:', msg)
+    return NextResponse.json({ error: 'Serverfehler: ' + msg }, { status: 500 })
   }
 }

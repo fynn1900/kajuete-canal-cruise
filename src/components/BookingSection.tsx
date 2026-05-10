@@ -47,7 +47,7 @@ export default function BookingSection() {
   const [booked, setBooked] = useState(0)
   const [available, setAvailable] = useState(MAX_SEATS)
 
-  const [adults, setAdults] = useState(1)
+  const [adults, setAdults] = useState(2)
   const [kids, setKids] = useState(0)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -95,6 +95,8 @@ export default function BookingSection() {
 
   const maxPersons = avState === 'ready' ? available : MAX_SEATS
 
+  const MIN_TOTAL = 2
+
   function changeAdults(d: number) {
     const next = adults + d
     if (next < 0 || next + kids > maxPersons) return
@@ -109,7 +111,7 @@ export default function BookingSection() {
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!name.trim()) { setFormError('Bitte Namen eingeben.'); return }
-    if (totalPersons < 1) { setFormError('Bitte mindestens 1 Person wählen.'); return }
+    if (totalPersons < MIN_TOTAL) { setFormError('Mindestens 2 Personen für eine Fahrt nötig.'); return }
     setFormError(null)
     setSubmitting(true)
     try {
@@ -260,7 +262,7 @@ export default function BookingSection() {
                       <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_ADULT} € pro Person</p>
                     </div>
                     <div className="flex items-center gap-4">
-                      <CounterBtn onClick={() => changeAdults(-1)} disabled={adults <= 0} label="−" />
+                      <CounterBtn onClick={() => changeAdults(-1)} disabled={adults <= 1} label="−" />
                       <span className="font-outfit text-xl font-semibold text-cream w-5 text-center">{adults}</span>
                       <CounterBtn onClick={() => changeAdults(1)} disabled={totalPersons >= maxPersons} label="+" />
                     </div>
@@ -279,6 +281,12 @@ export default function BookingSection() {
                     </div>
                   </div>
                 </div>
+
+                {totalPersons < MIN_TOTAL && (
+                  <p className="font-outfit text-xs mt-2 px-1" style={{ color: 'rgba(252,165,165,0.7)' }}>
+                    Mindestens 2 Personen nötig für eine Fahrt.
+                  </p>
+                )}
               </div>
 
               {/* Price total */}
@@ -316,7 +324,7 @@ export default function BookingSection() {
                   </p>
                 )}
 
-                <button type="submit" disabled={submitting || (avState !== 'ready' && avState !== 'idle')}
+                <button type="submit" disabled={submitting || totalPersons < MIN_TOTAL || (avState !== 'ready' && avState !== 'idle')}
                   className="btn-primary w-full rounded-xl py-4 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
                   <span>{submitting ? 'Wird gesendet…' : 'Jetzt reservieren'}</span>
                 </button>
