@@ -20,26 +20,15 @@ export default function Home() {
       {/* ── HERO — full navy, logo floats via multiply blend ── */}
       <section className="relative px-4 pb-16 overflow-hidden" style={{ background: '#0A1628' }}>
 
-        {/* Soft white glow that fades into navy — logo sits on this */}
-        <div className="flex justify-center" style={{
-          background: 'linear-gradient(180deg, #ffffff 0%, rgba(255,255,255,0.92) 18%, rgba(255,255,255,0.45) 52%, rgba(10,22,40,0) 100%)',
-          paddingTop: '2rem',
-          paddingBottom: '4rem',
-          marginLeft: '-1rem',
-          marginRight: '-1rem',
-        }}>
-          <div className="animate-float" style={{ isolation: 'isolate' }}>
+        {/* Logo direkt auf Navy — transparenter Hintergrund */}
+        <div className="flex justify-center pt-10 pb-6">
+          <div className="animate-float">
             <Image
               src="/logo.png"
               alt="Skipper Fynn – Kajüte 1876"
               width={520}
               height={420}
-              style={{
-                width: 'clamp(200px, 60vw, 400px)',
-                height: 'auto',
-                display: 'block',
-                mixBlendMode: 'multiply',
-              }}
+              style={{ width: 'clamp(200px, 60vw, 400px)', height: 'auto', display: 'block' }}
               priority
             />
           </div>
