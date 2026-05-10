@@ -30,7 +30,7 @@ export default function Home() {
           </div>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto" style={{ isolation: 'isolate' }}>
+        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
             style={{ border: '1px solid rgba(139,100,20,0.35)', background: 'rgba(139,100,20,0.08)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#7A5800' }} />
