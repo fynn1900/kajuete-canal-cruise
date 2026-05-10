@@ -191,14 +191,14 @@ export default function BookingSection() {
         }}>
 
           {/* Date */}
-          <div className="px-3 py-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <label className="form-label block mb-2">{t.chooseDate}</label>
+          <div className="pt-5 pb-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+            <label className="form-label block mb-2 px-5">{t.chooseDate}</label>
             <input type="date" value={date}
               min={toDateString(seasonMin)} max={toDateString(seasonMax)}
               onChange={e => setDate(e.target.value)}
-              className="form-input w-full rounded-xl px-4 py-3 text-base"
-              style={{ fontSize: '16px', maxWidth: '100%', display: 'block' }} />
-            <p className="font-outfit text-xs mt-1.5" style={{ color: 'rgba(245,237,216,0.25)' }}>{t.seasonNote}</p>
+              className="form-input w-full py-3 text-base text-center"
+              style={{ fontSize: '16px', display: 'block' }} />
+            <p className="font-outfit text-xs mt-1.5 px-5" style={{ color: 'rgba(245,237,216,0.25)' }}>{t.seasonNote}</p>
           </div>
 
           {/* Availability */}
