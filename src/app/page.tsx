@@ -56,7 +56,7 @@ export default function Home() {
           <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-amber/30 bg-amber/5">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-light animate-shimmer" />
             <span className="font-outfit text-xs tracking-[0.18em] uppercase text-amber-light/80">
-              11. Mai – 30. September 2025
+              11. Mai – 30. September 2026
             </span>
           </div>
 
