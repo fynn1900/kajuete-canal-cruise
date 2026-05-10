@@ -1,27 +1,22 @@
+'use client'
+
 import Image from 'next/image'
 import BookingSection from '@/components/BookingSection'
-
-const STARS = Array.from({ length: 30 }, (_, i) => ({
-  id: i,
-  top: `${Math.round(5 + (i * 3.1) % 80)}%`,
-  left: `${Math.round(2 + (i * 7.3) % 96)}%`,
-  duration: `${2.5 + (i % 5) * 0.7}s`,
-  delay: `${(i * 0.4) % 4}s`,
-  size: i % 5 === 0 ? 3 : i % 3 === 0 ? 2 : 1.5,
-}))
+import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Home() {
+  const { t } = useLanguage()
+
   return (
     <main className="min-h-screen bg-navy">
 
       {/* ══════════════════════════════════════
-          HERO
+          HERO — frost blue background
       ══════════════════════════════════════ */}
-      {/* ── HERO — frost blue background ── */}
       <section className="relative px-4 pb-0"
         style={{ background: 'linear-gradient(180deg, #daeef8 0%, #b8d8ee 60%, #7fb5d8 100%)' }}>
 
-        {/* Logo auf frost-blauem Hintergrund — transparent */}
+        {/* Logo */}
         <div className="flex justify-center pt-24 pb-4">
           <div className="animate-float">
             <Image
@@ -40,47 +35,67 @@ export default function Home() {
             style={{ border: '1px solid rgba(139,100,20,0.35)', background: 'rgba(139,100,20,0.08)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#7A5800' }} />
             <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: '#7A5800' }}>
-              11. Mai – 30. September 2026
+              {t.season}
             </span>
           </div>
 
           <h1 className="font-cormorant font-light leading-[1.1] mb-4"
             style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)', color: '#0A1628' }}>
-            Die etwas andere
+            {t.heroTitle1}
             <br />
-            <em className="gold-text italic">Grachten Rundfahrt</em>
+            <em className="gold-text italic">{t.heroTitle2}</em>
           </h1>
 
           <p className="font-outfit text-sm md:text-base tracking-wider mb-10 leading-relaxed"
             style={{ color: 'rgba(10,22,40,0.55)' }}>
-            Täglich 19:00 Uhr · Friedrichstadt · Max. 6 Personen
+            {t.heroSub}
           </p>
 
           <div className="flex items-center gap-4 flex-wrap justify-center">
             <a href="#buchen" className="btn-primary rounded-full px-10 py-4 text-sm">
-              <span>⚓&nbsp; Platz sichern</span>
+              <span>⚓&nbsp; {t.bookSpot}</span>
             </a>
             <a href="#info" className="rounded-full px-7 py-3.5 text-sm font-outfit font-medium"
               style={{ border: '1.5px solid rgba(10,22,40,0.3)', color: '#0A1628', transition: 'all 0.2s' }}>
-              Mehr erfahren
+              {t.learnMore}
             </a>
           </div>
         </div>
 
-        {/* Clean elliptical transition into dark section */}
-        <div style={{ marginTop: '3rem', marginLeft: '-1rem', marginRight: '-1rem', lineHeight: 0 }}>
-          <svg viewBox="0 0 1440 110" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ display: 'block', width: '100%' }}>
-            <defs>
-              <linearGradient id="heroFade" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stopColor="#7fb5d8" stopOpacity="0" />
-                <stop offset="100%" stopColor="#132240" stopOpacity="1" />
-              </linearGradient>
-            </defs>
-            {/* Fade layer */}
-            <rect width="1440" height="110" fill="url(#heroFade)" />
-            {/* Smooth elliptical arch */}
-            <path d="M0,80 C360,20 1080,20 1440,80 L1440,110 L0,110 Z" fill="#132240" />
-          </svg>
+        {/* Animated wave transition into dark section */}
+        <div style={{ position: 'relative', height: '120px', marginTop: '3rem', overflow: 'hidden', lineHeight: 0 }}>
+          {/* Dark fill at bottom so there's no gap */}
+          <div style={{ position: 'absolute', bottom: 0, left: '-1rem', right: '-1rem', height: '30px', background: '#132240' }} />
+
+          {/* Wave layer 1 — back */}
+          <div className="wave-container" style={{ height: '120px' }}>
+            <div className="wave-track wave-1">
+              <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ height: '100px' }}>
+                <path d="M0,50 C180,100 360,0 540,50 C720,100 900,0 1080,50 C1260,100 1350,60 1440,50 L1440,100 L0,100 Z" fill="rgba(19,34,64,0.5)" />
+              </svg>
+              <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ height: '100px' }}>
+                <path d="M0,50 C180,100 360,0 540,50 C720,100 900,0 1080,50 C1260,100 1350,60 1440,50 L1440,100 L0,100 Z" fill="rgba(19,34,64,0.5)" />
+              </svg>
+            </div>
+            {/* Wave layer 2 — mid */}
+            <div className="wave-track wave-2" style={{ position: 'absolute', bottom: 0, left: 0, width: '200%' }}>
+              <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ height: '100px' }}>
+                <path d="M0,60 C200,20 400,80 600,50 C800,20 1000,70 1200,40 C1320,20 1440,60 1440,60 L1440,100 L0,100 Z" fill="rgba(19,34,64,0.75)" />
+              </svg>
+              <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ height: '100px' }}>
+                <path d="M0,60 C200,20 400,80 600,50 C800,20 1000,70 1200,40 C1320,20 1440,60 1440,60 L1440,100 L0,100 Z" fill="rgba(19,34,64,0.75)" />
+              </svg>
+            </div>
+            {/* Wave layer 3 — front */}
+            <div className="wave-track wave-3" style={{ position: 'absolute', bottom: 0, left: 0, width: '200%' }}>
+              <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ height: '100px' }}>
+                <path d="M0,70 C120,40 240,80 360,60 C480,40 600,75 720,55 C840,35 960,70 1080,50 C1200,30 1320,65 1440,70 L1440,100 L0,100 Z" fill="#132240" />
+              </svg>
+              <svg viewBox="0 0 1440 100" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none" style={{ height: '100px' }}>
+                <path d="M0,70 C120,40 240,80 360,60 C480,40 600,75 720,55 C840,35 960,70 1080,50 C1200,30 1320,65 1440,70 L1440,100 L0,100 Z" fill="#132240" />
+              </svg>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -90,9 +105,9 @@ export default function Home() {
       <section id="info" className="py-14 md:py-20 px-4" style={{ background: '#132240' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
-            <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">An Bord</p>
+            <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">{t.onBoard}</p>
             <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
-              Was euch <em className="gold-text not-italic">erwartet</em>
+              {t.whatToExpect} <em className="gold-text not-italic">{t.whatToExpectEm}</em>
             </h2>
           </div>
 
@@ -100,45 +115,43 @@ export default function Home() {
 
             <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-4 text-3xl">⛵</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">Exklusive Fahrt</h3>
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card1Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                Mit Skipper Fynn durch die Friedrichstädter Grachten — maximal <strong className="text-cream/80">6 Personen</strong> pro Tour.
-                Klein, entspannt, kein Touristenboot.
+                {t.card1Text}
                 <br /><br />
-                <strong className="text-amber-light/80">60 Minuten</strong> inklusive Ab- und Anlegen.
+                <strong className="text-amber-light/80">{t.card1Sub}</strong>
               </p>
             </div>
 
             <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-4 text-3xl">🍺</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">Inklusive</h3>
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card2Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                1× <strong className="text-cream/80">1621 Bier</strong> — das Friedrichstädter Bier — oder Softdrink für jeden an Bord.
+                {t.card2Text}
                 <br /><br />
-                Weitere Drinks & <strong className="text-amber-light/80">Grachten Musik</strong> an Bord,
-                plus Infos zur Geschichte des Grachtenstädtchens vom Skipper persönlich.
+                {t.card2Sub}
               </p>
             </div>
 
             <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-4 text-3xl">💰</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">Preise</h3>
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card3Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                <strong className="text-cream/80 text-base">19 €</strong> pro Person
+                <strong className="text-cream/80 text-base">19 €</strong> {t.card3Adult}
                 <br />
-                <strong className="text-amber-light/80 text-base">5 €</strong> Kids von 2–7 Jahren
+                <strong className="text-amber-light/80 text-base">5 €</strong> {t.card3Kid}
                 <br /><br />
-                <span className="text-cream/40">Barzahlung an Bord · Keine Vorauszahlung</span>
+                <span className="text-cream/40">{t.card3Note}</span>
               </p>
             </div>
 
             <div className="card-glow nautical-border rounded-2xl p-7" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-4 text-3xl">⚠️</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">Gut zu wissen</h3>
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card4Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                Offenes Boot — die Fahrt findet nur bei <strong className="text-cream/80">gutem, trockenem Wetter</strong> statt (mind. 14 °C).
+                {t.card4Text}
                 <br /><br />
-                Mindestens <strong className="text-cream/80">2 Personen</strong> müssen gebucht haben, damit wir losfahren.
+                {t.card4Sub}
               </p>
             </div>
           </div>
@@ -155,22 +168,20 @@ export default function Home() {
           <div className="rope-divider mb-12 w-24 mx-auto" />
 
           <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-6">
-            Friedrichstadt · Das Grachtenstädtchen
+            {t.descLabel}
           </p>
 
           <blockquote
             className="font-cormorant font-light leading-snug mb-8"
             style={{ fontSize: 'clamp(1.8rem, 4vw, 3rem)', color: '#F5EDD8' }}
           >
-            „Friedrichstadt vom Wasser aus —
+            {t.descQuote}
             <br />
-            <em className="gold-text">im Abendlicht einfach schön."</em>
+            <em className="gold-text">{t.descQuoteEm}</em>
           </blockquote>
 
           <p className="font-outfit text-base text-cream/50 leading-relaxed max-w-xl mx-auto">
-            Das kleine Grachtenstädtchen hat was — und vom Boot aus sieht man es nochmal anders.
-            Skipper Fynn kennt die Ecken, erzählt was dazu, und das Bier ist auch kalt.
-            Passt für Paare, Familien und kleine Gruppen gleichermaßen gut.
+            {t.descText}
           </p>
 
           <div className="rope-divider mt-12 w-24 mx-auto" />
@@ -183,9 +194,9 @@ export default function Home() {
       <section className="py-14 md:py-20 px-4" style={{ background: '#132240' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">Start & Ziel</p>
+            <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">{t.startGoal}</p>
             <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
-              Die <em className="gold-text not-italic">Kajüte 1876</em>
+              {t.kajueteTitle} <em className="gold-text not-italic">{t.kajueteEm}</em>
             </h2>
           </div>
 
@@ -205,31 +216,29 @@ export default function Home() {
                 </div>
 
                 <p className="font-outfit text-sm text-cream/60 leading-relaxed mb-6">
-                  Gästehaus am Wasser, 1621-Bierbar, Veras Flammkuchenküche und Grachtengarten —
-                  direkt da, wo die Bootsfahrt startet und endet.
-                  Ein antifaschistischer Familienbetrieb, der genauso tickt wie das Boot.
+                  {t.kajueteDesc}
                 </p>
 
                 <div className="space-y-2 mb-6">
                   <div className="flex items-start gap-3">
                     <span className="text-amber/60 mt-0.5">🍕</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">Veras Flammkuchen</p>
-                      <p className="font-outfit text-xs text-cream/40">Täglich 12–19 Uhr</p>
+                      <p className="font-outfit text-xs font-medium text-cream/70">{t.flammkuchenLabel}</p>
+                      <p className="font-outfit text-xs text-cream/40">{t.flammkuchenHours}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-amber/60 mt-0.5">🍺</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">Bierautomat</p>
-                      <p className="font-outfit text-xs text-cream/40">Täglich 11–23 Uhr</p>
+                      <p className="font-outfit text-xs font-medium text-cream/70">{t.bierLabel}</p>
+                      <p className="font-outfit text-xs text-cream/40">{t.bierHours}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-amber/60 mt-0.5">🌿</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">Grachtengarten</p>
-                      <p className="font-outfit text-xs text-cream/40">Wettergeschützte Außenplätze am Wasser</p>
+                      <p className="font-outfit text-xs font-medium text-cream/70">{t.gardenLabel}</p>
+                      <p className="font-outfit text-xs text-cream/40">{t.gardenDesc}</p>
                     </div>
                   </div>
                 </div>
@@ -237,7 +246,7 @@ export default function Home() {
                 <div className="flex items-center gap-2 mb-5">
                   <span className="font-outfit text-xs px-3 py-1 rounded-full"
                     style={{ background: 'rgba(239,68,68,0.1)', color: '#fca5a5', border: '1px solid rgba(239,68,68,0.2)' }}>
-                    ✊ Antifaschistischer Wohlfühlort
+                    {t.antifa}
                   </span>
                 </div>
 
@@ -247,7 +256,7 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="btn-outline inline-block rounded-full px-6 py-2.5 text-sm text-center"
                 >
-                  Kajüte 1876 entdecken →
+                  {t.discoverKajuete}
                 </a>
               </div>
 
@@ -258,12 +267,10 @@ export default function Home() {
               >
                 <p className="text-2xl mb-4">🍽️</p>
                 <h4 className="font-cormorant text-2xl font-medium text-cream mb-3">
-                  Vor der Fahrt noch essen?
+                  {t.beforeTrip}
                 </h4>
                 <p className="font-outfit text-sm text-cream/55 leading-relaxed mb-6">
-                  Viele kommen um 18 Uhr zum Flammkuchen in die Kajüte oder in den Garten —
-                  und steigen dann direkt auf&apos;s Boot. Wenn ihr das plant, könnt ihr gerne
-                  vorab einen Tisch reservieren.
+                  {t.beforeTripDesc}
                 </p>
                 <a
                   href="https://tally.so/r/9q6Wp1"
@@ -271,10 +278,10 @@ export default function Home() {
                   rel="noopener noreferrer"
                   className="btn-primary rounded-full px-7 py-3 text-sm text-center"
                 >
-                  <span>Tisch reservieren →</span>
+                  <span>{t.tableBook}</span>
                 </a>
                 <p className="font-outfit text-xs text-cream/30 mt-3">
-                  Tischreservierung und Bootsfahrt sind unabhängig voneinander.
+                  {t.tableNote}
                 </p>
               </div>
             </div>
@@ -298,17 +305,17 @@ export default function Home() {
             <Image src="/kajuete-logo.png" alt="Kajüte 1876" width={36} height={36} className="object-contain" />
           </div>
         </div>
-        <p className="font-cormorant text-lg text-cream/40 mb-1">Kajüte 1876 · Friedrichstadt</p>
+        <p className="font-cormorant text-lg text-cream/40 mb-1">{t.footerSlogan}</p>
         <p className="font-outfit text-xs tracking-widest uppercase text-cream/20">
-          Skipper Fynn · Täglich 19:00 Uhr · 11. Mai – 30. September
+          {t.footerSub}
         </p>
         <p className="font-outfit text-xs text-cream/20 mt-2">
-          Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de
+          {t.footerAddress}
         </p>
         <div className="rope-divider w-16 mx-auto mt-6 opacity-20" />
         <div className="mt-7 flex items-center justify-center gap-2">
           <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.28)' }}>
-            Buchungssystem automatisiert von
+            {t.automatedBy}
           </span>
           <a href="https://optriq.de" target="_blank" rel="noopener noreferrer"
             className="font-outfit text-xs font-semibold tracking-wide"

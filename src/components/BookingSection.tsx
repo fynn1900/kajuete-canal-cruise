@@ -2,12 +2,12 @@
 
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
+import { useLanguage } from '@/contexts/LanguageContext'
 
 const MAX_SEATS = 6
 const PRICE_ADULT = 19
 const PRICE_KID = 5
 
-// Direct browser → Supabase connection, no API route needed for reads
 function getSupabase() {
   return createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -37,6 +37,8 @@ function formatDateDE(s: string) {
 type AvState = 'idle' | 'loading' | 'ready' | 'soldout' | 'blocked' | 'error'
 
 export default function BookingSection() {
+  const { t, lang } = useLanguage()
+
   const seasonMin = getSeasonMin()
   const seasonMax = getSeasonMax()
   const today = new Date()
@@ -110,8 +112,8 @@ export default function BookingSection() {
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
-    if (!name.trim()) { setFormError('Bitte Namen eingeben.'); return }
-    if (totalPersons < MIN_TOTAL) { setFormError('Mindestens 2 Personen für eine Fahrt nötig.'); return }
+    if (!name.trim()) { setFormError(t.nameError); return }
+    if (totalPersons < MIN_TOTAL) { setFormError(t.minError); return }
     setFormError(null)
     setSubmitting(true)
     try {
@@ -133,7 +135,9 @@ export default function BookingSection() {
       }
     } catch (err) {
       console.error('Booking submit error:', err)
-      setFormError('Verbindungsfehler. Bitte Seite neu laden und erneut versuchen.')
+      setFormError(lang === 'de'
+        ? 'Verbindungsfehler. Bitte Seite neu laden und erneut versuchen.'
+        : 'Connection error. Please reload the page and try again.')
     }
     finally { setSubmitting(false) }
   }
@@ -162,12 +166,12 @@ export default function BookingSection() {
 
       <div className="relative z-10 max-w-lg mx-auto">
         <div className="text-center mb-10">
-          <p className="font-outfit text-xs tracking-[0.22em] uppercase mb-3" style={{ color: 'rgba(212,168,67,0.55)' }}>Reservierung</p>
+          <p className="font-outfit text-xs tracking-[0.22em] uppercase mb-3" style={{ color: 'rgba(212,168,67,0.55)' }}>{t.reservation}</p>
           <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
-            Platz <em className="gold-text not-italic">sichern</em>
+            {t.secureSpot} <em className="gold-text not-italic">{t.secureSpotEm}</em>
           </h2>
           <p className="font-outfit text-sm mt-3" style={{ color: 'rgba(245,237,216,0.4)' }}>
-            Täglich 19:00 Uhr · Max. 6 Personen · Kajüten-Gracht
+            {t.bookingSub}
           </p>
         </div>
 
@@ -180,13 +184,13 @@ export default function BookingSection() {
 
           {/* Date */}
           <div className="p-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <label className="form-label block mb-2">Datum wählen</label>
+            <label className="form-label block mb-2">{t.chooseDate}</label>
             <input type="date" value={date}
               min={toDateString(seasonMin)} max={toDateString(seasonMax)}
               onChange={e => setDate(e.target.value)}
               className="form-input w-full rounded-xl px-4 py-3 text-base"
               style={{ fontSize: '16px' }} />
-            <p className="font-outfit text-xs mt-1.5" style={{ color: 'rgba(245,237,216,0.25)' }}>Saison: 11. Mai – 30. September</p>
+            <p className="font-outfit text-xs mt-1.5" style={{ color: 'rgba(245,237,216,0.25)' }}>{t.seasonNote}</p>
           </div>
 
           {/* Availability */}
@@ -196,7 +200,7 @@ export default function BookingSection() {
                 {Array.from({ length: MAX_SEATS }).map((_, i) => (
                   <div key={i} className="seat-dot animate-pulse" style={{ background: 'rgba(212,168,67,0.12)' }} />
                 ))}
-                <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.3)' }}>Wird geladen…</span>
+                <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.3)' }}>{t.loading}</span>
               </div>
             )}
             {avState === 'ready' && (
@@ -207,7 +211,7 @@ export default function BookingSection() {
                   ))}
                 </div>
                 <span className="font-outfit text-sm font-medium" style={{ color: '#4ade80' }}>
-                  {available} von {MAX_SEATS} frei
+                  {available} {t.of} {MAX_SEATS} {t.spotsLeft}
                 </span>
               </div>
             )}
@@ -221,19 +225,17 @@ export default function BookingSection() {
                   </div>
                   <span className="font-outfit text-xs tracking-wider uppercase px-3 py-1 rounded-full"
                     style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
-                    {avState === 'blocked' ? 'Keine Fahrt' : 'Ausgebucht'}
+                    {avState === 'blocked' ? t.noTrip : t.soldOut}
                   </span>
                 </div>
                 <p className="font-outfit text-xs leading-relaxed" style={{ color: 'rgba(245,237,216,0.4)' }}>
-                  {avState === 'blocked'
-                    ? 'Skipper Fynn macht an diesem Tag eine Pause — bitte wähle ein anderes Datum.'
-                    : 'Alle 6 Plätze sind für diesen Tag vergeben — bitte wähle ein anderes Datum.'}
+                  {avState === 'blocked' ? t.blockedAvail : t.soldoutAvail}
                 </p>
               </div>
             )}
             {avState === 'error' && (
               <p className="font-outfit text-sm" style={{ color: '#f87171' }}>
-                Konnte nicht geladen werden — bitte Seite neu laden.
+                {t.loadError}
               </p>
             )}
           </div>
@@ -243,12 +245,12 @@ export default function BookingSection() {
             <div className="m-6 rounded-xl p-6 text-center success-appear"
               style={{ background: 'rgba(74,222,128,0.07)', border: '1px solid rgba(74,222,128,0.18)' }}>
               <div className="text-3xl mb-3">⚓</div>
-              <p className="font-cormorant text-xl font-medium" style={{ color: '#86efac' }}>Reservierung erhalten!</p>
+              <p className="font-cormorant text-xl font-medium" style={{ color: '#86efac' }}>{t.successTitle}</p>
               <p className="font-outfit text-sm mt-1" style={{ color: 'rgba(245,237,216,0.5)' }}>
-                Bis zum {formatDateDE(date)} um 19:00 Uhr!
+                {t.successSub} {formatDateDE(date)} {lang === 'de' ? 'um 19:00 Uhr' : 'at 7 PM'}!
               </p>
               <p className="font-outfit text-xs mt-2" style={{ color: 'rgba(245,237,216,0.3)' }}>
-                Barzahlung vor Ort · 19€ p.P. · Kids 2–7 Jahre 5€
+                {t.successNote}
               </p>
             </div>
           )}
@@ -259,14 +261,14 @@ export default function BookingSection() {
 
               {/* Person counters */}
               <div className="px-6 py-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-                <p className="form-label block mb-5">Personen</p>
+                <p className="form-label block mb-5">{t.persons}</p>
 
                 <div className="space-y-5">
                   {/* Adults */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-outfit text-sm font-medium text-cream">Erwachsene & ab 8 Jahren</p>
-                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_ADULT} € pro Person</p>
+                      <p className="font-outfit text-sm font-medium text-cream">{t.adults}</p>
+                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_ADULT} € {t.card3Adult}</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <CounterBtn onClick={() => changeAdults(-1)} disabled={adults <= 1} label="−" />
@@ -278,8 +280,8 @@ export default function BookingSection() {
                   {/* Kids */}
                   <div className="flex items-center justify-between">
                     <div>
-                      <p className="font-outfit text-sm font-medium text-cream">Kleine Kids (2–7 Jahre)</p>
-                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_KID} € pro Person</p>
+                      <p className="font-outfit text-sm font-medium text-cream">{t.kids}</p>
+                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_KID} € {t.card3Adult}</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <CounterBtn onClick={() => changeKids(-1)} disabled={kids <= 0} label="−" />
@@ -291,7 +293,7 @@ export default function BookingSection() {
 
                 {totalPersons < MIN_TOTAL && (
                   <p className="font-outfit text-xs mt-2 px-1" style={{ color: 'rgba(252,165,165,0.7)' }}>
-                    Mindestens 2 Personen nötig für eine Fahrt.
+                    {t.minPersons}
                   </p>
                 )}
               </div>
@@ -301,7 +303,7 @@ export default function BookingSection() {
                 <div className="px-6 py-3.5 border-b flex items-center justify-between"
                   style={{ borderColor: 'rgba(255,255,255,0.05)', background: 'rgba(212,168,67,0.04)' }}>
                   <span className="font-outfit text-sm" style={{ color: 'rgba(245,237,216,0.45)' }}>
-                    {totalPersons} Person{totalPersons !== 1 ? 'en' : ''} · Barzahlung vor Ort
+                    {totalPersons} {t.persons} · {t.cashNote}
                   </span>
                   <span className="font-cormorant text-2xl font-semibold gold-text">{totalPrice} €</span>
                 </div>
@@ -310,15 +312,20 @@ export default function BookingSection() {
               {/* Contact */}
               <div className="px-6 py-5 space-y-4">
                 <div>
-                  <label className="form-label block mb-2">Name *</label>
-                  <input type="text" placeholder="Dein Name" value={name}
+                  <label className="form-label block mb-2">{t.nameLabel}</label>
+                  <input type="text" placeholder={t.namePlaceholder} value={name}
                     onChange={e => setName(e.target.value)} required
                     className="form-input w-full rounded-xl px-4 py-3"
                     style={{ fontSize: '16px' }} />
                 </div>
                 <div>
-                  <label className="form-label block mb-2">E-Mail <span style={{ color: 'rgba(245,237,216,0.3)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(für Bestätigungsmail)</span></label>
-                  <input type="email" placeholder="deine@mail.de" value={email}
+                  <label className="form-label block mb-2">
+                    {t.emailLabel}{' '}
+                    <span style={{ color: 'rgba(245,237,216,0.3)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                      {t.emailHint}
+                    </span>
+                  </label>
+                  <input type="email" placeholder={t.emailPlaceholder} value={email}
                     onChange={e => setEmail(e.target.value)}
                     className="form-input w-full rounded-xl px-4 py-3"
                     style={{ fontSize: '16px' }} />
@@ -333,7 +340,7 @@ export default function BookingSection() {
 
                 <button type="submit" disabled={submitting || totalPersons < MIN_TOTAL || (avState !== 'ready' && avState !== 'idle')}
                   className="btn-primary w-full rounded-xl py-4 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
-                  <span>{submitting ? 'Wird gesendet…' : 'Jetzt reservieren'}</span>
+                  <span>{submitting ? t.submitting : t.submitBtn}</span>
                 </button>
               </div>
             </form>
@@ -344,19 +351,17 @@ export default function BookingSection() {
               style={{ background: 'rgba(248,113,113,0.05)', border: '1px solid rgba(248,113,113,0.12)' }}>
               <div className="text-4xl mb-4">{avState === 'blocked' ? '🌧️' : '⚓'}</div>
               <p className="font-cormorant text-2xl font-light mb-2" style={{ color: '#fca5a5' }}>
-                {avState === 'blocked' ? 'Kein Törn an diesem Tag.' : 'Ausgebucht.'}
+                {avState === 'blocked' ? t.blockedTitle : t.soldoutTitle}
               </p>
               <p className="font-outfit text-sm leading-relaxed" style={{ color: 'rgba(245,237,216,0.4)' }}>
-                {avState === 'blocked'
-                  ? 'Skipper Fynn legt hier eine Pause ein. Schau gerne auf ein anderes Datum.'
-                  : 'Alle 6 Plätze sind weg — aber vielleicht gibt es noch einen anderen Abend.'}
+                {avState === 'blocked' ? t.blockedDesc : t.soldoutDesc}
               </p>
             </div>
           )}
         </div>
 
         <p className="font-outfit text-xs text-center mt-5 leading-relaxed" style={{ color: 'rgba(245,237,216,0.2)' }}>
-          Offenes Boot · Nur bei gutem Wetter (mind. 14°C) · Min. 2 Personen für Abfahrt
+          {t.footerNote}
         </p>
       </div>
     </section>
