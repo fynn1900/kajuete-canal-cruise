@@ -19,10 +19,10 @@ export default function Home() {
       ══════════════════════════════════════ */}
       {/* ── HERO — frost blue background ── */}
       <section className="relative px-4 pb-16 overflow-hidden"
-        style={{ background: 'linear-gradient(160deg, #daeef8 0%, #b8d8ee 50%, #9dc8e4 100%)' }}>
+        style={{ background: 'linear-gradient(180deg, #daeef8 0%, #b8d8ee 60%, #7fb5d8 100%)' }}>
 
         {/* Logo auf frost-blauem Hintergrund — transparent */}
-        <div className="flex justify-center pt-10 pb-4">
+        <div className="flex justify-center pt-16 pb-4">
           <div className="animate-float">
             <Image
               src="/logo.png"
@@ -37,9 +37,9 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
-            style={{ border: '1px solid rgba(10,22,40,0.2)', background: 'rgba(10,22,40,0.07)' }}>
-            <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#0A1628', opacity: 0.5 }} />
-            <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: 'rgba(10,22,40,0.65)' }}>
+            style={{ border: '1px solid rgba(139,100,20,0.35)', background: 'rgba(139,100,20,0.08)' }}>
+            <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#7A5800' }} />
+            <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: '#7A5800' }}>
               11. Mai – 30. September 2026
             </span>
           </div>
@@ -66,6 +66,9 @@ export default function Home() {
             </a>
           </div>
         </div>
+
+        {/* Soft gradient fade before wave */}
+        <div style={{ height: '60px', background: 'linear-gradient(180deg, transparent 0%, rgba(10,22,40,0.18) 100%)', marginLeft: '-1rem', marginRight: '-1rem', marginBottom: '-1px' }} />
 
         {/* Wave into dark info section */}
         <div className="wave-container" style={{ height: '70px' }}>
