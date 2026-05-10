@@ -17,7 +17,7 @@ export default function Home() {
         style={{ background: 'linear-gradient(180deg, #b8dcf2 0%, #79b8da 60%, #4d97be 100%)' }}>
 
         {/* Logo */}
-        <div className="flex justify-center pt-24 pb-4">
+        <div className="flex justify-center pt-24 pb-4" style={{ isolation: 'isolate' }}>
           <div className="animate-float">
             <Image
               src="/logo_transparent.png"
