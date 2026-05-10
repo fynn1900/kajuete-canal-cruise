@@ -28,10 +28,7 @@ export async function POST(req: NextRequest) {
     if (!booking_date || !group_size || !contact_name) {
       return NextResponse.json({ error: 'Fehlende Pflichtfelder' }, { status: 400 })
     }
-    if (group_size < 2) {
-      return NextResponse.json({ error: 'Mindestens 2 Personen für eine Fahrt nötig.' }, { status: 400 })
-    }
-    if (group_size > MAX_CAPACITY) {
+    if (group_size < 1 || group_size > MAX_CAPACITY) {
       return NextResponse.json({ error: 'Ungültige Gruppengröße' }, { status: 400 })
     }
 
@@ -45,6 +42,12 @@ export async function POST(req: NextRequest) {
     if (fetchError) return NextResponse.json({ error: 'Datenbankfehler: ' + fetchError.message }, { status: 500 })
 
     const alreadyBooked = (existing || []).reduce((s, r) => s + r.group_size, 0)
+
+    // Minimum 2 persons total — solo booking only allowed if someone else already booked
+    if (alreadyBooked + group_size < 2) {
+      return NextResponse.json({ error: 'Mindestens 2 Personen müssen insgesamt gebucht haben.' }, { status: 400 })
+    }
+
     if (group_size > MAX_CAPACITY - alreadyBooked) {
       return NextResponse.json({ error: `Nur noch ${MAX_CAPACITY - alreadyBooked} Plätze verfügbar` }, { status: 409 })
     }

@@ -97,7 +97,8 @@ export default function BookingSection() {
 
   const maxPersons = avState === 'ready' ? available : MAX_SEATS
 
-  const MIN_TOTAL = 2
+  // Solo booking allowed if at least 1 person already booked for that day
+  const MIN_TOTAL = booked >= 1 ? 1 : 2
 
   function changeAdults(d: number) {
     const next = adults + d
@@ -294,6 +295,13 @@ export default function BookingSection() {
                 {totalPersons < MIN_TOTAL && (
                   <p className="font-outfit text-xs mt-2 px-1" style={{ color: 'rgba(252,165,165,0.7)' }}>
                     {t.minPersons}
+                  </p>
+                )}
+                {MIN_TOTAL === 1 && booked >= 1 && (
+                  <p className="font-outfit text-xs mt-2 px-1" style={{ color: 'rgba(74,222,128,0.6)' }}>
+                    {lang === 'de'
+                      ? 'Bereits ' + booked + ' Person' + (booked !== 1 ? 'en' : '') + ' gebucht — du kannst alleine zusteigen.'
+                      : booked + ' person' + (booked !== 1 ? 's' : '') + ' already booked — you can join solo.'}
                   </p>
                 )}
               </div>
