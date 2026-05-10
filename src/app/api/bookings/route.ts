@@ -11,8 +11,7 @@ async function notifyN8n(booking: {
   adults_count: number | null
   kids_count: number | null
 }) {
-  const webhookUrl = process.env.N8N_BOOKING_WEBHOOK
-  if (!webhookUrl) return
+  const webhookUrl = process.env.N8N_BOOKING_WEBHOOK || 'https://fynn723.app.n8n.cloud/webhook/kajuete_booking'
   await fetch(webhookUrl, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
