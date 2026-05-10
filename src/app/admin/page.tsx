@@ -123,17 +123,23 @@ export default function AdminPage() {
   async function blockDate() {
     if (!newDate) return
     setSaving(true)
-    await fetch('/api/blocked-dates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ date: newDate, reason: newReason }) })
-    setNewDate(''); setNewReason('')
-    const res = await fetch('/api/blocked-dates')
-    setBlocked(await res.json())
+    try {
+      await fetch('/api/blocked-dates', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ date: newDate, reason: newReason }) })
+      setNewDate(''); setNewReason('')
+      const res = await fetch('/api/blocked-dates')
+      const data = await res.json()
+      setBlocked(Array.isArray(data) ? data : [])
+    } catch (e) { console.error('blockDate error', e) }
     setSaving(false)
   }
 
   async function unblockDate(id: string) {
-    await fetch('/api/blocked-dates', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
-    const res = await fetch('/api/blocked-dates')
-    setBlocked(await res.json())
+    try {
+      await fetch('/api/blocked-dates', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
+      const res = await fetch('/api/blocked-dates')
+      const data = await res.json()
+      setBlocked(Array.isArray(data) ? data : [])
+    } catch (e) { console.error('unblockDate error', e) }
   }
 
   // Calendar grid
