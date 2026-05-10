@@ -2,8 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 
 const MAX_CAPACITY = 6
+const N8N_URL = process.env.N8N_BOOKING_WEBHOOK || 'https://fynn723.app.n8n.cloud/webhook/kajuete_booking'
 
-async function notifyN8n(booking: {
+async function notifyN8n(payload: {
   contact_name: string
   email: string | null
   booking_date: string
@@ -11,12 +12,29 @@ async function notifyN8n(booking: {
   adults_count: number | null
   kids_count: number | null
 }) {
-  const webhookUrl = process.env.N8N_BOOKING_WEBHOOK || 'https://fynn723.app.n8n.cloud/webhook/kajuete_booking'
-  await fetch(webhookUrl, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(booking),
-  })
+  const body = JSON.stringify(payload)
+  const attempts = 3
+
+  for (let i = 0; i < attempts; i++) {
+    try {
+      const res = await fetch(N8N_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body,
+        signal: AbortSignal.timeout(8000),
+      })
+      if (res.ok) {
+        console.log('n8n notified successfully on attempt', i + 1)
+        return
+      }
+      console.warn('n8n attempt', i + 1, 'failed with status', res.status)
+    } catch (err) {
+      console.warn('n8n attempt', i + 1, 'error:', err)
+    }
+    // Wait 1s before retry (except after last attempt)
+    if (i < attempts - 1) await new Promise(r => setTimeout(r, 1000))
+  }
+  console.error('n8n notification failed after', attempts, 'attempts for booking:', payload.contact_name, payload.booking_date)
 }
 
 export async function POST(req: NextRequest) {
@@ -42,11 +60,9 @@ export async function POST(req: NextRequest) {
 
     const alreadyBooked = (existing || []).reduce((s, r) => s + r.group_size, 0)
 
-    // Minimum 2 persons total — solo booking only allowed if someone else already booked
     if (alreadyBooked + group_size < 2) {
       return NextResponse.json({ error: 'Mindestens 2 Personen müssen insgesamt gebucht haben.' }, { status: 400 })
     }
-
     if (group_size > MAX_CAPACITY - alreadyBooked) {
       return NextResponse.json({ error: `Nur noch ${MAX_CAPACITY - alreadyBooked} Plätze verfügbar` }, { status: 409 })
     }
@@ -66,8 +82,8 @@ export async function POST(req: NextRequest) {
 
     if (insertError) return NextResponse.json({ error: 'Buchung fehlgeschlagen: ' + insertError.message }, { status: 500 })
 
-    // Fire & forget — n8n sends confirmation to admin AND guest
-    notifyN8n({ contact_name, email, booking_date, group_size, adults_count, kids_count }).catch(console.error)
+    // Await n8n with retries — booking is saved, notification must go through
+    await notifyN8n({ contact_name, email: email || null, booking_date, group_size, adults_count: adults_count || null, kids_count: kids_count || null })
 
     return NextResponse.json({ success: true, booking: data }, { status: 201 })
   } catch (err) {
