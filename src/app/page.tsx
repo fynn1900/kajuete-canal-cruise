@@ -20,7 +20,7 @@ export default function Home() {
         <div className="flex justify-center pt-24 pb-4">
           <div className="animate-float">
             <Image
-              src="/logo.png"
+              src="/logo_transparent.png"
               alt="Skipper Fynn – Kajüte 1876"
               width={520}
               height={420}
