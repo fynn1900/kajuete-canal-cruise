@@ -191,7 +191,7 @@ export default function BookingSection() {
         }}>
 
           {/* Date */}
-          <div className="p-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+          <div className="px-3 py-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
             <label className="form-label block mb-2">{t.chooseDate}</label>
             <input type="date" value={date}
               min={toDateString(seasonMin)} max={toDateString(seasonMax)}
