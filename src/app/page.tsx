@@ -17,29 +17,29 @@ export default function Home() {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      {/* ── LOGO SECTION (white, rounded ellipse bottom) ── */}
-      <section className="relative flex flex-col items-center justify-center px-6 pt-8 pb-10"
-        style={{
-          background: 'linear-gradient(180deg, #ffffff 0%, #f0f6fc 55%, #d6e8f5 100%)',
-          borderRadius: '0 0 50% 50% / 0 0 70px 70px',
-          position: 'relative',
-          zIndex: 2,
+      {/* ── LOGO + HEADLINE SECTION — one unified section, gradient top to navy ── */}
+      <section className="relative px-4 pb-16 overflow-hidden" style={{ background: '#0A1628' }}>
+        {/* White-to-navy gradient overlay at the very top, logo sits inside it */}
+        <div className="relative flex justify-center" style={{
+          background: 'linear-gradient(180deg, #ffffff 0%, #ffffff 38%, rgba(10,22,40,0) 100%)',
+          paddingTop: '1.5rem',
+          paddingBottom: '3rem',
+          marginLeft: '-1rem',
+          marginRight: '-1rem',
         }}>
-        <div className="animate-float">
-          <Image
-            src="/logo.png"
-            alt="Skipper Fynn – Kajüte 1876"
-            width={520}
-            height={420}
-            style={{ width: 'clamp(220px, 65vw, 460px)', height: 'auto', display: 'block' }}
-            priority
-          />
+          <div className="animate-float">
+            <Image
+              src="/logo.png"
+              alt="Skipper Fynn – Kajüte 1876"
+              width={520}
+              height={420}
+              style={{ width: 'clamp(200px, 60vw, 420px)', height: 'auto', display: 'block' }}
+              priority
+            />
+          </div>
         </div>
-      </section>
 
-      {/* ── HEADLINE SECTION (dark) ── */}
-      <section className="relative px-4 pb-16 overflow-hidden"
-        style={{ background: '#0A1628', marginTop: '-50px', paddingTop: '80px' }}>
+      {/* ── HEADLINE (same section, no gap) ── */}
         {/* Stars */}
         <div className="stars">
           {STARS.map(s => (
