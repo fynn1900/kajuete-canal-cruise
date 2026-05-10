@@ -39,7 +39,7 @@ const translations = {
     kajueteTitle: 'Die',
     kajueteEm: 'Kajüte 1876',
     kajueteDesc: 'Gästehaus am Wasser, 1621-Bierbar, Veras Flammkuchenküche und Grachtengarten — direkt da, wo die Bootsfahrt startet und endet. Ein antifaschistischer Familienbetrieb, der genauso tickt wie das Boot.',
-    flammkuchenLabel: 'Veras Flammkuchen',
+    flammkuchenLabel: 'Veras Flammkuchenküche',
     flammkuchenHours: 'Täglich 12–19 Uhr',
     bierLabel: 'Bierautomat',
     bierHours: 'Täglich 11–23 Uhr',
