@@ -115,7 +115,8 @@ export default function BookingSection() {
           group_size: totalPersons,
           contact_name: name,
           email,
-          phone: null,
+          adults_count: adults,
+          kids_count: kids,
         }),
       })
       const data = await res.json()

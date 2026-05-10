@@ -5,7 +5,7 @@ const MAX_CAPACITY = 6
 
 export async function POST(req: NextRequest) {
   const body = await req.json()
-  const { booking_date, group_size, contact_name, email, phone } = body
+  const { booking_date, group_size, contact_name, email, adults_count, kids_count } = body
 
   if (!booking_date || !group_size || !contact_name) {
     return NextResponse.json({ error: 'Fehlende Pflichtfelder' }, { status: 400 })
@@ -38,7 +38,7 @@ export async function POST(req: NextRequest) {
 
   const { data, error: insertError } = await db
     .from('canal_cruise_bookings')
-    .insert({ booking_date, group_size, contact_name, email: email || null, phone: phone || null })
+    .insert({ booking_date, group_size, contact_name, email: email || null, adults_count: adults_count || null, kids_count: kids_count || null })
     .select()
     .single()
 

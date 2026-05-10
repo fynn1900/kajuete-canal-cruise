@@ -131,10 +131,10 @@ export default function Home() {
               <div className="mb-4 text-3xl">⛵</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">Exklusive Fahrt</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                Mit Skipper Fynn durch die Kajüten-Gracht — maximal <strong className="text-cream/80">6 Personen</strong> pro Tour.
+                Mit Skipper Fynn durch die Friedrichstädter Grachten — maximal <strong className="text-cream/80">6 Personen</strong> pro Tour.
                 Klein, entspannt, kein Touristenboot.
                 <br /><br />
-                <strong className="text-amber-light/80">60 Minuten</strong> inklusive Ab- und Anlegen, direkt an der Kajüten-Gracht.
+                <strong className="text-amber-light/80">60 Minuten</strong> inklusive Ab- und Anlegen.
               </p>
             </div>
 
@@ -154,7 +154,6 @@ export default function Home() {
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">Preise</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
                 <strong className="text-cream/80 text-base">19 €</strong> pro Person
-                <span className="text-cream/40 text-xs ml-2">(Spende)</span>
                 <br />
                 <strong className="text-amber-light/80 text-base">5 €</strong> Kids von 2–7 Jahren
                 <br /><br />
@@ -237,7 +236,7 @@ export default function Home() {
                 <p className="font-outfit text-sm text-cream/60 leading-relaxed mb-6">
                   Gästehaus am Wasser, 1621-Bierbar, Veras Flammkuchenküche und Grachtengarten —
                   direkt da, wo die Bootsfahrt startet und endet.
-                  Ein Familienbetrieb, der genauso tickt wie das Boot.
+                  Ein antifaschistischer Familienbetrieb, der genauso tickt wie das Boot.
                 </p>
 
                 <div className="space-y-2 mb-6">
@@ -245,13 +244,13 @@ export default function Home() {
                     <span className="text-amber/60 mt-0.5">🍕</span>
                     <div>
                       <p className="font-outfit text-xs font-medium text-cream/70">Veras Flammkuchen</p>
-                      <p className="font-outfit text-xs text-cream/40">Mo–Mi & Fr–Sa: 12–19 Uhr</p>
+                      <p className="font-outfit text-xs text-cream/40">Täglich 12–19 Uhr</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-amber/60 mt-0.5">🍺</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">Bierautomat & Bar</p>
+                      <p className="font-outfit text-xs font-medium text-cream/70">Bierautomat</p>
                       <p className="font-outfit text-xs text-cream/40">Täglich 11–23 Uhr</p>
                     </div>
                   </div>
@@ -262,6 +261,13 @@ export default function Home() {
                       <p className="font-outfit text-xs text-cream/40">Wettergeschützte Außenplätze am Wasser</p>
                     </div>
                   </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="font-outfit text-xs px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(239,68,68,0.1)', color: '#fca5a5', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    ✊ Antifaschistischer Wohlfühlort
+                  </span>
                 </div>
 
                 <a
