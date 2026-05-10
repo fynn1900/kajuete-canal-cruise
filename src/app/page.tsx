@@ -14,7 +14,7 @@ export default function Home() {
           HERO — frost blue background
       ══════════════════════════════════════ */}
       <section className="relative px-4 pb-0"
-        style={{ background: 'linear-gradient(180deg, #b8dcf2 0%, #79b8da 60%, #4d97be 100%)' }}>
+        style={{ background: 'linear-gradient(180deg, #ffffff 0%, #ffffff 42%, #c2e2f5 58%, #79b8da 75%, #4d97be 100%)' }}>
 
         {/* Logo */}
         <div className="flex justify-center pt-24 pb-4">
@@ -24,13 +24,13 @@ export default function Home() {
               alt="Skipper Fynn – Kajüte 1876"
               width={520}
               height={420}
-              style={{ width: 'clamp(200px, 60vw, 400px)', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
+              style={{ width: 'clamp(200px, 60vw, 400px)', height: 'auto', display: 'block' }}
               priority
             />
           </div>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto" style={{ isolation: 'isolate' }}>
+        <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
           <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
             style={{ border: '1px solid rgba(139,100,20,0.35)', background: 'rgba(139,100,20,0.08)' }}>
             <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#7A5800' }} />
