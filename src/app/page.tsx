@@ -315,13 +315,16 @@ export default function Home() {
           Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de
         </p>
         <div className="rope-divider w-16 mx-auto mt-6 opacity-20" />
-        <p className="font-outfit text-xs mt-6" style={{ color: 'rgba(245,237,216,0.12)' }}>
-          Automatisiert mit{' '}
+        <div className="mt-7 flex items-center justify-center gap-2">
+          <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.28)' }}>
+            Buchungssystem automatisiert von
+          </span>
           <a href="https://optriq.de" target="_blank" rel="noopener noreferrer"
-            style={{ color: 'rgba(212,168,67,0.3)', textDecoration: 'none', fontWeight: 600 }}>
-            Optriq
+            className="font-outfit text-xs font-semibold tracking-wide"
+            style={{ color: 'rgba(212,168,67,0.55)', textDecoration: 'none', letterSpacing: '0.06em' }}>
+            OPTRIQ
           </a>
-        </p>
+        </div>
       </footer>
 
     </main>
