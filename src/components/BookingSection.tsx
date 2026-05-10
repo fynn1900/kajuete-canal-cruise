@@ -183,7 +183,7 @@ export default function BookingSection() {
           </div>
         </div>
 
-        <div className="rounded-2xl" style={{
+        <div className="rounded-2xl overflow-hidden" style={{
           background: 'rgba(19,34,64,0.75)',
           backdropFilter: 'blur(14px)',
           border: '1px solid rgba(212,168,67,0.15)',
@@ -191,7 +191,7 @@ export default function BookingSection() {
         }}>
 
           {/* Date */}
-          <div className="p-6 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+          <div className="px-3 py-5 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
             <label className="form-label block mb-2">{t.chooseDate}</label>
             <input type="date" value={date}
               min={toDateString(seasonMin)} max={toDateString(seasonMax)}
