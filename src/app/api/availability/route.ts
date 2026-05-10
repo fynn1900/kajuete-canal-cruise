@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabaseAdmin } from '@/lib/supabase'
+import { supabase, supabaseAdmin } from '@/lib/supabase'
 
 const MAX_CAPACITY = 6
 
@@ -10,23 +10,18 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'Invalid date' }, { status: 400 })
   }
 
-  const db = supabaseAdmin()
+  // Use anon key for public reads — no service role needed
+  const db = supabase()
 
-  const bookingsRes = await db
-    .from('canal_cruise_bookings')
-    .select('group_size')
-    .eq('booking_date', date)
+  const [bookingsRes, blockedRes] = await Promise.all([
+    db.from('canal_cruise_bookings').select('group_size').eq('booking_date', date),
+    db.from('blocked_dates').select('id').eq('blocked_date', date).maybeSingle(),
+  ])
 
   if (bookingsRes.error) {
+    console.error('bookings error:', bookingsRes.error)
     return NextResponse.json({ error: 'Database error' }, { status: 500 })
   }
-
-  // blocked_dates is optional — ignore if table doesn't exist yet
-  const blockedRes = await db
-    .from('blocked_dates')
-    .select('id')
-    .eq('blocked_date', date)
-    .maybeSingle()
 
   if (!blockedRes.error && blockedRes.data) {
     return NextResponse.json({ booked: MAX_CAPACITY, available: 0, blocked: true, capacity: MAX_CAPACITY })

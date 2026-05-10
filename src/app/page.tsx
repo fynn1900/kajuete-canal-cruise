@@ -17,12 +17,16 @@ export default function Home() {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      <section
-        className="relative min-h-screen flex flex-col items-center justify-center px-4 pb-24 overflow-hidden"
-        style={{ background: 'linear-gradient(180deg, #0c1e3a 0%, #0A1628 50%, #071020 100%)' }}
-      >
-        {/* Stars */}
-        <div className="stars">
+      {/* White top → Navy bottom hero — logo sits naturally in white area */}
+      <section className="relative overflow-hidden" style={{ minHeight: '100svh' }}>
+
+        {/* Full-section gradient: white → cream → navy */}
+        <div className="absolute inset-0" style={{
+          background: 'linear-gradient(180deg, #ffffff 0%, #f5eddb 28%, #1e3d6b 48%, #0A1628 62%, #071020 100%)',
+        }} />
+
+        {/* Stars only in dark lower half */}
+        <div className="stars" style={{ top: '50%', bottom: 0, height: '50%' }}>
           {STARS.map(s => (
             <div key={s.id} className="star" style={{
               top: s.top, left: s.left,
@@ -33,54 +37,47 @@ export default function Home() {
           ))}
         </div>
 
-        {/* Warm glow behind logo */}
-        <div className="absolute pointer-events-none" style={{
-          top: '5%', left: '50%', transform: 'translateX(-50%)',
-          width: '700px', height: '500px',
-          background: 'radial-gradient(ellipse, rgba(255,245,220,0.07) 0%, rgba(212,168,67,0.04) 40%, transparent 70%)',
-        }} />
+        <div className="relative z-10 flex flex-col items-center text-center w-full px-4" style={{ paddingTop: '5vh', paddingBottom: '12vh' }}>
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-3xl w-full">
-
-          {/* Logo on cream-tinted backdrop — blends white bg naturally */}
-          <div className="mb-6 animate-float w-full flex justify-center">
-            <div style={{
-              width: 'clamp(300px, 60vw, 480px)',
-              borderRadius: '24px',
-              background: 'linear-gradient(170deg, #fffdf7 0%, #f5eddb 100%)',
-              padding: '12px 12px 4px',
-              boxShadow: '0 0 0 1px rgba(212,168,67,0.35), 0 0 0 5px rgba(212,168,67,0.08), 0 32px 80px rgba(0,0,0,0.55)',
-            }}>
-              <Image
-                src="/logo.png"
-                alt="Skipper Fynn – Kajüte 1876"
-                width={480}
-                height={380}
-                className="w-full h-auto object-contain"
-                priority
-              />
-            </div>
+          {/* Logo — no container, white bg merges with white hero top */}
+          <div className="animate-float w-full flex justify-center mb-2">
+            <Image
+              src="/logo.png"
+              alt="Skipper Fynn – Kajüte 1876"
+              width={480}
+              height={380}
+              style={{ width: 'clamp(280px, 55vw, 460px)', height: 'auto' }}
+              className="object-contain"
+              priority
+            />
           </div>
 
           {/* Season badge */}
-          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-amber/30 bg-amber/5">
-            <span className="w-1.5 h-1.5 rounded-full bg-amber-light animate-shimmer" />
-            <span className="font-outfit text-xs tracking-[0.18em] uppercase text-amber-light/80">
+          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
+            style={{ background: 'rgba(10,22,40,0.08)', border: '1px solid rgba(10,22,40,0.15)' }}>
+            <span className="w-1.5 h-1.5 rounded-full" style={{ background: '#1A6B9C' }} />
+            <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: '#132240' }}>
               11. Mai – 30. September 2025
             </span>
           </div>
 
-          {/* Headline */}
+          {/* Headline — dark text in transition zone */}
           <h1
-            className="font-cormorant font-light leading-[1.1] mb-4"
-            style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', color: '#F5EDD8' }}
+            className="font-cormorant font-semibold leading-[1.1] mb-4"
+            style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', color: '#0A1628' }}
           >
             Die etwas andere
             <br />
-            <em className="gold-text italic">Grachten Rundfahrt</em>
+            <em style={{
+              fontStyle: 'italic',
+              background: 'linear-gradient(135deg, #8B6914 0%, #D4A843 50%, #8B6914 100%)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
+              backgroundClip: 'text',
+            }}>Grachten Rundfahrt</em>
           </h1>
 
-          <p className="font-outfit text-sm md:text-base tracking-wider text-cream/55 mb-8 leading-relaxed">
+          <p className="font-outfit text-sm md:text-base tracking-wider mb-8 leading-relaxed" style={{ color: '#1C3057' }}>
             Täglich 19:00 Uhr&nbsp;&nbsp;·&nbsp;&nbsp;Friedrichstadt&nbsp;&nbsp;·&nbsp;&nbsp;Max. 6 Personen
           </p>
 
@@ -88,13 +85,16 @@ export default function Home() {
             <a href="#buchen" className="btn-primary rounded-full px-10 py-4 text-sm">
               <span>⚓&nbsp; Platz sichern</span>
             </a>
-            <a href="#info" className="btn-outline rounded-full px-7 py-3.5 text-sm">
+            <a href="#info"
+              className="rounded-full px-7 py-3.5 text-sm font-outfit font-medium transition-all"
+              style={{ border: '1.5px solid rgba(10,22,40,0.25)', color: '#132240' }}
+            >
               Mehr erfahren
             </a>
           </div>
         </div>
 
-        {/* Animated waves */}
+        {/* Wave transition into dark sections */}
         <div className="wave-container" style={{ height: '90px' }}>
           <div className="wave-track wave-1">
             {[0, 1].map(k => (

@@ -86,17 +86,19 @@ export default function BookingSection() {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date])
 
+  const maxPersons = avState === 'ready' ? available : MAX_SEATS
+
   function changeAdults(delta: number) {
     const next = adults + delta
     if (next < 0) return
-    if (next + kids > available) return
+    if (next + kids > maxPersons) return
     setAdults(next)
   }
 
   function changeKids(delta: number) {
     const next = kids + delta
     if (next < 0) return
-    if (adults + next > available) return
+    if (adults + next > maxPersons) return
     setKids(next)
   }
 
@@ -257,7 +259,7 @@ export default function BookingSection() {
                         cursor: adults > 0 ? 'pointer' : 'default',
                       }}>−</button>
                     <span className="font-outfit text-xl font-medium text-cream w-6 text-center">{adults}</span>
-                    <button type="button" onClick={() => changeAdults(1)} disabled={totalPersons >= available || avState !== 'ready'}
+                    <button type="button" onClick={() => changeAdults(1)} disabled={totalPersons >= maxPersons}
                       className="w-9 h-9 rounded-full flex items-center justify-center text-lg font-light transition-all"
                       style={{
                         background: totalPersons < available ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.04)',
@@ -284,7 +286,7 @@ export default function BookingSection() {
                         cursor: kids > 0 ? 'pointer' : 'default',
                       }}>−</button>
                     <span className="font-outfit text-xl font-medium text-cream w-6 text-center">{kids}</span>
-                    <button type="button" onClick={() => changeKids(1)} disabled={totalPersons >= available || avState !== 'ready'}
+                    <button type="button" onClick={() => changeKids(1)} disabled={totalPersons >= maxPersons}
                       className="w-9 h-9 rounded-full flex items-center justify-center text-lg font-light transition-all"
                       style={{
                         background: totalPersons < available ? 'rgba(212,168,67,0.15)' : 'rgba(255,255,255,0.04)',
