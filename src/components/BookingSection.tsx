@@ -197,7 +197,7 @@ export default function BookingSection() {
               min={toDateString(seasonMin)} max={toDateString(seasonMax)}
               onChange={e => setDate(e.target.value)}
               className="form-input w-full rounded-xl px-4 py-3 text-base"
-              style={{ fontSize: '16px' }} />
+              style={{ fontSize: '16px', maxWidth: '100%', display: 'block' }} />
             <p className="font-outfit text-xs mt-1.5" style={{ color: 'rgba(245,237,216,0.25)' }}>{t.seasonNote}</p>
           </div>
 
