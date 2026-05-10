@@ -63,9 +63,9 @@ export default function Home() {
         </div>
 
         {/* Animated wave transition into dark section */}
-        <div style={{ position: 'relative', height: '120px', marginTop: '3rem', overflow: 'hidden', lineHeight: 0 }}>
+        <div style={{ position: 'relative', height: '120px', marginTop: '3rem', marginLeft: '-1rem', marginRight: '-1rem', overflow: 'hidden', lineHeight: 0 }}>
           {/* Dark fill at bottom so there's no gap */}
-          <div style={{ position: 'absolute', bottom: 0, left: '-1rem', right: '-1rem', height: '30px', background: '#132240' }} />
+          <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '40px', background: '#132240' }} />
 
           {/* Wave layer 1 — back */}
           <div className="wave-container" style={{ height: '120px' }}>
