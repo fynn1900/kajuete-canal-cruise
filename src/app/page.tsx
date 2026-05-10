@@ -43,7 +43,7 @@ export default function Home() {
             style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)', color: '#0A1628' }}>
             {t.heroTitle1}
             <br />
-            <em className="gold-text italic">{t.heroTitle2}</em>
+            <em className="italic" style={{ color: '#C07A0F' }}>{t.heroTitle2}</em>
           </h1>
 
           <p className="font-outfit text-sm md:text-base tracking-wider mb-7 leading-relaxed"
