@@ -19,7 +19,7 @@ export default function Home() {
       ══════════════════════════════════════ */}
       <section
         className="relative min-h-screen flex flex-col items-center justify-center px-4 pb-24 overflow-hidden"
-        style={{ background: 'linear-gradient(175deg, #050e1c 0%, #0A1628 45%, #0d1f3b 100%)' }}
+        style={{ background: 'linear-gradient(180deg, #0c1e3a 0%, #0A1628 50%, #071020 100%)' }}
       >
         {/* Stars */}
         <div className="stars">
@@ -33,29 +33,29 @@ export default function Home() {
           ))}
         </div>
 
-        <div
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[520px] h-[520px] rounded-full pointer-events-none"
-          style={{ background: 'radial-gradient(circle, rgba(212,168,67,0.07) 0%, transparent 65%)' }}
-        />
+        {/* Warm glow behind logo */}
+        <div className="absolute pointer-events-none" style={{
+          top: '5%', left: '50%', transform: 'translateX(-50%)',
+          width: '700px', height: '500px',
+          background: 'radial-gradient(ellipse, rgba(255,245,220,0.07) 0%, rgba(212,168,67,0.04) 40%, transparent 70%)',
+        }} />
 
-        <div className="relative z-10 flex flex-col items-center text-center max-w-3xl">
+        <div className="relative z-10 flex flex-col items-center text-center max-w-3xl w-full">
 
-          {/* Logo — white-bg illustration in a framed badge */}
-          <div className="mb-8 animate-float">
-            <div
-              className="relative rounded-2xl overflow-hidden shadow-2xl"
-              style={{
-                width: 'clamp(280px, 55vw, 420px)',
-                background: '#fff',
-                border: '3px solid rgba(212,168,67,0.5)',
-                boxShadow: '0 0 0 6px rgba(212,168,67,0.1), 0 24px 60px rgba(0,0,0,0.5)',
-              }}
-            >
+          {/* Logo on cream-tinted backdrop — blends white bg naturally */}
+          <div className="mb-6 animate-float w-full flex justify-center">
+            <div style={{
+              width: 'clamp(300px, 60vw, 480px)',
+              borderRadius: '24px',
+              background: 'linear-gradient(170deg, #fffdf7 0%, #f5eddb 100%)',
+              padding: '12px 12px 4px',
+              boxShadow: '0 0 0 1px rgba(212,168,67,0.35), 0 0 0 5px rgba(212,168,67,0.08), 0 32px 80px rgba(0,0,0,0.55)',
+            }}>
               <Image
                 src="/logo.png"
                 alt="Skipper Fynn – Kajüte 1876"
-                width={420}
-                height={340}
+                width={480}
+                height={380}
                 className="w-full h-auto object-contain"
                 priority
               />
@@ -63,7 +63,7 @@ export default function Home() {
           </div>
 
           {/* Season badge */}
-          <div className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 rounded-full border border-amber/30 bg-amber/5">
+          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full border border-amber/30 bg-amber/5">
             <span className="w-1.5 h-1.5 rounded-full bg-amber-light animate-shimmer" />
             <span className="font-outfit text-xs tracking-[0.18em] uppercase text-amber-light/80">
               11. Mai – 30. September 2025
@@ -73,26 +73,24 @@ export default function Home() {
           {/* Headline */}
           <h1
             className="font-cormorant font-light leading-[1.1] mb-4"
-            style={{ fontSize: 'clamp(2.4rem, 7vw, 4.8rem)', color: '#F5EDD8' }}
+            style={{ fontSize: 'clamp(2.2rem, 6vw, 4.5rem)', color: '#F5EDD8' }}
           >
             Die etwas andere
             <br />
             <em className="gold-text italic">Grachten Rundfahrt</em>
           </h1>
 
-          <p className="font-outfit text-sm md:text-base tracking-wider text-cream/55 mb-10 leading-relaxed">
+          <p className="font-outfit text-sm md:text-base tracking-wider text-cream/55 mb-8 leading-relaxed">
             Täglich 19:00 Uhr&nbsp;&nbsp;·&nbsp;&nbsp;Friedrichstadt&nbsp;&nbsp;·&nbsp;&nbsp;Max. 6 Personen
           </p>
 
-          <a href="#buchen" className="btn-primary rounded-full px-10 py-4 text-sm">
-            <span>⚓&nbsp; Platz sichern</span>
-          </a>
-
-          <div className="mt-16 flex flex-col items-center gap-2 opacity-30">
-            <span className="font-outfit text-xs tracking-widest uppercase">Mehr erfahren</span>
-            <svg width="16" height="24" viewBox="0 0 16 24" fill="none">
-              <path d="M8 4v16M2 14l6 6 6-6" stroke="#F5EDD8" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
-            </svg>
+          <div className="flex items-center gap-4 flex-wrap justify-center">
+            <a href="#buchen" className="btn-primary rounded-full px-10 py-4 text-sm">
+              <span>⚓&nbsp; Platz sichern</span>
+            </a>
+            <a href="#info" className="btn-outline rounded-full px-7 py-3.5 text-sm">
+              Mehr erfahren
+            </a>
           </div>
         </div>
 
@@ -227,8 +225,8 @@ export default function Home() {
               {/* Left — info */}
               <div className="p-8 md:p-10 flex flex-col justify-center">
                 <div className="flex items-center gap-4 mb-6">
-                  <div className="w-16 h-16 flex-shrink-0 rounded-full overflow-hidden border-2 border-amber/30">
-                    <Image src="/kajuete-logo.png" alt="Kajüte 1876" width={64} height={64} className="w-full h-full object-cover" />
+                  <div className="w-16 h-16 flex-shrink-0 rounded-2xl overflow-hidden border border-amber/25 bg-white flex items-center justify-center">
+                    <Image src="/kajuete-logo.png" alt="Kajüte 1876" width={56} height={56} className="object-contain" />
                   </div>
                   <div>
                     <h3 className="font-cormorant text-2xl font-medium text-cream">Kajüte 1876</h3>
@@ -319,8 +317,8 @@ export default function Home() {
       ══════════════════════════════════════ */}
       <footer className="py-10 px-4 text-center border-t border-cream/5" style={{ background: '#050e1c' }}>
         <div className="flex items-center justify-center gap-4 mb-4">
-          <div className="w-10 h-10 rounded-full overflow-hidden opacity-60 border border-amber/20">
-            <Image src="/kajuete-logo.png" alt="Kajüte 1876" width={40} height={40} className="w-full h-full object-cover" />
+          <div className="w-10 h-10 rounded-xl overflow-hidden opacity-60 border border-amber/20 bg-white flex items-center justify-center">
+            <Image src="/kajuete-logo.png" alt="Kajüte 1876" width={36} height={36} className="object-contain" />
           </div>
         </div>
         <p className="font-cormorant text-lg text-cream/40 mb-1">Kajüte 1876 · Friedrichstadt</p>
