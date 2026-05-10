@@ -21,47 +21,52 @@ async function notifyN8n(booking: {
 }
 
 export async function POST(req: NextRequest) {
-  const body = await req.json()
-  const { booking_date, group_size, contact_name, email, adults_count, kids_count } = body
+  try {
+    const body = await req.json()
+    const { booking_date, group_size, contact_name, email, adults_count, kids_count } = body
 
-  if (!booking_date || !group_size || !contact_name) {
-    return NextResponse.json({ error: 'Fehlende Pflichtfelder' }, { status: 400 })
+    if (!booking_date || !group_size || !contact_name) {
+      return NextResponse.json({ error: 'Fehlende Pflichtfelder' }, { status: 400 })
+    }
+    if (group_size < 1 || group_size > MAX_CAPACITY) {
+      return NextResponse.json({ error: 'Ungültige Gruppengröße' }, { status: 400 })
+    }
+
+    const db = supabaseAdmin()
+
+    const { data: existing, error: fetchError } = await db
+      .from('canal_cruise_bookings')
+      .select('group_size')
+      .eq('booking_date', booking_date)
+
+    if (fetchError) return NextResponse.json({ error: 'Datenbankfehler: ' + fetchError.message }, { status: 500 })
+
+    const alreadyBooked = (existing || []).reduce((s, r) => s + r.group_size, 0)
+    if (group_size > MAX_CAPACITY - alreadyBooked) {
+      return NextResponse.json({ error: `Nur noch ${MAX_CAPACITY - alreadyBooked} Plätze verfügbar` }, { status: 409 })
+    }
+
+    const { data: blockedDay } = await db
+      .from('blocked_dates')
+      .select('id')
+      .eq('blocked_date', booking_date)
+      .maybeSingle()
+    if (blockedDay) return NextResponse.json({ error: 'Dieser Tag ist gesperrt' }, { status: 409 })
+
+    const { data, error: insertError } = await db
+      .from('canal_cruise_bookings')
+      .insert({ booking_date, group_size, contact_name, email: email || null, adults_count: adults_count || null, kids_count: kids_count || null })
+      .select()
+      .single()
+
+    if (insertError) return NextResponse.json({ error: 'Buchung fehlgeschlagen: ' + insertError.message }, { status: 500 })
+
+    // Fire & forget — n8n sends confirmation to admin AND guest
+    notifyN8n({ contact_name, email, booking_date, group_size, adults_count, kids_count }).catch(console.error)
+
+    return NextResponse.json({ success: true, booking: data }, { status: 201 })
+  } catch (err) {
+    console.error('Booking route error:', err)
+    return NextResponse.json({ error: 'Interner Serverfehler' }, { status: 500 })
   }
-  if (group_size < 1 || group_size > MAX_CAPACITY) {
-    return NextResponse.json({ error: 'Ungültige Gruppengröße' }, { status: 400 })
-  }
-
-  const db = supabaseAdmin()
-
-  const { data: existing, error: fetchError } = await db
-    .from('canal_cruise_bookings')
-    .select('group_size')
-    .eq('booking_date', booking_date)
-
-  if (fetchError) return NextResponse.json({ error: 'Datenbankfehler' }, { status: 500 })
-
-  const alreadyBooked = (existing || []).reduce((s, r) => s + r.group_size, 0)
-  if (group_size > MAX_CAPACITY - alreadyBooked) {
-    return NextResponse.json({ error: `Nur noch ${MAX_CAPACITY - alreadyBooked} Plätze verfügbar` }, { status: 409 })
-  }
-
-  const { data: blockedDay } = await db
-    .from('blocked_dates')
-    .select('id')
-    .eq('blocked_date', booking_date)
-    .maybeSingle()
-  if (blockedDay) return NextResponse.json({ error: 'Dieser Tag ist gesperrt' }, { status: 409 })
-
-  const { data, error: insertError } = await db
-    .from('canal_cruise_bookings')
-    .insert({ booking_date, group_size, contact_name, email: email || null, adults_count: adults_count || null, kids_count: kids_count || null })
-    .select()
-    .single()
-
-  if (insertError) return NextResponse.json({ error: 'Buchung fehlgeschlagen' }, { status: 500 })
-
-  // Fire & forget — n8n handles the email
-  notifyN8n({ contact_name, email, booking_date, group_size, adults_count, kids_count }).catch(console.error)
-
-  return NextResponse.json({ success: true, booking: data }, { status: 201 })
 }

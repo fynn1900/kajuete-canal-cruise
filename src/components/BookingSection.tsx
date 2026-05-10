@@ -118,8 +118,9 @@ export default function BookingSection() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ booking_date: date, group_size: totalPersons, contact_name: name, email, adults_count: adults, kids_count: kids }),
       })
-      const data = await res.json()
-      if (!res.ok) { setFormError(data.error || 'Fehler.') }
+      let data: { error?: string; success?: boolean } = {}
+      try { data = await res.json() } catch { data = { error: `Fehler ${res.status}` } }
+      if (!res.ok) { setFormError(data.error || `Fehler ${res.status}`) }
       else {
         setSuccess(true)
         const newAvail = available - totalPersons
@@ -128,20 +129,24 @@ export default function BookingSection() {
         if (newAvail <= 0) setAvState('soldout')
         setName(''); setEmail(''); setAdults(1); setKids(0)
       }
-    } catch { setFormError('Netzwerkfehler. Bitte erneut versuchen.') }
+    } catch (err) {
+      console.error('Booking submit error:', err)
+      setFormError('Verbindungsfehler. Bitte Seite neu laden und erneut versuchen.')
+    }
     finally { setSubmitting(false) }
   }
 
   function CounterBtn({ onClick, disabled, label }: { onClick: () => void; disabled: boolean; label: string }) {
     return (
       <button type="button" onClick={onClick} disabled={disabled}
-        className="w-10 h-10 rounded-full flex items-center justify-center text-xl font-light select-none"
+        className="w-11 h-11 rounded-full flex items-center justify-center text-xl font-light select-none flex-shrink-0"
         style={{
           background: disabled ? 'rgba(255,255,255,0.04)' : 'rgba(212,168,67,0.12)',
           border: `1.5px solid ${disabled ? 'rgba(255,255,255,0.07)' : 'rgba(212,168,67,0.35)'}`,
           color: disabled ? 'rgba(245,237,216,0.15)' : '#ECC564',
           cursor: disabled ? 'default' : 'pointer',
           transition: 'all 0.15s ease',
+          WebkitTapHighlightColor: 'transparent',
         }}>
         {label}
       </button>
@@ -177,7 +182,8 @@ export default function BookingSection() {
             <input type="date" value={date}
               min={toDateString(seasonMin)} max={toDateString(seasonMax)}
               onChange={e => setDate(e.target.value)}
-              className="form-input w-full rounded-xl px-4 py-3 text-base" />
+              className="form-input w-full rounded-xl px-4 py-3 text-base"
+              style={{ fontSize: '16px' }} />
             <p className="font-outfit text-xs mt-1.5" style={{ color: 'rgba(245,237,216,0.25)' }}>Saison: 11. Mai – 30. September</p>
           </div>
 
@@ -292,13 +298,15 @@ export default function BookingSection() {
                   <label className="form-label block mb-2">Name *</label>
                   <input type="text" placeholder="Dein Name" value={name}
                     onChange={e => setName(e.target.value)} required
-                    className="form-input w-full rounded-xl px-4 py-3 text-sm" />
+                    className="form-input w-full rounded-xl px-4 py-3"
+                    style={{ fontSize: '16px' }} />
                 </div>
                 <div>
-                  <label className="form-label block mb-2">E-Mail</label>
+                  <label className="form-label block mb-2">E-Mail <span style={{ color: 'rgba(245,237,216,0.3)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>(für Bestätigungsmail)</span></label>
                   <input type="email" placeholder="deine@mail.de" value={email}
                     onChange={e => setEmail(e.target.value)}
-                    className="form-input w-full rounded-xl px-4 py-3 text-sm" />
+                    className="form-input w-full rounded-xl px-4 py-3"
+                    style={{ fontSize: '16px' }} />
                 </div>
 
                 {formError && (

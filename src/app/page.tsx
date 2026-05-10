@@ -17,29 +17,29 @@ export default function Home() {
       {/* ══════════════════════════════════════
           HERO
       ══════════════════════════════════════ */}
-      {/* ── LOGO SECTION (white) ── */}
-      <section className="relative flex flex-col items-center justify-center px-6 pt-10 pb-0"
-        style={{ background: '#ffffff' }}>
+      {/* ── LOGO SECTION (white, rounded ellipse bottom) ── */}
+      <section className="relative flex flex-col items-center justify-center px-6 pt-8 pb-10"
+        style={{
+          background: '#ffffff',
+          borderRadius: '0 0 50% 50% / 0 0 70px 70px',
+          position: 'relative',
+          zIndex: 2,
+        }}>
         <div className="animate-float">
           <Image
             src="/logo.png"
             alt="Skipper Fynn – Kajüte 1876"
             width={520}
             height={420}
-            style={{ width: 'clamp(260px, 70vw, 480px)', height: 'auto', display: 'block' }}
+            style={{ width: 'clamp(220px, 65vw, 460px)', height: 'auto', display: 'block' }}
             priority
           />
         </div>
-        {/* Curved bottom edge into dark section */}
-        <svg viewBox="0 0 1440 80" xmlns="http://www.w3.org/2000/svg"
-          className="w-full" style={{ display: 'block', marginBottom: '-1px' }}>
-          <path d="M0,0 C360,80 1080,80 1440,0 L1440,80 L0,80 Z" fill="#0A1628" />
-        </svg>
       </section>
 
       {/* ── HEADLINE SECTION (dark) ── */}
-      <section className="relative px-4 pt-10 pb-16 overflow-hidden"
-        style={{ background: '#0A1628' }}>
+      <section className="relative px-4 pb-16 overflow-hidden"
+        style={{ background: '#0A1628', marginTop: '-50px', paddingTop: '80px' }}>
         {/* Stars */}
         <div className="stars">
           {STARS.map(s => (
@@ -96,7 +96,7 @@ export default function Home() {
       {/* ══════════════════════════════════════
           INFO CARDS
       ══════════════════════════════════════ */}
-      <section id="info" className="py-20 px-4" style={{ background: '#132240' }}>
+      <section id="info" className="py-14 md:py-20 px-4" style={{ background: '#132240' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-14">
             <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">An Bord</p>
@@ -157,7 +157,7 @@ export default function Home() {
       {/* ══════════════════════════════════════
           DESCRIPTION
       ══════════════════════════════════════ */}
-      <section className="py-20 px-4 relative overflow-hidden" style={{ background: '#0A1628' }}>
+      <section className="py-14 md:py-20 px-4 relative overflow-hidden" style={{ background: '#0A1628' }}>
         <div className="absolute right-0 top-0 w-1/2 h-full opacity-5 pointer-events-none"
           style={{ background: 'radial-gradient(ellipse at right center, #2589BF, transparent 65%)' }} />
         <div className="max-w-3xl mx-auto text-center relative z-10">
@@ -189,7 +189,7 @@ export default function Home() {
       {/* ══════════════════════════════════════
           KAJÜTE 1876 SECTION
       ══════════════════════════════════════ */}
-      <section className="py-20 px-4" style={{ background: '#132240' }}>
+      <section className="py-14 md:py-20 px-4" style={{ background: '#132240' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
             <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">Start & Ziel</p>
@@ -262,8 +262,8 @@ export default function Home() {
 
               {/* Right — Tisch banner */}
               <div
-                className="p-8 md:p-10 flex flex-col justify-center"
-                style={{ background: 'rgba(212,168,67,0.05)', borderLeft: '1px solid rgba(212,168,67,0.15)' }}
+                className="p-8 md:p-10 flex flex-col justify-center border-t md:border-t-0 md:border-l"
+                style={{ background: 'rgba(212,168,67,0.05)', borderColor: 'rgba(212,168,67,0.15)' }}
               >
                 <p className="text-2xl mb-4">🍽️</p>
                 <h4 className="font-cormorant text-2xl font-medium text-cream mb-3">
