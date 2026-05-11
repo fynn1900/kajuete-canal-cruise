@@ -40,7 +40,7 @@ export default function Home() {
           </div>
 
           <h1 className="font-cormorant font-bold leading-[1.1] mb-4"
-            style={{ fontSize: 'clamp(2.6rem, 9vw, 6.5rem)', color: '#7A5200' }}>
+            style={{ fontSize: 'clamp(1.8rem, 7.5vw, 6.5rem)', color: '#7A5200' }}>
             <em className="italic uppercase">{t.heroTitle2}</em>
           </h1>
 
@@ -243,7 +243,7 @@ export default function Home() {
                   </div>
                   <div>
                     <h3 className="font-cormorant text-2xl font-medium text-cream">Kajüte 1876</h3>
-                    <p className="font-outfit text-xs text-cream/40 tracking-wide">Holmertorstrasse 11 · Friedrichstadt</p>
+                    <p className="font-outfit text-xs text-cream tracking-wide">Holmertorstrasse 11 · Friedrichstadt</p>
                   </div>
                 </div>
 
@@ -318,7 +318,7 @@ export default function Home() {
                 >
                   <span>{t.tableBook}</span>
                 </a>
-                <p className="font-outfit text-xs text-cream/30 mt-3">
+                <p className="font-outfit text-xs text-cream mt-3">
                   {t.tableNote}
                 </p>
               </div>
