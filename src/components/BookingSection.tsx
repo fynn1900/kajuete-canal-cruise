@@ -339,7 +339,7 @@ export default function BookingSection() {
                   </span>
                   <span className="flex items-baseline gap-1.5">
                     <span className="font-cormorant text-2xl font-semibold gold-text">{totalPrice} €</span>
-                    <span className="font-outfit text-xs" style={{ color: 'rgba(212,168,67,0.55)' }}>Spende*</span>
+                    <span className="font-outfit text-sm font-medium text-cream">Spende*</span>
                   </span>
                 </div>
               )}
@@ -395,12 +395,12 @@ export default function BookingSection() {
           )}
         </div>
 
-        <p className="font-outfit text-xs text-center mt-4 leading-relaxed" style={{ color: 'rgba(245,237,216,0.3)' }}>
+        <p className="font-outfit text-sm text-center mt-4 leading-relaxed text-cream">
           {lang === 'de'
-            ? '* Fynn finanziert sein Studium mit Bootsfahrten — die Preise sind eine Spende.'
-            : '* Fynn funds his studies through boat tours — the prices are a donation.'}
+            ? '* Fynn finanziert sein Studium u.a. mit Bootsfahrten — die Preise sind eine Spende.'
+            : '* Fynn funds his studies (among other things) through boat tours — the prices are a donation.'}
         </p>
-        <p className="font-outfit text-xs text-center mt-2 leading-relaxed" style={{ color: 'rgba(245,237,216,0.2)' }}>
+        <p className="font-outfit text-sm text-center mt-2 leading-relaxed text-cream">
           {t.footerNote}
         </p>
       </div>
