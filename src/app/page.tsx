@@ -343,11 +343,11 @@ export default function Home() {
             <Image src="/kajuete-logo.png" alt="Kajüte 1876" width={36} height={36} className="object-contain" />
           </div>
         </div>
-        <p className="font-cormorant text-lg text-cream/40 mb-1">{t.footerSlogan}</p>
-        <p className="font-outfit text-xs tracking-widest uppercase text-cream/20">
+        <p className="font-cormorant text-lg text-cream mb-1">{t.footerSlogan}</p>
+        <p className="font-outfit text-xs tracking-widest uppercase text-cream">
           {t.footerSub}
         </p>
-        <p className="font-outfit text-xs text-cream/20 mt-2">
+        <p className="font-outfit text-xs text-cream mt-2">
           {t.footerAddress}
         </p>
         <div className="rope-divider w-16 mx-auto mt-6 opacity-20" />
@@ -377,7 +377,7 @@ export default function Home() {
                 style={{ color: 'rgba(212,168,67,0.85)', letterSpacing: '0.15em' }}>
                 OPTRIQ
               </span>
-              <span className="font-outfit text-xs" style={{ color: 'rgba(245,237,216,0.3)', letterSpacing: '0.04em' }}>
+              <span className="font-outfit text-xs text-cream" style={{ letterSpacing: '0.04em' }}>
                 {lang === 'de' ? 'Website & Buchungssystem' : 'Website & Booking System'}
               </span>
             </div>
