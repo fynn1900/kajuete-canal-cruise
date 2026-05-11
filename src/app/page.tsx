@@ -43,7 +43,7 @@ export default function Home() {
             style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)', color: '#0A1628' }}>
             <span className="uppercase">{t.heroTitle1}</span>
             <br />
-            <em className="italic" style={{ color: '#7A5200' }}>{t.heroTitle2}</em>
+            <em className="italic uppercase" style={{ color: '#7A5200' }}>{t.heroTitle2}</em>
           </h1>
 
           <p className="font-outfit text-sm md:text-base tracking-wider mb-7 leading-relaxed"
@@ -117,7 +117,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 
             <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
-              <div className="mb-3 text-3xl">⛵</div>
+              <div className="mb-3 text-3xl">🚤</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2 uppercase">{t.card1Title}</h3>
               <p className="font-outfit text-sm text-cream leading-relaxed">
                 {t.card1Text}
