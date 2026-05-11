@@ -39,7 +39,7 @@ export default function Home() {
             </span>
           </div>
 
-          <h1 className="font-cormorant font-normal leading-[1.1] mb-4"
+          <h1 className="font-cormorant font-bold leading-[1.1] mb-4"
             style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)', color: '#7A5200' }}>
             <em className="italic uppercase">{t.heroTitle2}</em>
           </h1>
