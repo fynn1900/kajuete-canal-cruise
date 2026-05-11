@@ -40,10 +40,8 @@ export default function Home() {
           </div>
 
           <h1 className="font-cormorant font-normal leading-[1.1] mb-4"
-            style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)', color: '#0A1628' }}>
-            <span className="uppercase">{t.heroTitle1}</span>
-            <br />
-            <em className="italic uppercase" style={{ color: '#7A5200' }}>{t.heroTitle2}</em>
+            style={{ fontSize: 'clamp(2rem, 6.5vw, 5rem)', color: '#7A5200' }}>
+            <em className="italic uppercase">{t.heroTitle2}</em>
           </h1>
 
           <p className="font-outfit text-sm md:text-base tracking-wider mb-7 leading-relaxed"
