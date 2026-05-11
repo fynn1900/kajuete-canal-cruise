@@ -5,7 +5,7 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 const translations = {
   de: {
     // Badge
-    season: '11. Mai – 30. September 2026',
+    season: 'bis 30. September 2026',
     // Hero
     heroTitle1: 'Die etwas andere',
     heroTitle2: 'Grachten Rundfahrt',
@@ -40,7 +40,7 @@ const translations = {
     kajueteEm: 'Kajüte 1876',
     kajueteDesc: 'Gästehaus am Wasser, 1621-Bierbar, Veras Flammkuchenküche und Grachtengarten — direkt da, wo die Bootsfahrt startet und endet. Ein antifaschistischer Familienbetrieb, der genauso tickt wie das Boot.',
     flammkuchenLabel: 'Veras Flammkuchenküche',
-    flammkuchenHours: 'Täglich 12–19 Uhr',
+    flammkuchenHours: 'donnerstags 17–22 Uhr',
     bierLabel: 'Bierautomat',
     bierHours: 'Täglich 11–23 Uhr',
     gardenLabel: 'Grachtengarten',
@@ -57,7 +57,7 @@ const translations = {
     secureSpotEm: 'sichern',
     bookingSub: 'Täglich 19:00 Uhr · Max. 6 Personen · Kajüten-Gracht',
     chooseDate: 'Datum wählen',
-    seasonNote: 'Saison: 11. Mai – 30. September',
+    seasonNote: 'Saison: bis 30. September',
     loading: 'Wird geladen…',
     spotsLeft: 'frei',
     of: 'von',
@@ -90,12 +90,12 @@ const translations = {
     minError: 'Mindestens 2 Personen für eine Fahrt nötig.',
     // Footer
     footerSlogan: 'Kajüte 1876 · Friedrichstadt',
-    footerSub: 'Skipper Fynn · Täglich 19:00 Uhr · 11. Mai – 30. September',
+    footerSub: 'Skipper Fynn · Täglich 19:00 Uhr · bis 30. September',
     footerAddress: 'Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de',
     automatedBy: 'Buchungssystem automatisiert von',
   },
   en: {
-    season: 'May 11 – September 30, 2026',
+    season: 'until September 30, 2026',
     heroTitle1: 'The Canal Cruise',
     heroTitle2: 'with a Difference',
     heroSub: 'Daily 7 PM · Friedrichstadt · Max. 6 People',
@@ -126,7 +126,7 @@ const translations = {
     kajueteEm: 'Kajüte 1876',
     kajueteDesc: 'Waterside guesthouse, 1621 beer bar, Vera\'s tarte flambée kitchen and canal garden — right where the boat tour starts and ends. An antifascist family business with the same vibe as the boat.',
     flammkuchenLabel: 'Vera\'s Tarte Flambée',
-    flammkuchenHours: 'Daily 12–7 PM',
+    flammkuchenHours: 'Thursdays 5–10 PM',
     bierLabel: 'Beer Vending Machine',
     bierHours: 'Daily 11 AM–11 PM',
     gardenLabel: 'Canal Garden',
@@ -142,7 +142,7 @@ const translations = {
     secureSpotEm: 'Spot',
     bookingSub: 'Daily 7 PM · Max. 6 People · Kajüten-Gracht',
     chooseDate: 'Choose a Date',
-    seasonNote: 'Season: May 11 – September 30',
+    seasonNote: 'Season: until September 30',
     loading: 'Loading…',
     spotsLeft: 'available',
     of: 'of',
@@ -174,7 +174,7 @@ const translations = {
     nameError: 'Please enter your name.',
     minError: 'At least 2 people required for a trip.',
     footerSlogan: 'Kajüte 1876 · Friedrichstadt',
-    footerSub: 'Skipper Fynn · Daily 7 PM · May 11 – September 30',
+    footerSub: 'Skipper Fynn · Daily 7 PM · until September 30',
     footerAddress: 'Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de',
     automatedBy: 'Booking system automated by',
   },

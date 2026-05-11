@@ -25,7 +25,7 @@ export const metadata: Metadata = {
     'Die etwas andere Grachten Rundfahrt. Mit Skipper Fynn täglich um 19 Uhr – 60 Minuten durch das holländische Städtchen Friedrichstadt vom Wasser aus.',
   openGraph: {
     title: 'Kajüte Daily Canal Cruise · Friedrichstadt',
-    description: '11. Mai – 30. September · Täglich 19:00 Uhr · Max. 6 Personen',
+    description: 'bis 30. September · Täglich 19:00 Uhr · Max. 6 Personen',
     type: 'website',
   },
 }
