@@ -41,7 +41,7 @@ export default function Home() {
 
           <h1 className="font-cormorant font-light leading-[1.1] mb-4"
             style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)', color: '#0A1628' }}>
-            {t.heroTitle1}
+            <span className="uppercase">{t.heroTitle1}</span>
             <br />
             <em className="italic" style={{ color: '#7A5200' }}>{t.heroTitle2}</em>
           </h1>
@@ -108,7 +108,7 @@ export default function Home() {
       <section id="info" className="py-12 md:py-16 px-4" style={{ background: '#132240' }}>
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
-            <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">{t.onBoard}</p>
+            <p className="font-outfit text-sm tracking-[0.2em] uppercase text-amber-light/70 mb-3">{t.onBoard}</p>
             <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
               {t.whatToExpect} <em className="gold-text not-italic">{t.whatToExpectEm}</em>
             </h2>
@@ -118,11 +118,11 @@ export default function Home() {
 
             <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-3 text-3xl">⛵</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card1Title}</h3>
-              <p className="font-outfit text-sm text-cream/55 leading-relaxed">
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2 uppercase">{t.card1Title}</h3>
+              <p className="font-outfit text-sm text-cream leading-relaxed">
                 {t.card1Text}
                 <br /><br />
-                <strong className="text-amber-light/80">{t.card1Sub}</strong>
+                <strong className="text-amber-light">{t.card1Sub}</strong>
               </p>
             </div>
 
@@ -140,7 +140,7 @@ export default function Home() {
                 </span>
               </div>
               <div className="mb-3 text-3xl">🍺</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-3">
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-3 uppercase">
                 {lang === 'de' ? 'Getränk inklusive' : 'Drink included'}
               </h3>
               <div className="flex items-center gap-2 mb-3 flex-wrap">
@@ -155,34 +155,34 @@ export default function Home() {
                 </div>
                 <span className="font-outfit text-xs text-cream/40">{lang === 'de' ? '— je Person' : '— per person'}</span>
               </div>
-              <p className="font-outfit text-sm text-cream/50 leading-relaxed">
+              <p className="font-outfit text-sm text-cream leading-relaxed">
                 {t.card2Sub}
               </p>
             </div>
 
             <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-3 text-3xl">💰</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card3Title}</h3>
-              <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                <strong className="text-cream/80 text-base">19 €</strong> {t.card3Adult}{' '}
-                <span className="text-amber/60 text-xs">Spende*</span>
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2 uppercase">{t.card3Title}</h3>
+              <p className="font-outfit text-sm text-cream leading-relaxed">
+                <strong className="text-cream text-base">19 €</strong> {t.card3Adult}{' '}
+                <span className="text-amber text-xs">Spende*</span>
                 <br />
-                <strong className="text-amber-light/80 text-base">5 €</strong> {t.card3Kid}
+                <strong className="text-amber-light text-base">5 €</strong> {t.card3Kid}
                 <br /><br />
-                <span className="text-cream/40">{t.card3Note}</span>
+                <span className="text-cream/70">{t.card3Note}</span>
                 <br />
-                <span className="text-cream/30 text-xs">
+                <span className="text-cream/60 text-sm">
                   {lang === 'de'
-                    ? '* Fynn finanziert sein Studium mit Bootsfahrten.'
-                    : '* Fynn funds his studies through boat tours.'}
+                    ? '* Fynn finanziert sein Studium u.a. mit Bootsfahrten.'
+                    : '* Fynn funds his studies (among other things) through boat tours.'}
                 </span>
               </p>
             </div>
 
             <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-3 text-3xl">⚠️</div>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card4Title}</h3>
-              <p className="font-outfit text-sm text-cream/55 leading-relaxed">
+              <h3 className="font-cormorant text-2xl font-medium text-cream mb-2 uppercase">{t.card4Title}</h3>
+              <p className="font-outfit text-sm text-cream leading-relaxed">
                 {t.card4Text}
                 <br /><br />
                 {t.card4Sub}
@@ -201,7 +201,7 @@ export default function Home() {
         <div className="max-w-3xl mx-auto text-center relative z-10">
           <div className="rope-divider mb-6 w-24 mx-auto" />
 
-          <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-6">
+          <p className="font-outfit text-sm tracking-[0.2em] uppercase text-amber-light/70 mb-6">
             {t.descLabel}
           </p>
 
@@ -214,7 +214,7 @@ export default function Home() {
             <em className="gold-text">{t.descQuoteEm}</em>
           </blockquote>
 
-          <p className="font-outfit text-base text-cream/50 leading-relaxed max-w-xl mx-auto">
+          <p className="font-outfit text-base text-cream leading-relaxed max-w-xl mx-auto">
             {t.descText}
           </p>
 
@@ -228,7 +228,7 @@ export default function Home() {
       <section className="py-10 md:py-14 px-4" style={{ background: '#132240' }}>
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <p className="font-outfit text-xs tracking-[0.2em] uppercase text-amber-light/50 mb-3">{t.startGoal}</p>
+            <p className="font-outfit text-sm tracking-[0.2em] uppercase text-amber-light/70 mb-3">{t.startGoal}</p>
             <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
               {t.kajueteTitle} <em className="gold-text not-italic">{t.kajueteEm}</em>
             </h2>
@@ -249,7 +249,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <p className="font-outfit text-sm text-cream/60 leading-relaxed mb-6">
+                <p className="font-outfit text-sm text-cream leading-relaxed mb-6">
                   {t.kajueteDesc}
                 </p>
 
@@ -257,28 +257,28 @@ export default function Home() {
                   <div className="flex items-start gap-3">
                     <span className="text-amber/60 mt-0.5">🍕</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">{t.flammkuchenLabel}</p>
-                      <p className="font-outfit text-xs text-cream/40">
+                      <p className="font-outfit text-xs font-medium text-cream">{t.flammkuchenLabel}</p>
+                      <p className="font-outfit text-xs text-cream/70">
                         {new Date() >= new Date(new Date().getFullYear(), 4, 15)
                           ? lang === 'de'
-                            ? <><span>täglich 12–19 Uhr</span><br /><span>donnerstags 18–22 Uhr</span></>
-                            : <><span>daily noon–7 PM</span><br /><span>Thursdays 6–10 PM</span></>
-                          : lang === 'de' ? 'täglich 12–19 Uhr' : 'daily noon–7 PM'}
+                            ? <><span>Täglich 12–19 Uhr</span><br /><span>donnerstags 18–22 Uhr</span></>
+                            : <><span>Daily noon–7 PM</span><br /><span>Thursdays 6–10 PM</span></>
+                          : lang === 'de' ? 'Täglich 12–19 Uhr' : 'Daily noon–7 PM'}
                       </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
                     <span className="text-amber/60 mt-0.5">🍺</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">{t.bierLabel}</p>
-                      <p className="font-outfit text-xs text-cream/40">{t.bierHours}</p>
+                      <p className="font-outfit text-xs font-medium text-cream">{t.bierLabel}</p>
+                      <p className="font-outfit text-xs text-cream/70">{t.bierHours}</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
-                    <span className="text-amber/60 mt-0.5">🌿</span>
+                    <span className="text-amber/60 mt-0.5">🌊</span>
                     <div>
-                      <p className="font-outfit text-xs font-medium text-cream/70">{t.gardenLabel}</p>
-                      <p className="font-outfit text-xs text-cream/40">{t.gardenDesc}</p>
+                      <p className="font-outfit text-xs font-medium text-cream">{t.gardenLabel}</p>
+                      <p className="font-outfit text-xs text-cream/70">{t.gardenDesc}</p>
                     </div>
                   </div>
                 </div>
@@ -309,7 +309,7 @@ export default function Home() {
                 <h4 className="font-cormorant text-2xl font-medium text-cream mb-3">
                   {t.beforeTrip}
                 </h4>
-                <p className="font-outfit text-sm text-cream/55 leading-relaxed mb-6">
+                <p className="font-outfit text-sm text-cream leading-relaxed mb-6">
                   {t.beforeTripDesc}
                 </p>
                 <a
