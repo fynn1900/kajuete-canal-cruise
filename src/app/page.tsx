@@ -254,9 +254,9 @@ export default function Home() {
                       <p className="font-outfit text-xs text-cream/40">
                         {new Date() >= new Date(new Date().getFullYear(), 4, 15)
                           ? lang === 'de'
-                            ? <><span>donnerstags 17–22 Uhr</span><br /><span>alle anderen Tage 12–19 Uhr</span></>
-                            : <><span>Thursdays 5–10 PM</span><br /><span>all other days noon–7 PM</span></>
-                          : lang === 'de' ? '12–19 Uhr' : 'noon–7 PM'}
+                            ? <><span>täglich 12–19 Uhr</span><br /><span>donnerstags 17–22 Uhr</span></>
+                            : <><span>daily noon–7 PM</span><br /><span>Thursdays 5–10 PM</span></>
+                          : lang === 'de' ? 'täglich 12–19 Uhr' : 'daily noon–7 PM'}
                       </p>
                     </div>
                   </div>
