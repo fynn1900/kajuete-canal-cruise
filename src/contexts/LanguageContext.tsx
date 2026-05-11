@@ -33,7 +33,7 @@ const translations = {
     descLabel: 'Friedrichstadt · Das Grachtenstädtchen',
     descQuote: '„Friedrichstadt vom Wasser aus —',
     descQuoteEm: 'im Abendlicht einfach schön."',
-    descText: 'Das kleine Grachtenstädtchen hat was — und vom Boot aus sieht man es nochmal anders. Skipper Fynn kennt die Ecken, erzählt was dazu, und das Bier ist auch kalt. Passt für Paare, Familien und kleine Gruppen gleichermaßen gut.',
+    descText: 'Das kleine Grachtenstädtchen ist schon etwas Besonderes — vom Boot aus ist es am schönsten. Kajüten-Skipper Fynn zeigt euch die Holländerstadt von der Wasserseite. Er erzählt über sein Friedrichstadt — und das 1621-Bier an Bord ist auch schön kalt. Die etwas andere Tour passt für Paare, Familien und kleine Gruppen gleichermaßen gut. Willkommen an Bord!',
     // Kajüte section
     startGoal: 'Start & Ziel',
     kajueteTitle: 'Die',
@@ -120,7 +120,7 @@ const translations = {
     descLabel: 'Friedrichstadt · The Little Dutch Town',
     descQuote: '"Friedrichstadt from the water —',
     descQuoteEm: 'simply beautiful in the evening light."',
-    descText: 'This little canal town has something special — and from the water it looks even better. Skipper Fynn knows every corner, shares stories along the way, and the beer is cold. Perfect for couples, families, and small groups alike.',
+    descText: 'The little canal town is really something special — and it looks its best from the water. Canal Skipper Fynn shows you the Dutch town from the waterside, sharing stories about his Friedrichstadt — and the 1621 beer on board is nice and cold. This unique tour is perfect for couples, families, and small groups alike. Welcome on board!',
     startGoal: 'Start & Finish',
     kajueteTitle: 'The',
     kajueteEm: 'Kajüte 1876',
