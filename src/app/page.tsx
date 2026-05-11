@@ -43,7 +43,7 @@ export default function Home() {
             style={{ fontSize: 'clamp(2.4rem, 7vw, 5rem)', color: '#0A1628' }}>
             <span className="uppercase">{t.heroTitle1}</span>
             <br />
-            <em className="italic uppercase" style={{ color: '#7A5200' }}>{t.heroTitle2}</em>
+            <em className="italic uppercase whitespace-nowrap" style={{ color: '#7A5200' }}>{t.heroTitle2}</em>
           </h1>
 
           <p className="font-outfit text-sm md:text-base tracking-wider mb-7 leading-relaxed"
@@ -60,7 +60,7 @@ export default function Home() {
               {t.learnMore}
             </a>
           </div>
-          <p className="mt-4 font-outfit text-xs tracking-wider" style={{ color: 'rgba(10,22,40,0.38)' }}>
+          <p className="mt-4 font-outfit text-sm tracking-wider" style={{ color: 'rgba(10,22,40,0.5)' }}>
             {lang === 'de' ? 'Nur 6 Plätze pro Abfahrt · Oft schnell ausgebucht' : 'Only 6 spots per trip · Often sold out fast'}
           </p>
         </div>
