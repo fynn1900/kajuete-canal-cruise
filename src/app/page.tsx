@@ -252,14 +252,11 @@ export default function Home() {
                     <div>
                       <p className="font-outfit text-xs font-medium text-cream/70">{t.flammkuchenLabel}</p>
                       <p className="font-outfit text-xs text-cream/40">
-                        {(() => {
-                          const now = new Date()
-                          const isThursday = now.getDay() === 4
-                          const afterMay15 = now >= new Date(now.getFullYear(), 4, 16)
-                          return isThursday && afterMay15
-                            ? (lang === 'de' ? '17–22 Uhr' : '5–10 PM')
-                            : (lang === 'de' ? '12–19 Uhr' : 'noon–7 PM')
-                        })()}
+                        {new Date() >= new Date(new Date().getFullYear(), 4, 15)
+                          ? lang === 'de'
+                            ? <><span>donnerstags 17–22 Uhr</span><br /><span>alle anderen Tage 12–19 Uhr</span></>
+                            : <><span>Thursdays 5–10 PM</span><br /><span>all other days noon–7 PM</span></>
+                          : lang === 'de' ? '12–19 Uhr' : 'noon–7 PM'}
                       </p>
                     </div>
                   </div>
