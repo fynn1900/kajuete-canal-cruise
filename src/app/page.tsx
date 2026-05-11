@@ -251,7 +251,11 @@ export default function Home() {
                     <span className="text-amber/60 mt-0.5">🍕</span>
                     <div>
                       <p className="font-outfit text-xs font-medium text-cream/70">{t.flammkuchenLabel}</p>
-                      <p className="font-outfit text-xs text-cream/40">{t.flammkuchenHours}</p>
+                      <p className="font-outfit text-xs text-cream/40">
+                        {new Date() < new Date(new Date().getFullYear(), 4, 26)
+                          ? (lang === 'de' ? `ab 15.5, ${t.flammkuchenHours}` : `from May 15, ${t.flammkuchenHours}`)
+                          : t.flammkuchenHours}
+                      </p>
                     </div>
                   </div>
                   <div className="flex items-start gap-3">
