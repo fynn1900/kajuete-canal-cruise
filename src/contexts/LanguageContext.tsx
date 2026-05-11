@@ -8,7 +8,7 @@ const translations = {
     season: 'bis 30. September 2026',
     // Hero
     heroTitle1: 'Die etwas andere',
-    heroTitle2: 'Grachten-Rundfahrt',
+    heroTitle2: 'Grachten‑Rundfahrt',
     heroSub: 'Täglich 19:00 Uhr · Friedrichstadt · Max. 6 Personen',
     bookSpot: 'Platz sichern',
     learnMore: 'Mehr erfahren',
