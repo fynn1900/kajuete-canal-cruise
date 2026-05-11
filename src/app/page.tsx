@@ -164,11 +164,18 @@ export default function Home() {
               <div className="mb-3 text-3xl">💰</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2">{t.card3Title}</h3>
               <p className="font-outfit text-sm text-cream/55 leading-relaxed">
-                <strong className="text-cream/80 text-base">19 €</strong> {t.card3Adult}
+                <strong className="text-cream/80 text-base">19 €</strong> {t.card3Adult}{' '}
+                <span className="text-amber/60 text-xs">Spende*</span>
                 <br />
                 <strong className="text-amber-light/80 text-base">5 €</strong> {t.card3Kid}
                 <br /><br />
                 <span className="text-cream/40">{t.card3Note}</span>
+                <br />
+                <span className="text-cream/30 text-xs">
+                  {lang === 'de'
+                    ? '* Fynn finanziert sein Studium mit Bootsfahrten.'
+                    : '* Fynn funds his studies through boat tours.'}
+                </span>
               </p>
             </div>
 
