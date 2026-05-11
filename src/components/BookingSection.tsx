@@ -289,7 +289,7 @@ export default function BookingSection() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-outfit text-sm font-medium text-cream">{t.adults}</p>
-                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_ADULT} € {t.card3Adult}</p>
+                      <p className="font-outfit text-xs mt-0.5 text-cream">{PRICE_ADULT} € {t.card3Adult}</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <CounterBtn onClick={() => changeAdults(-1)} disabled={adults <= 1} label="−" />
@@ -302,7 +302,7 @@ export default function BookingSection() {
                   <div className="flex items-center justify-between">
                     <div>
                       <p className="font-outfit text-sm font-medium text-cream">{t.kids}</p>
-                      <p className="font-outfit text-xs mt-0.5" style={{ color: 'rgba(245,237,216,0.3)' }}>{PRICE_KID} € {t.card3Adult}</p>
+                      <p className="font-outfit text-xs mt-0.5 text-cream">{PRICE_KID} € {t.card3Adult}</p>
                     </div>
                     <div className="flex items-center gap-4">
                       <CounterBtn onClick={() => changeKids(-1)} disabled={kids <= 0} label="−" />
