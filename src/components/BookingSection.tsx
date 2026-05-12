@@ -396,29 +396,31 @@ export default function BookingSection() {
 
                 {/* Liability modal */}
                 {liabilityOpen && (
-                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
-                    style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+                  <div className="fixed inset-0 z-50 overflow-y-auto"
+                    style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
                     onClick={() => setLiabilityOpen(false)}>
-                    <div className="rounded-2xl max-w-md w-full max-h-[80vh] p-8"
-                      style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'auto', overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}
-                      onClick={e => e.stopPropagation()}>
-                      <h3 className="font-cormorant text-xl font-semibold text-cream mb-5 leading-snug">{t.liabilityTitle}</h3>
-                      <div className="font-outfit text-sm text-cream leading-relaxed space-y-3 mb-6">
-                        {t.safetyHints.split('\n\n').map((line, i) => (
-                          <p key={i}>{line}</p>
-                        ))}
+                    <div className="flex min-h-full items-center justify-center p-4">
+                      <div className="rounded-2xl max-w-md w-full p-8"
+                        style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)' }}
+                        onClick={e => e.stopPropagation()}>
+                        <h3 className="font-cormorant text-xl font-semibold text-cream mb-5 leading-snug">{t.liabilityTitle}</h3>
+                        <div className="font-outfit text-sm text-cream leading-relaxed space-y-3 mb-6">
+                          {t.safetyHints.split('\n\n').map((line, i) => (
+                            <p key={i}>{line}</p>
+                          ))}
+                        </div>
+                        <div className="border-t mb-6" style={{ borderColor: 'rgba(212,168,67,0.2)' }} />
+                        <div className="font-outfit text-sm text-cream leading-relaxed space-y-4">
+                          {t.liabilityText.split('\n\n').map((block, i) => (
+                            <p key={i} className="whitespace-pre-line">{block}</p>
+                          ))}
+                        </div>
+                        <button onClick={() => { setLiabilityAccepted(true); setLiabilityOpen(false) }}
+                          className="mt-7 w-full rounded-xl py-3 font-outfit text-sm font-medium"
+                          style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.35)', color: '#ECC564' }}>
+                          {t.liabilityCheck}
+                        </button>
                       </div>
-                      <div className="border-t mb-6" style={{ borderColor: 'rgba(212,168,67,0.2)' }} />
-                      <div className="font-outfit text-sm text-cream leading-relaxed space-y-4">
-                        {t.liabilityText.split('\n\n').map((block, i) => (
-                          <p key={i} className="whitespace-pre-line">{block}</p>
-                        ))}
-                      </div>
-                      <button onClick={() => { setLiabilityAccepted(true); setLiabilityOpen(false) }}
-                        className="mt-7 w-full rounded-xl py-3 font-outfit text-sm font-medium"
-                        style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.35)', color: '#ECC564' }}>
-                        {t.liabilityCheck}
-                      </button>
                     </div>
                   </div>
                 )}
