@@ -347,7 +347,7 @@ export default function Home() {
               style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)' }}
               onClick={e => e.stopPropagation()}>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-5">{t.safetyTitle}</h3>
-              <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3">
+              <div className="font-outfit text-base text-cream leading-relaxed space-y-3">
                 {t.safetyHints.split('\n\n').map((line, i) => (
                   <p key={i}>{line}</p>
                 ))}
