@@ -383,7 +383,7 @@ export default function BookingSection() {
                     }}>
                     {liabilityAccepted && <span style={{ color: '#ECC564', fontSize: '12px', lineHeight: 1 }}>✓</span>}
                   </button>
-                  <p className="font-outfit text-xs leading-relaxed" style={{ color: 'rgba(245,237,216,0.5)' }}>
+                  <p className="font-outfit text-sm leading-relaxed" style={{ color: '#F5EDD8' }}>
                     {lang === 'de' ? 'Ich habe die ' : 'I have read the '}
                     <button type="button" onClick={() => setLiabilityOpen(true)}
                       className="underline underline-offset-2"
