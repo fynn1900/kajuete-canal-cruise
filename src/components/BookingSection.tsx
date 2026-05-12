@@ -60,6 +60,11 @@ export default function BookingSection() {
   const [liabilityAccepted, setLiabilityAccepted] = useState(false)
   const [liabilityOpen, setLiabilityOpen] = useState(false)
 
+  useEffect(() => {
+    document.body.style.overflow = liabilityOpen ? 'hidden' : ''
+    return () => { document.body.style.overflow = '' }
+  }, [liabilityOpen])
+
   const totalPersons = adults + kids
   const totalPrice = adults * PRICE_ADULT + kids * PRICE_KID
 
@@ -395,9 +400,8 @@ export default function BookingSection() {
                     style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
                     onClick={() => setLiabilityOpen(false)}>
                     <div className="rounded-2xl max-w-md w-full max-h-[80vh] p-8"
-                      style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'auto', overscrollBehavior: 'contain' }}
-                      onClick={e => e.stopPropagation()}
-                      onTouchMove={e => e.stopPropagation()}>
+                      style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'auto', overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' }}
+                      onClick={e => e.stopPropagation()}>
                       <h3 className="font-cormorant text-xl font-semibold text-cream mb-5 leading-snug">{t.liabilityTitle}</h3>
                       <div className="font-outfit text-sm text-cream leading-relaxed space-y-3 mb-6">
                         {t.safetyHints.split('\n\n').map((line, i) => (
