@@ -34,7 +34,7 @@ const config: Config = {
         'wave-slow': 'wave 12s linear infinite',
         'wave-mid': 'wave 9s linear infinite reverse',
         'wave-fast': 'wave 6s linear infinite',
-        'float': 'boatRock 5s ease-in-out infinite',
+        'float': 'boatRock 5s linear infinite',
         'fade-up': 'fadeUp 0.8s ease forwards',
         'shimmer': 'shimmer 2.5s ease-in-out infinite',
       },
