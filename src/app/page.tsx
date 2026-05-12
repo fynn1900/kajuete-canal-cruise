@@ -207,8 +207,11 @@ export default function Home() {
             <em className="gold-text">{t.descQuoteEm}</em>
           </blockquote>
 
-          <p className="font-outfit text-base text-cream leading-relaxed max-w-xl mx-auto">
+          <p className="font-outfit text-base text-cream leading-relaxed max-w-xl mx-auto mb-5">
             {t.descText}
+          </p>
+          <p className="font-outfit text-base text-cream leading-relaxed max-w-xl mx-auto">
+            {t.descText2}
           </p>
 
           <div className="rope-divider mt-6 w-24 mx-auto" />

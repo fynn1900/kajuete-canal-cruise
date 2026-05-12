@@ -443,12 +443,7 @@ export default function BookingSection() {
           )}
         </div>
 
-        <p className="font-outfit text-sm text-center mt-4 leading-relaxed text-cream">
-          {lang === 'de'
-            ? '* Fynn finanziert sein Studium u.a. mit Bootsfahrten — die Preise sind eine Spende.'
-            : '* Fynn funds his studies (among other things) through boat tours — the prices are a donation.'}
-        </p>
-        <p className="font-outfit text-sm text-center mt-2 leading-relaxed text-cream">
+        <p className="font-outfit text-xs text-center mt-5 leading-relaxed" style={{ color: 'rgba(245,237,216,0.2)' }}>
           {t.footerNote}
         </p>
       </div>
