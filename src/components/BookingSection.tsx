@@ -397,13 +397,11 @@ export default function BookingSection() {
                     <div className="rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto p-8"
                       style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)' }}
                       onClick={e => e.stopPropagation()}>
-                      <h3 className="font-cormorant text-2xl font-medium text-cream mb-3">{t.safetyTitle}</h3>
-                      <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3 mb-5">
-                        {t.safetyHints.split('\n\n').map((line, i) => <p key={i}>{line}</p>)}
-                      </div>
-                      <h4 className="font-cormorant text-xl font-medium text-cream mb-3">{t.liabilityTitle}</h4>
-                      <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3">
-                        {t.liabilityText.split('\n\n').map((line, i) => <p key={i}>{line}</p>)}
+                      <h3 className="font-cormorant text-xl font-semibold text-cream mb-5 leading-snug">{t.liabilityTitle}</h3>
+                      <div className="font-outfit text-sm text-cream leading-relaxed space-y-4 whitespace-pre-line">
+                        {t.liabilityText.split('\n\n').map((block, i) => (
+                          <p key={i} className="whitespace-pre-line">{block}</p>
+                        ))}
                       </div>
                       <button onClick={() => { setLiabilityAccepted(true); setLiabilityOpen(false) }}
                         className="mt-7 w-full rounded-xl py-3 font-outfit text-sm font-medium"
