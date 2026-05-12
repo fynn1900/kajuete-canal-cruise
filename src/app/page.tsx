@@ -164,18 +164,11 @@ export default function Home() {
               <div className="mb-3 text-3xl">💰</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2 uppercase">{t.card3Title}</h3>
               <p className="font-outfit text-sm text-cream leading-relaxed">
-                <strong className="text-cream text-base">19 €</strong> {t.card3Adult}{' '}
-                <span className="text-amber text-xs">Spende*</span>
+                <strong className="text-cream text-base">19 €</strong> {t.card3Adult}
                 <br />
                 <strong className="text-amber-light text-base">5 €</strong> {t.card3Kid}
                 <br /><br />
                 <span className="text-cream/70">{t.card3Note}</span>
-                <br />
-                <span className="text-cream/60 text-sm">
-                  {lang === 'de'
-                    ? '* Fynn finanziert sein Studium u.a. mit Bootsfahrten.'
-                    : '* Fynn funds his studies (among other things) through boat tours.'}
-                </span>
               </p>
             </div>
 
@@ -281,6 +274,13 @@ export default function Home() {
                       <p className="font-outfit text-xs text-cream/70">{t.gardenDesc}</p>
                     </div>
                   </div>
+                </div>
+
+                <div className="flex items-center gap-2 mb-5">
+                  <span className="font-outfit text-xs px-3 py-1 rounded-full"
+                    style={{ background: 'rgba(239,68,68,0.1)', color: '#fca5a5', border: '1px solid rgba(239,68,68,0.2)' }}>
+                    {t.antifa}
+                  </span>
                 </div>
 
                 <a

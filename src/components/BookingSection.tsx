@@ -340,10 +340,7 @@ export default function BookingSection() {
                   <span className="font-outfit text-sm" style={{ color: 'rgba(245,237,216,0.45)' }}>
                     {totalPersons} {t.persons} · {t.cashNote}
                   </span>
-                  <span className="flex items-baseline gap-1.5">
-                    <span className="font-cormorant text-2xl font-semibold gold-text">{totalPrice} €</span>
-                    <span className="font-outfit text-sm font-medium text-cream">Spende*</span>
-                  </span>
+                  <span className="font-cormorant text-2xl font-semibold gold-text">{totalPrice} €</span>
                 </div>
               )}
 
