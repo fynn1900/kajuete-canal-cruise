@@ -395,10 +395,17 @@ export default function BookingSection() {
                     style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
                     onClick={() => setLiabilityOpen(false)}>
                     <div className="rounded-2xl max-w-md w-full max-h-[80vh] p-8"
-                      style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'scroll', overscrollBehavior: 'contain', WebkitOverflowScrolling: 'touch' as 'touch' }}
-                      onClick={e => e.stopPropagation()}>
+                      style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'auto', overscrollBehavior: 'contain' }}
+                      onClick={e => e.stopPropagation()}
+                      onTouchMove={e => e.stopPropagation()}>
                       <h3 className="font-cormorant text-xl font-semibold text-cream mb-5 leading-snug">{t.liabilityTitle}</h3>
-                      <div className="font-outfit text-sm text-cream leading-relaxed space-y-4 whitespace-pre-line">
+                      <div className="font-outfit text-sm text-cream leading-relaxed space-y-3 mb-6">
+                        {t.safetyHints.split('\n\n').map((line, i) => (
+                          <p key={i}>{line}</p>
+                        ))}
+                      </div>
+                      <div className="border-t mb-6" style={{ borderColor: 'rgba(212,168,67,0.2)' }} />
+                      <div className="font-outfit text-sm text-cream leading-relaxed space-y-4">
                         {t.liabilityText.split('\n\n').map((block, i) => (
                           <p key={i} className="whitespace-pre-line">{block}</p>
                         ))}

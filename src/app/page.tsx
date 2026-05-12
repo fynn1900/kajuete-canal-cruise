@@ -338,8 +338,9 @@ export default function Home() {
           style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
           onClick={() => setSafetyOpen(false)}>
           <div className="rounded-2xl max-w-md w-full max-h-[80vh] p-8"
-            style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'scroll', overscrollBehavior: 'contain' }}
-            onClick={e => e.stopPropagation()}>
+            style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)', overflowY: 'auto', overscrollBehavior: 'contain' }}
+            onClick={e => e.stopPropagation()}
+            onTouchMove={e => e.stopPropagation()}>
             <h3 className="font-cormorant text-2xl font-medium text-cream mb-5">{t.safetyTitle}</h3>
             <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3">
               {t.safetyHints.split('\n\n').map((line, i) => (
