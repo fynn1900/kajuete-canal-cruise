@@ -316,7 +316,7 @@ export default function BookingSection() {
                 </div>
 
                 {totalPersons < MIN_TOTAL && (
-                  <p className="font-outfit text-xs mt-2 px-1 leading-relaxed" style={{ color: 'rgba(252,165,165,0.7)' }}>
+                  <p className="font-outfit text-xs mt-2 px-1 leading-relaxed text-cream">
                     {totalPersons === 1
                       ? (lang === 'de'
                           ? 'Alleine? Schau später nochmal rein — sobald sich jemand dazubucht, kannst du solo mitfahren.'
