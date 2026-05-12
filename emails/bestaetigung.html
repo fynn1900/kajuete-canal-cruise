@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="de">
+<head><meta charset="UTF-8" /><title>Reservierung</title></head>
+<body style="margin:0;padding:0;background-color:#0a1628;font-family:Arial,Helvetica,sans-serif;">
+<table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a1628;padding:32px 16px;">
+<tr><td align="center">
+<table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%;">
+
+  <!-- HEADER -->
+  <tr>
+    <td align="center" style="background:linear-gradient(180deg,#ffffff 0%,#c2e2f5 60%,#79b8da 100%);border-radius:16px 16px 0 0;padding:40px 32px 32px;">
+      <img src="https://kajuete-canal-cruise.vercel.app/logo_new.png" alt="1621-Bier & Grachtenfahrt – Kajüte 1876" width="260"
+style="width:260px;height:auto;display:block;margin:0 auto;" />
+    </td>
+  </tr>
+
+  <!-- BEGRÜSSUNG -->
+  <tr>
+    <td style="background-color:#132240;padding:32px 32px 24px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <p style="margin:0 0 6px 0;font-size:11px;letter-spacing:0.15em;text-transform:uppercase;color:#D4A843;">Reservierung best&#xE4;tigt &#9875;</p>
+      <h1 style="margin:0 0 16px 0;font-size:28px;font-weight:300;color:#F5EDD8;line-height:1.2;">Ahoi, {{ $('Webhook').item.json.body.contact_name }}!</h1>
+      <p style="margin:0;font-size:15px;color:rgba(245,237,216,0.65);line-height:1.6;">Deine Reservierung f&#xFC;r die 1621-Bier &amp; Grachtenfahrt ist eingegangen. Wir freuen uns auf dich!</p>
+    </td>
+  </tr>
+
+  <!-- BUCHUNGSDETAILS -->
+  <tr>
+    <td style="background-color:#132240;padding:0 32px 24px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a1628;border-radius:12px;border:1px solid rgba(212,168,67,0.25);border-top:2px solid #D4A843;">
+        <tr>
+          <td style="padding:16px 24px 4px;">
+            <p style="margin:0;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(212,168,67,0.6);">Deine Buchung</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <table width="100%" cellpadding="0" cellspacing="0"><tr>
+              <td style="font-size:12px;color:rgba(245,237,216,0.4);width:110px;">&#128197; Datum</td>
+              <td style="font-size:15px;color:#F5EDD8;font-weight:bold;">{{ $('Webhook').item.json.body.booking_date.split('-').reverse().join('.') }}</td>
+            </tr></table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <table width="100%" cellpadding="0" cellspacing="0"><tr>
+              <td style="font-size:12px;color:rgba(245,237,216,0.4);width:110px;">&#128566; Uhrzeit</td>
+              <td style="font-size:15px;color:#F5EDD8;font-weight:bold;">19:00 Uhr</td>
+            </tr></table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:12px 24px;border-bottom:1px solid rgba(255,255,255,0.05);">
+            <table width="100%" cellpadding="0" cellspacing="0"><tr>
+              <td style="font-size:12px;color:rgba(245,237,216,0.4);width:110px;">&#128205; Treffpunkt</td>
+              <td style="font-size:15px;color:#F5EDD8;">Kaj&#xFC;te 1876<br/><span style="font-size:13px;color:rgba(245,237,216,0.5);">Holmertorstrasse 11 &middot; 25840 Friedrichstadt</span></td>
+            </tr></table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:12px 24px 20px;">
+            <table width="100%" cellpadding="0" cellspacing="0"><tr>
+              <td style="font-size:12px;color:rgba(245,237,216,0.4);width:110px;">&#128101; Personen</td>
+              <td style="font-size:15px;color:#F5EDD8;">{{ $('Webhook').item.json.body.adults_count }}&times; Erwachsene &middot; {{ $('Webhook').item.json.body.kids_count }}&times; Kids</td>
+            </tr></table>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- PREISÜBERSICHT -->
+  <tr>
+    <td style="background-color:#132240;padding:0 32px 24px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a1628;border-radius:12px;border:1px solid rgba(212,168,67,0.25);">
+        <tr>
+          <td style="padding:14px 24px 10px;border-bottom:1px solid rgba(255,255,255,0.06);">
+            <p style="margin:0;font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:rgba(212,168,67,0.6);">Preis&#xFC;bersicht</p>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:14px 24px 4px;">
+            <table width="100%" cellpadding="5" cellspacing="0">
+              <tr>
+                <td style="font-size:14px;color:rgba(245,237,216,0.65);">{{ $('Webhook').item.json.body.adults_count }}&times; Erwachsene &amp; ab 8 Jahren</td>
+                <td align="right" style="font-size:14px;color:#F5EDD8;white-space:nowrap;"><strong>{{ $('Webhook').item.json.body.adults_count * 19 }} &euro;</strong></td>
+              </tr>
+              <tr>
+                <td style="font-size:14px;color:rgba(245,237,216,0.65);">{{ $('Webhook').item.json.body.kids_count }}&times; Kids (2&#x2013;7 Jahre)</td>
+                <td align="right" style="font-size:14px;color:#F5EDD8;white-space:nowrap;"><strong>{{ $('Webhook').item.json.body.kids_count * 5 }} &euro;</strong></td>
+              </tr>
+              <tr>
+                <td colspan="2" style="padding-top:10px;border-top:1px solid rgba(212,168,67,0.2);"></td>
+              </tr>
+              <tr>
+                <td style="font-size:16px;color:#D4A843;font-weight:bold;padding-top:6px;">Gesamt</td>
+                <td align="right" style="font-size:22px;color:#D4A843;font-weight:bold;padding-top:6px;">{{ $('Webhook').item.json.body.adults_count * 19 + $('Webhook').item.json.body.kids_count * 5 }} &euro;</td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td style="padding:12px 24px 16px;">
+            <p style="margin:0;font-size:12px;color:rgba(245,237,216,0.35);">&#128181; Bezahlung in der Kaj&#xFC;te &middot; keine Vorauszahlung n&#xF6;tig</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- GUT ZU WISSEN -->
+  <tr>
+    <td style="background-color:#132240;padding:0 32px 24px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:rgba(212,168,67,0.06);border-radius:12px;border:1px solid rgba(212,168,67,0.18);">
+        <tr>
+          <td style="padding:18px 24px;">
+            <p style="margin:0 0 12px 0;font-size:13px;font-weight:bold;color:#ECC564;">Gut zu wissen</p>
+            <p style="margin:0 0 8px 0;font-size:13px;color:rgba(245,237,216,0.6);line-height:1.5;">&#9728;&#65039; <strong style="color:rgba(245,237,216,0.85);">Nur bei gutem Wetter</strong> &#8212; offenes Boot, mind. 14&#xB0;C. Bei Schlechtwetter melden wir uns bei dir.</p>
+            <p style="margin:0;font-size:13px;color:rgba(245,237,216,0.6);line-height:1.5;">&#127866; <strong style="color:rgba(245,237,216,0.85);">Inklusive:</strong> 1&times; 1621 Bier oder Softdrink pro Person &middot; Grachtenmusik an Bord</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- VOR DER FAHRT -->
+  <tr>
+    <td style="background-color:#132240;padding:0 32px 24px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a1628;border-radius:12px;border:1px solid rgba(255,255,255,0.07);">
+        <tr>
+          <td style="padding:18px 24px 12px;">
+            <p style="margin:0 0 8px 0;font-size:13px;font-weight:bold;color:#F5EDD8;">&#127869;&#65039; Schon um 18 Uhr da?</p>
+            <p style="margin:0 0 16px 0;font-size:13px;color:rgba(245,237,216,0.5);line-height:1.5;">Viele kommen vorher zum Flammkuchen in die Kaj&#xFC;te oder in den Grachtengarten &#8212; und steigen dann direkt aufs Boot.</p>
+          </td>
+        </tr>
+        <tr>
+          <td align="center" style="padding:0 24px 20px;">
+            <a href="https://tally.so/r/9q6Wp1" style="display:inline-block;background:linear-gradient(135deg,#D4A843 0%,#F0C96E 100%);color:#0a1628;font-size:14px;font-weight:bold;letter-spacing:0.05em;text-decoration:none;padding:12px 32px;border-radius:999px;">
+              Tisch reservieren &rarr;
+            </a>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- ABSAGE / STORNO -->
+  <tr>
+    <td style="background-color:#132240;padding:0 32px 24px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a1628;border-radius:12px;border:1px solid rgba(248,113,113,0.2);">
+        <tr>
+          <td style="padding:18px 24px;">
+            <p style="margin:0 0 12px 0;font-size:13px;font-weight:bold;color:#fca5a5;">&#9940; Absage &amp; Schlechtwetter</p>
+            <p style="margin:0 0 8px 0;font-size:13px;color:rgba(245,237,216,0.6);line-height:1.5;">Falls die Fahrt wegen schlechtem Wetter nicht stattfinden kann, melden wir uns <strong style="color:rgba(245,237,216,0.85);">sp&#xE4;testens bis 17:00 Uhr</strong> per E-Mail bei dir.</p>
+            <p style="margin:0 0 8px 0;font-size:13px;color:rgba(245,237,216,0.6);line-height:1.5;">Da keine Vorauszahlung stattfindet, entstehen bei dir <strong style="color:rgba(245,237,216,0.85);">keinerlei Kosten</strong> bei einer Absage.</p>
+            <p style="margin:0;font-size:13px;color:rgba(245,237,216,0.6);line-height:1.5;">Du kannst deine Reservierung jederzeit formlos per E-Mail stornieren: <a href="mailto:kontakt@kajuete1876.de" style="color:#D4A843;text-decoration:none;">kontakt@kajuete1876.de</a></p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- HAFTUNGSAUSSCHLUSS BESTÄTIGUNG -->
+  <tr>
+    <td style="background-color:#132240;padding:0 32px 32px;border-left:1px solid rgba(212,168,67,0.2);border-right:1px solid rgba(212,168,67,0.2);">
+      <table width="100%" cellpadding="0" cellspacing="0" style="background-color:#0a1628;border-radius:12px;border:1px solid rgba(255,255,255,0.07);">
+        <tr>
+          <td style="padding:16px 24px;">
+            <p style="margin:0 0 6px 0;font-size:12px;font-weight:bold;color:rgba(245,237,216,0.5);">&#10003; Sicherheitshinweise &amp; Haftungsausschluss akzeptiert</p>
+            <p style="margin:0;font-size:12px;color:rgba(245,237,216,0.3);line-height:1.5;">Mit dieser Reservierung hast du die Sicherheitshinweise und den Haftungsausschluss f&#xFC;r die 1621-Bier &amp; Grachtenfahrt der Kaj&#xFC;te 1876 gelesen und akzeptiert. Die Einwilligungserklärung gilt f&#xFC;r dich und alle Teilnehmer deiner Gruppe.</p>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+
+  <!-- FOOTER -->
+  <tr>
+    <td align="center" style="background-color:#050e1c;border-radius:0 0 16px 16px;padding:24px 32px;border:1px solid rgba(212,168,67,0.15);border-top:1px solid rgba(255,255,255,0.05);">
+      <p style="margin:0 0 4px 0;font-size:15px;color:rgba(245,237,216,0.4);">Kaj&#xFC;te 1876 &middot; Friedrichstadt</p>
+      <p style="margin:0 0 4px 0;font-size:12px;color:rgba(245,237,216,0.25);letter-spacing:0.08em;text-transform:uppercase;">Skipper Fynn &middot; T&#xE4;glich 19:00 Uhr &middot; 11. Mai &#x2013; 30. September</p>
+      <p style="margin:0 0 20px 0;font-size:12px;color:rgba(245,237,216,0.2);">Holmertorstrasse 11 &middot; 25840 Friedrichstadt &middot; kontakt@kajuete1876.de</p>
+      <p style="margin:0;font-size:11px;color:rgba(245,237,216,0.2);">Website &amp; Buchungssystem von <a href="https://optriq.de" style="color:rgba(212,168,67,0.5);text-decoration:none;font-weight:bold;letter-spacing:0.06em;">OPTRIQ</a></p>
+    </td>
+  </tr>
+
+</table>
+</td></tr>
+</table>
+</body>
+</html>
