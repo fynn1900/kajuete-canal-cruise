@@ -57,6 +57,8 @@ export default function BookingSection() {
   const [submitting, setSubmitting] = useState(false)
   const [success, setSuccess] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
+  const [liabilityAccepted, setLiabilityAccepted] = useState(false)
+  const [liabilityOpen, setLiabilityOpen] = useState(false)
 
   const totalPersons = adults + kids
   const totalPrice = adults * PRICE_ADULT + kids * PRICE_KID
@@ -115,13 +117,14 @@ export default function BookingSection() {
     e.preventDefault()
     if (!name.trim()) { setFormError(t.nameError); return }
     if (totalPersons < MIN_TOTAL) { setFormError(t.minError); return }
+    if (!liabilityAccepted) { setFormError(t.liabilityRequired); return }
     setFormError(null)
     setSubmitting(true)
     try {
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ booking_date: date, group_size: totalPersons, contact_name: name, email, adults_count: adults, kids_count: kids }),
+        body: JSON.stringify({ booking_date: date, group_size: totalPersons, contact_name: name, email, adults_count: adults, kids_count: kids, liability_accepted: true }),
       })
       let data: { error?: string; success?: boolean } = {}
       try { data = await res.json() } catch { data = { error: `Fehler ${res.status}` } }
@@ -366,6 +369,54 @@ export default function BookingSection() {
                     style={{ fontSize: '16px' }} />
                 </div>
 
+                {/* Liability checkbox */}
+                <div className="flex items-start gap-3 py-1">
+                  <button type="button"
+                    onClick={() => setLiabilityAccepted(v => !v)}
+                    className="mt-0.5 w-5 h-5 rounded flex-shrink-0 flex items-center justify-center"
+                    style={{
+                      background: liabilityAccepted ? 'rgba(212,168,67,0.2)' : 'rgba(255,255,255,0.05)',
+                      border: `1.5px solid ${liabilityAccepted ? 'rgba(212,168,67,0.6)' : 'rgba(255,255,255,0.15)'}`,
+                      transition: 'all 0.15s',
+                    }}>
+                    {liabilityAccepted && <span style={{ color: '#ECC564', fontSize: '12px', lineHeight: 1 }}>✓</span>}
+                  </button>
+                  <p className="font-outfit text-xs leading-relaxed" style={{ color: 'rgba(245,237,216,0.5)' }}>
+                    {lang === 'de' ? 'Ich habe die ' : 'I have read the '}
+                    <button type="button" onClick={() => setLiabilityOpen(true)}
+                      className="underline underline-offset-2"
+                      style={{ color: 'rgba(212,168,67,0.7)', background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
+                      {t.liabilityLink}
+                    </button>
+                    {lang === 'de' ? ' gelesen und akzeptiert.' : ' and accept the conditions.'}
+                  </p>
+                </div>
+
+                {/* Liability modal */}
+                {liabilityOpen && (
+                  <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+                    style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+                    onClick={() => setLiabilityOpen(false)}>
+                    <div className="rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto p-8"
+                      style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)' }}
+                      onClick={e => e.stopPropagation()}>
+                      <h3 className="font-cormorant text-2xl font-medium text-cream mb-3">{t.safetyTitle}</h3>
+                      <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3 mb-5">
+                        {t.safetyHints.split('\n\n').map((line, i) => <p key={i}>{line}</p>)}
+                      </div>
+                      <h4 className="font-cormorant text-xl font-medium text-cream mb-3">{t.liabilityTitle}</h4>
+                      <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3">
+                        {t.liabilityText.split('\n\n').map((line, i) => <p key={i}>{line}</p>)}
+                      </div>
+                      <button onClick={() => { setLiabilityAccepted(true); setLiabilityOpen(false) }}
+                        className="mt-7 w-full rounded-xl py-3 font-outfit text-sm font-medium"
+                        style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.35)', color: '#ECC564' }}>
+                        {t.liabilityCheck}
+                      </button>
+                    </div>
+                  </div>
+                )}
+
                 {formError && (
                   <p className="font-outfit text-sm rounded-lg px-4 py-2"
                     style={{ color: '#f87171', background: 'rgba(248,113,113,0.08)', border: '1px solid rgba(248,113,113,0.2)' }}>
@@ -373,7 +424,7 @@ export default function BookingSection() {
                   </p>
                 )}
 
-                <button type="submit" disabled={submitting || totalPersons < MIN_TOTAL || (avState !== 'ready' && avState !== 'idle')}
+                <button type="submit" disabled={submitting || totalPersons < MIN_TOTAL || !liabilityAccepted || (avState !== 'ready' && avState !== 'idle')}
                   className="btn-primary w-full rounded-xl py-4 text-sm disabled:opacity-40 disabled:cursor-not-allowed">
                   <span>{submitting ? t.submitting : t.submitBtn}</span>
                 </button>

@@ -34,7 +34,7 @@ const config: Config = {
         'wave-slow': 'wave 12s linear infinite',
         'wave-mid': 'wave 9s linear infinite reverse',
         'wave-fast': 'wave 6s linear infinite',
-        'float': 'float 4s ease-in-out infinite',
+        'float': 'boatRock 5s ease-in-out infinite',
         'fade-up': 'fadeUp 0.8s ease forwards',
         'shimmer': 'shimmer 2.5s ease-in-out infinite',
       },
@@ -43,9 +43,11 @@ const config: Config = {
           '0%': { transform: 'translateX(0)' },
           '100%': { transform: 'translateX(-50%)' },
         },
-        float: {
-          '0%, 100%': { transform: 'translateY(0px)' },
-          '50%': { transform: 'translateY(-12px)' },
+        boatRock: {
+          '0%, 100%': { transform: 'translateY(0px) rotate(-1.2deg)' },
+          '25%':       { transform: 'translateY(-9px) rotate(0deg)' },
+          '50%':       { transform: 'translateY(-14px) rotate(1.2deg)' },
+          '75%':       { transform: 'translateY(-7px) rotate(0deg)' },
         },
         fadeUp: {
           '0%': { opacity: '0', transform: 'translateY(30px)' },

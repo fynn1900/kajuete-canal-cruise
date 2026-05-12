@@ -40,7 +40,7 @@ async function notifyN8n(payload: {
 export async function POST(req: NextRequest) {
   try {
     const body = await req.json()
-    const { booking_date, group_size, contact_name, email, adults_count, kids_count } = body
+    const { booking_date, group_size, contact_name, email, adults_count, kids_count, liability_accepted } = body
 
     if (!booking_date || !group_size || !contact_name) {
       return NextResponse.json({ error: 'Fehlende Pflichtfelder' }, { status: 400 })
@@ -76,7 +76,7 @@ export async function POST(req: NextRequest) {
 
     const { data, error: insertError } = await db
       .from('canal_cruise_bookings')
-      .insert({ booking_date, group_size, contact_name, email: email || null, adults_count: adults_count || null, kids_count: kids_count || null })
+      .insert({ booking_date, group_size, contact_name, email: email || null, adults_count: adults_count || null, kids_count: kids_count || null, liability_accepted: liability_accepted === true })
       .select()
       .single()
 

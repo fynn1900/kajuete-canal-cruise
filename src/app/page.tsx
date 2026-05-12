@@ -1,11 +1,13 @@
 'use client'
 
 import Image from 'next/image'
+import { useState } from 'react'
 import BookingSection from '@/components/BookingSection'
 import { useLanguage } from '@/contexts/LanguageContext'
 
 export default function Home() {
   const { t, lang } = useLanguage()
+  const [safetyOpen, setSafetyOpen] = useState(false)
 
   return (
     <main className="min-h-screen bg-navy">
@@ -20,11 +22,11 @@ export default function Home() {
         <div className="flex justify-center pt-24 pb-4">
           <div className="animate-float">
             <Image
-              src="/logo_transparent.png"
-              alt="Skipper Fynn – Kajüte 1876"
+              src="/logo_new.png"
+              alt="1621-Bier & Grachtenfahrt – Kajüte 1876"
               width={520}
               height={420}
-              style={{ width: 'clamp(200px, 60vw, 400px)', height: 'auto', display: 'block' }}
+              style={{ width: 'clamp(220px, 65vw, 480px)', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
               priority
             />
           </div>
@@ -281,14 +283,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="flex items-center gap-2 mb-5">
-                  <span className="font-outfit text-xs px-3 py-1 rounded-full"
-                    style={{ background: 'rgba(239,68,68,0.1)', color: '#fca5a5', border: '1px solid rgba(239,68,68,0.2)' }}>
-                    {t.antifa}
-                  </span>
-                </div>
-
-                <a
+                <
                   href="https://app.xn--diekajte-c6a.de/website/"
                   target="_blank"
                   rel="noopener noreferrer"
@@ -318,9 +313,6 @@ export default function Home() {
                 >
                   <span>{t.tableBook}</span>
                 </a>
-                <p className="font-outfit text-xs text-cream mt-3">
-                  {t.tableNote}
-                </p>
               </div>
             </div>
           </div>
@@ -337,6 +329,29 @@ export default function Home() {
       {/* ══════════════════════════════════════
           FOOTER
       ══════════════════════════════════════ */}
+      {/* Safety Modal */}
+      {safetyOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4"
+          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)' }}
+          onClick={() => setSafetyOpen(false)}>
+          <div className="rounded-2xl max-w-md w-full max-h-[80vh] overflow-y-auto p-8"
+            style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)' }}
+            onClick={e => e.stopPropagation()}>
+            <h3 className="font-cormorant text-2xl font-medium text-cream mb-5">{t.safetyTitle}</h3>
+            <div className="font-outfit text-sm text-cream/60 leading-relaxed space-y-3">
+              {t.safetyHints.split('\n\n').map((line, i) => (
+                <p key={i}>{line}</p>
+              ))}
+            </div>
+            <button onClick={() => setSafetyOpen(false)}
+              className="mt-7 w-full rounded-xl py-3 font-outfit text-sm font-medium"
+              style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', color: '#ECC564' }}>
+              Schließen
+            </button>
+          </div>
+        </div>
+      )}
+
       <footer className="py-10 px-4 text-center border-t border-cream/5" style={{ background: '#050e1c' }}>
         <div className="flex items-center justify-center gap-4 mb-4">
           <div className="w-10 h-10 rounded-xl overflow-hidden opacity-60 border border-amber/20 bg-white flex items-center justify-center">
@@ -350,6 +365,13 @@ export default function Home() {
         <p className="font-outfit text-xs text-cream mt-2">
           {t.footerAddress}
         </p>
+        <div className="mt-4">
+          <button onClick={() => setSafetyOpen(true)}
+            className="font-outfit text-xs underline underline-offset-2"
+            style={{ color: 'rgba(245,237,216,0.25)', background: 'none', border: 'none', cursor: 'pointer' }}>
+            {t.safetyTitle}
+          </button>
+        </div>
         <div className="rope-divider w-16 mx-auto mt-6 opacity-20" />
         <div className="mt-8">
           <a
