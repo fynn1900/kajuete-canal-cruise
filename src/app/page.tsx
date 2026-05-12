@@ -283,7 +283,7 @@ export default function Home() {
                   </div>
                 </div>
 
-                <
+                <a
                   href="https://app.xn--diekajte-c6a.de/website/"
                   target="_blank"
                   rel="noopener noreferrer"
