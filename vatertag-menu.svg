@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg"
+     width="1240" height="1754"
+     viewBox="0 0 1240 1754">
+  <rect width="1240" height="1754" fill="#fffaf0"/>
+
+  <!-- Doppelter Rahmen -->
+  <rect x="90" y="90" width="1060" height="1574"
+        fill="none" stroke="#14110d" stroke-width="2"/>
+  <rect x="112" y="112" width="1016" height="1530"
+        fill="none" stroke="#14110d" stroke-width="1"/>
+
+  <!-- Kicker: Datum -->
+  <text x="620" y="230" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="22" letter-spacing="8" fill="#14110d">
+    DONNERSTAG · 14. MAI 2026
+  </text>
+
+  <!-- Titel -->
+  <text x="620" y="350" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="120" fill="#14110d">
+    Menü
+  </text>
+  <text x="620" y="400" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="22" letter-spacing="12" fill="#14110d">
+    ZUM
+  </text>
+  <text x="620" y="520" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="120" fill="#14110d">
+    Vatertag
+  </text>
+
+  <!-- Widmung -->
+  <text x="620" y="585" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="30" fill="#4a4236">
+    — für Papa, mit Liebe —
+  </text>
+
+  <!-- Zier-Linie -->
+  
+  <line x1="550" y1="645" x2="690" y2="645" stroke="#14110d" stroke-width="1.5"/>
+  <polygon points="543,645 550,638 557,645 550,652" fill="#14110d"/>
+  <polygon points="683,645 690,638 697,645 690,652" fill="#14110d"/>
+
+  <!-- ─────────── Vorspeise ─────────── -->
+  
+  <text x="620" y="740" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="26" fill="#4a4236">
+    I
+  </text>
+  <text x="620" y="775" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="20" letter-spacing="10" fill="#14110d">
+    VORSPEISE
+  </text>
+  <text x="620" y="830" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="48" fill="#14110d">
+    Lieblinge &amp; Nicht-Lieblinge
+  </text>
+  <text x="620" y="870" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="24" fill="#4a4236">
+    Eine kleine Auswahl an Köstlichkeiten —
+  </text>
+  <text x="620" y="900" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="24" fill="#4a4236">
+    das eine oder andere darf liegen bleiben.
+  </text>
+
+  
+  <line x1="512" y1="950" x2="602" y2="950" stroke="#14110d" stroke-width="1"/>
+  <text x="620" y="956" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="14" fill="#14110d">◆</text>
+  <line x1="638" y1="950" x2="728" y2="950" stroke="#14110d" stroke-width="1"/>
+
+  <!-- ─────────── Hauptgang ─────────── -->
+  
+  <text x="620" y="1030" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="26" fill="#4a4236">
+    II
+  </text>
+  <text x="620" y="1065" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="20" letter-spacing="10" fill="#14110d">
+    HAUPTGANG
+  </text>
+  <text x="620" y="1120" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="48" fill="#14110d">
+    Sansibars Lachsnudeln
+  </text>
+  <text x="620" y="1160" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="24" fill="#4a4236">
+    Hausgemacht, mit ganz viel
+  </text>
+  <text x="620" y="1190" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="24" fill="#4a4236">
+    Herz aus der Küche.
+  </text>
+
+  
+  <line x1="512" y1="1240" x2="602" y2="1240" stroke="#14110d" stroke-width="1"/>
+  <text x="620" y="1246" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="14" fill="#14110d">◆</text>
+  <line x1="638" y1="1240" x2="728" y2="1240" stroke="#14110d" stroke-width="1"/>
+
+  <!-- ─────────── Nachtisch ─────────── -->
+  
+  <text x="620" y="1320" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="26" fill="#4a4236">
+    III
+  </text>
+  <text x="620" y="1355" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="20" letter-spacing="10" fill="#14110d">
+    NACHTISCH
+  </text>
+  <text x="620" y="1410" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="48" fill="#14110d">
+    Aniks Schokoladenkuchen
+  </text>
+  <text x="620" y="1450" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="24" fill="#4a4236">
+    Süßer Abschluss
+  </text>
+  <text x="620" y="1480" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="24" fill="#4a4236">
+    eines schönen Tages.
+  </text>
+
+  <!-- Fußzeile -->
+  
+  <line x1="550" y1="1500" x2="690" y2="1500" stroke="#14110d" stroke-width="1.5"/>
+  <polygon points="543,1500 550,1493 557,1500 550,1507" fill="#14110d"/>
+  <polygon points="683,1500 690,1493 697,1500 690,1507" fill="#14110d"/>
+  <text x="620" y="1555" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="32" fill="#14110d">
+    Guten Appetit, lieber Papa
+  </text>
+  <text x="620" y="1605" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-size="32" fill="#14110d">
+    ❦
+  </text>
+</svg>
