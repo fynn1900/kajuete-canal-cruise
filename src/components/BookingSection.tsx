@@ -421,26 +421,28 @@ export default function BookingSection() {
                 </div>
 
                 {/* Liability checkbox */}
-                <div className="flex items-start gap-3 py-1">
+                <div className="flex gap-3 py-1" style={{ alignItems: 'flex-start' }}>
                   <button type="button"
                     onClick={() => setLiabilityAccepted(v => !v)}
-                    className="mt-0.5 w-5 h-5 rounded flex-shrink-0 flex items-center justify-center"
                     style={{
+                      marginTop: '2px',
+                      width: '20px', height: '20px', minWidth: '20px',
+                      borderRadius: '4px', flexShrink: 0,
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
                       background: liabilityAccepted ? 'rgba(212,168,67,0.2)' : 'rgba(255,255,255,0.05)',
                       border: `1.5px solid ${liabilityAccepted ? 'rgba(212,168,67,0.6)' : 'rgba(255,255,255,0.15)'}`,
                       transition: 'all 0.15s',
                     }}>
                     {liabilityAccepted && <span style={{ color: '#ECC564', fontSize: '12px', lineHeight: 1 }}>✓</span>}
                   </button>
-                  <p className="font-outfit text-sm leading-relaxed" style={{ color: '#F5EDD8' }}>
+                  <div style={{ fontFamily: 'var(--font-outfit), sans-serif', fontSize: '0.875rem', lineHeight: '1.5', color: '#F5EDD8' }}>
                     {lang === 'de' ? 'Ich habe die ' : 'I have read the '}
                     <button type="button" onClick={() => setLiabilityOpen(true)}
-                      className="underline underline-offset-2"
-                      style={{ color: 'rgba(212,168,67,0.7)', background: 'none', border: 'none', cursor: 'pointer', font: 'inherit' }}>
+                      style={{ color: 'rgba(212,168,67,0.85)', background: 'none', border: 'none', cursor: 'pointer', fontFamily: 'inherit', fontSize: 'inherit', lineHeight: 'inherit', textDecoration: 'underline', textUnderlineOffset: '2px', padding: 0 }}>
                       {t.liabilityLink}
                     </button>
                     {lang === 'de' ? ' gelesen und akzeptiert.' : ' and accept the conditions.'}
-                  </p>
+                  </div>
                 </div>
 
                 {/* Liability modal */}
