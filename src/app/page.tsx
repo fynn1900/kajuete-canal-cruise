@@ -25,13 +25,13 @@ export default function Home() {
 
         {/* Logo */}
         <div className="flex justify-center pt-24 pb-4">
-          <div className="animate-float">
+          <div className="animate-float" style={{ mixBlendMode: 'multiply' }}>
             <Image
               src="/logo_new.png"
               alt="1621-Bier & Grachtenfahrt – Kajüte 1876"
               width={520}
               height={420}
-              style={{ width: 'clamp(220px, 65vw, 480px)', height: 'auto', display: 'block', mixBlendMode: 'multiply' }}
+              style={{ width: 'clamp(220px, 65vw, 480px)', height: 'auto', display: 'block' }}
               priority
             />
           </div>
