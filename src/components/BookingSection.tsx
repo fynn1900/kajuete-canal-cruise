@@ -291,6 +291,11 @@ export default function BookingSection() {
               <p className="font-outfit text-xs mt-2" style={{ color: '#F5EDD8' }}>
                 {t.successNote}
               </p>
+              {email && (
+                <p className="font-outfit text-xs mt-3" style={{ color: 'rgba(74,222,128,0.7)' }}>
+                  ✉ {lang === 'de' ? `Bestätigung geht an ${email}` : `Confirmation sent to ${email}`}
+                </p>
+              )}
             </div>
           )}
 

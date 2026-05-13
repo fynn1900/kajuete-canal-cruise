@@ -91,7 +91,7 @@ const translations = {
     nameError: 'Bitte Namen eingeben.',
     minError: 'Mindestens 2 Personen für eine Fahrt nötig.',
     // Exclusive
-    exclusiveLabel: 'Exklusive Fahrt — Skipper Fynn nur für euch',
+    exclusiveLabel: 'Exklusive Fahrt — nur für euch',
     exclusiveDesc: '+6 € pro Person · Ihr habt Boot & Skipper ganz für euch',
     // Safety & Liability
     safetyTitle: 'Sicherheitshinweise',
@@ -188,7 +188,7 @@ const translations = {
     soldoutAvail: 'All 6 spots for this day are taken — please choose another date.',
     nameError: 'Please enter your name.',
     minError: 'At least 2 people required for a trip.',
-    exclusiveLabel: 'Exclusive trip — Skipper Fynn just for you',
+    exclusiveLabel: 'Exclusive trip — just for you',
     exclusiveDesc: '+€6 per person · Boat & skipper all to yourselves',
     safetyTitle: 'Safety Information',
     safetyHints: 'Life jackets are available on board on request.\n\nPlease remain seated while the boat is moving — it is a narrow, open vessel.\n\nChildren must be supervised at all times.\n\nTrips are cancelled in strong wind, rain, or below 14°C / 57°F. You will be notified as early as possible.\n\nThe skipper has final say on trip safety.',
