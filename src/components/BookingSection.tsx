@@ -375,8 +375,8 @@ export default function BookingSection() {
                     {isExclusive && (
                       <p className="font-outfit text-xs mt-2 px-1 text-cream">
                         {lang === 'de'
-                          ? `Das Boot ist nur für euch reserviert.`
-                          : `The boat is reserved just for you.`}
+                          ? `Skipper Fynn fährt exklusiv nur mit euch — kein anderer Gast ist dabei.`
+                          : `Skipper Fynn sails exclusively with you — no other guests on board.`}
                       </p>
                     )}
                   </div>
