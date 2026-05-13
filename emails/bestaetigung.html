@@ -88,12 +88,13 @@ style="width:260px;height:auto;display:block;margin:0 auto;" />
                 <td style="font-size:14px;color:#F5EDD8;">{{ $('Webhook').item.json.body.kids_count }}&times; Kids (2&#x2013;7 Jahre)</td>
                 <td align="right" style="font-size:14px;color:#F5EDD8;white-space:nowrap;"><strong>{{ $('Webhook').item.json.body.kids_count * 5 }} &euro;</strong></td>
               </tr>
+              {{ $('Webhook').item.json.body.is_exclusive === true ? '<tr><td style="font-size:15px;color:#F5EDD8;font-weight:bold;">&#9734; Exklusive Fahrt &middot; Aufschlag (+6 &euro; / Person)</td><td align="right" style="font-size:15px;color:#F5EDD8;white-space:nowrap;font-weight:bold;">+' + (($('Webhook').item.json.body.adults_count || 0) + ($('Webhook').item.json.body.kids_count || 0)) * 6 + ' &euro;</td></tr>' : '' }}
               <tr>
                 <td colspan="2" style="padding-top:10px;border-top:1px solid rgba(212,168,67,0.2);"></td>
               </tr>
               <tr>
                 <td style="font-size:16px;color:#D4A843;font-weight:bold;padding-top:6px;">Gesamt</td>
-                <td align="right" style="font-size:22px;color:#D4A843;font-weight:bold;padding-top:6px;">{{ $('Webhook').item.json.body.adults_count * 19 + $('Webhook').item.json.body.kids_count * 5 }} &euro;</td>
+                <td align="right" style="font-size:22px;color:#D4A843;font-weight:bold;padding-top:6px;">{{ $('Webhook').item.json.body.adults_count * 19 + $('Webhook').item.json.body.kids_count * 5 + ($('Webhook').item.json.body.is_exclusive === true ? (($('Webhook').item.json.body.adults_count || 0) + ($('Webhook').item.json.body.kids_count || 0)) * 6 : 0) }} &euro;</td>
               </tr>
             </table>
           </td>
@@ -177,7 +178,7 @@ style="width:260px;height:auto;display:block;margin:0 auto;" />
   <tr>
     <td align="center" bgcolor="#050e1c" style="background-color:#050e1c;border-radius:0 0 16px 16px;padding:24px 32px;border:1px solid rgba(212,168,67,0.15);border-top:1px solid rgba(255,255,255,0.05);">
       <p style="margin:0 0 4px 0;font-size:15px;color:rgba(245,237,216,0.5);">Kaj&#xFC;te 1876 &middot; Friedrichstadt</p>
-      <p style="margin:0 0 4px 0;font-size:12px;color:rgba(245,237,216,0.35);letter-spacing:0.08em;text-transform:uppercase;">Skipper Fynn &middot; T&#xE4;glich 19:00 Uhr &middot; 11. Mai &#x2013; 30. September</p>
+      <p style="margin:0 0 4px 0;font-size:12px;color:rgba(245,237,216,0.35);letter-spacing:0.08em;text-transform:uppercase;">1621 Bier &amp; Grachtenfahrt &middot; T&#xE4;glich 19 Uhr</p>
       <p style="margin:0 0 20px 0;font-size:12px;color:rgba(245,237,216,0.3);">Holmertorstrasse 11 &middot; 25840 Friedrichstadt &middot; kontakt@kajuete1876.de</p>
       <p style="margin:0;font-size:11px;color:rgba(245,237,216,0.25);">Website &amp; Buchungssystem von <a href="https://optriq.de" style="color:rgba(212,168,67,0.6);text-decoration:none;font-weight:bold;letter-spacing:0.06em;">OPTRIQ</a></p>
     </td>
