@@ -360,7 +360,7 @@ export default function BookingSection() {
                       }}>
                       <div className="text-left">
                         <p className="font-outfit text-sm font-medium text-cream">{t.exclusiveLabel}</p>
-                        <p className="font-outfit text-xs mt-0.5" style={{ color: isExclusive ? '#ECC564' : 'rgba(245,237,216,0.5)' }}>
+                        <p className="font-outfit text-xs mt-0.5" style={{ color: isExclusive ? '#ECC564' : '#F5EDD8' }}>
                           {t.exclusiveDesc}
                         </p>
                       </div>
@@ -375,8 +375,8 @@ export default function BookingSection() {
                     {isExclusive && (
                       <p className="font-outfit text-xs mt-2 px-1 text-cream">
                         {lang === 'de'
-                          ? `Das Boot gehört nur euch — alle 6 Plätze werden reserviert.`
-                          : `The boat is all yours — all 6 seats will be reserved.`}
+                          ? `Das Boot ist nur für euch reserviert.`
+                          : `The boat is reserved just for you.`}
                       </p>
                     )}
                   </div>
