@@ -31,9 +31,9 @@ const translations = {
     card4Text: 'Offenes Boot — die Fahrt findet nur bei gutem, trockenem Wetter statt (mind. 14 °C).',
     card4Sub: 'Wir fahren ab 2 Personen.',
     // Description
-    descLabel: 'Friedrichstadt · Das Grachtenstädtchen',
+    descLabel: 'Das Grachtenstädtchen in Nordfriesland',
     descQuote: 'Kajüte 1876, 1621 Bier!',
-    descQuoteEm: 'Das ist Friedrichstadt, das Grachtenstädtchen in Nordfriesland!',
+    descQuoteEm: 'Das ist Friedrichstadt!',
     descText: 'Kehrt in die Kajüte 1876 ein und kombiniert Euren Flammkuchen-Abend mit einer 1621-Bier & Grachtenfahrt. Lernt unser 1621 und das kleine Grachtenstädtchen auf ganz besondere Art kennen. Vom Boot aus ist Friedrichstadt am schönsten und das 1621-Bier am leckersten.',
     descText2: 'Kajüten-Skipper Fynn zeigt euch die Holländerstadt von der Wasserseite, erzählt über unser Bier und sein Friedrichstadt. Und das 1621-Bier an Bord ist garantiert schön kalt. Das besondere Kajüten-Event für Paare, Familien und kleine Gruppen. Prost & Willkommen in der Kajüte 1876 und an Bord!',
     // Kajüte section
@@ -131,9 +131,9 @@ const translations = {
     card4Title: 'Good to Know',
     card4Text: 'Open boat — trips only run in good, dry weather (min. 14°C / 57°F).',
     card4Sub: 'We depart from 2 people.',
-    descLabel: 'Friedrichstadt · The Little Dutch Town',
+    descLabel: 'The Little Dutch Town in North Frisia',
     descQuote: 'Kajüte 1876, 1621 Beer!',
-    descQuoteEm: "That's Friedrichstadt, the little Dutch town in North Frisia!",
+    descQuoteEm: "That's Friedrichstadt!",
     descText: 'Come to Kajüte 1876 and combine your tarte flambée evening with a 1621-Beer & Canal Cruise. Get to know our 1621 and the little canal town in a very special way. Friedrichstadt is most beautiful from the water — and the 1621 beer tastes best on board.',
     descText2: 'Canal Skipper Fynn shows you the Dutch town from the water, shares stories about our beer and his Friedrichstadt. The 1621 beer on board is guaranteed ice cold. The special Kajüte event for couples, families and small groups. Cheers & Welcome to Kajüte 1876 and on board!',
     startGoal: 'Start & Finish',
