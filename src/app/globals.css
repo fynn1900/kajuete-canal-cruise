@@ -251,11 +251,19 @@ input[type="date"]::-webkit-clear-button {
 
 .form-label {
   font-family: var(--font-outfit), sans-serif;
-  font-size: 0.75rem;
+  font-size: 0.8rem;
   font-weight: 500;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: rgba(245, 237, 216, 0.55);
+  color: var(--cream);
+}
+
+blockquote {
+  quotes: none;
+}
+blockquote::before,
+blockquote::after {
+  content: none;
 }
 
 /* ── Mobile & touch optimizations ── */

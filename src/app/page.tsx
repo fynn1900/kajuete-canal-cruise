@@ -38,19 +38,6 @@ export default function Home() {
         </div>
 
         <div className="relative z-10 flex flex-col items-center text-center max-w-2xl mx-auto">
-          <div className="inline-flex items-center gap-2 mb-5 px-4 py-1.5 rounded-full"
-            style={{ border: '1px solid rgba(139,100,20,0.35)', background: 'rgba(139,100,20,0.08)' }}>
-            <span className="w-1.5 h-1.5 rounded-full animate-shimmer" style={{ background: '#7A5800' }} />
-            <span className="font-outfit text-xs tracking-[0.18em] uppercase" style={{ color: '#7A5800' }}>
-              {t.season}
-            </span>
-          </div>
-
-          <h1 className="font-cormorant font-bold leading-[1.1] mb-4"
-            style={{ fontSize: 'clamp(1.8rem, 7.5vw, 6.5rem)', color: '#7A5200' }}>
-            <em className="italic uppercase">{t.heroTitle2}</em>
-          </h1>
-
           <p className="font-outfit text-sm md:text-base tracking-wider mb-7 leading-relaxed"
             style={{ color: 'rgba(10,22,40,0.55)' }}>
             {t.heroSub}
@@ -114,7 +101,7 @@ export default function Home() {
         <div className="max-w-5xl mx-auto">
           <div className="text-center mb-10">
             <p className="font-outfit text-sm tracking-[0.2em] uppercase text-amber-light/70 mb-3">{t.onBoard}</p>
-            <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
+            <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream uppercase">
               {t.whatToExpect} <em className="gold-text not-italic">{t.whatToExpectEm}</em>
             </h2>
           </div>
@@ -146,19 +133,19 @@ export default function Home() {
               </div>
               <div className="mb-3 text-3xl">🍺</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-3 uppercase">
-                {lang === 'de' ? 'Getränk inklusive' : 'Drink included'}
+                {t.card2Title}
               </h3>
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(212,168,67,0.1)' }}>
                   <span className="text-sm">🍺</span>
-                  <span className="font-outfit text-xs font-medium text-cream/80">1621 Bier</span>
+                  <span className="font-outfit text-xs font-medium text-cream">1621 Bier</span>
                 </div>
-                <span className="font-outfit text-xs text-cream/30">{lang === 'de' ? 'oder' : 'or'}</span>
+                <span className="font-outfit text-xs text-cream">{lang === 'de' ? 'oder' : 'or'}</span>
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(212,168,67,0.1)' }}>
                   <span className="text-sm">🥤</span>
-                  <span className="font-outfit text-xs font-medium text-cream/80">Softdrink</span>
+                  <span className="font-outfit text-xs font-medium text-cream">Softdrink</span>
                 </div>
-                <span className="font-outfit text-xs text-cream/40">{lang === 'de' ? '— je Person' : '— per person'}</span>
+                <span className="font-outfit text-xs text-cream">{lang === 'de' ? '· je Person' : '· per person'}</span>
               </div>
               <p className="font-outfit text-sm text-cream leading-relaxed">
                 {t.card2Sub}
@@ -166,7 +153,7 @@ export default function Home() {
             </div>
 
             <div className="card-glow nautical-border rounded-2xl p-5" style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
-              <div className="mb-3 text-3xl">💰</div>
+              <div className="mb-3 text-3xl font-cormorant font-bold" style={{ color: '#ECC564' }}>€</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-2 uppercase">{t.card3Title}</h3>
               <p className="font-outfit text-sm text-cream leading-relaxed">
                 <strong className="text-cream text-base">19 €</strong> {t.card3Adult}
@@ -174,6 +161,8 @@ export default function Home() {
                 <strong className="text-amber-light text-base">5 €</strong> {t.card3Kid}
                 <br /><br />
                 <span className="text-cream/70">{t.card3Note}</span>
+                <br /><br />
+                <span style={{ color: '#ECC564', fontSize: '0.75rem' }}>{t.card3Exclusive}</span>
               </p>
             </div>
 

@@ -7,6 +7,7 @@ import { useLanguage } from '@/contexts/LanguageContext'
 const MAX_SEATS = 6
 const PRICE_ADULT = 19
 const PRICE_KID = 5
+const PRICE_EXCLUSIVE_SURCHARGE = 6
 
 function getSupabase() {
   return createClient(
@@ -51,6 +52,7 @@ export default function BookingSection() {
 
   const [adults, setAdults] = useState(2)
   const [kids, setKids] = useState(0)
+  const [isExclusive, setIsExclusive] = useState(false)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
 
@@ -66,13 +68,15 @@ export default function BookingSection() {
   }, [liabilityOpen])
 
   const totalPersons = adults + kids
-  const totalPrice = adults * PRICE_ADULT + kids * PRICE_KID
+  const exclusiveSurcharge = isExclusive ? totalPersons * PRICE_EXCLUSIVE_SURCHARGE : 0
+  const totalPrice = adults * PRICE_ADULT + kids * PRICE_KID + exclusiveSurcharge
 
   useEffect(() => {
     if (!date) return
     setAvState('loading')
     setSuccess(false)
     setFormError(null)
+    setIsExclusive(false)
 
     const sb = getSupabase()
 
@@ -104,8 +108,10 @@ export default function BookingSection() {
 
   const maxPersons = avState === 'ready' ? available : MAX_SEATS
 
-  // Solo booking allowed if at least 1 person already booked for that day
   const MIN_TOTAL = booked >= 1 ? 1 : 2
+
+  // Exclusive only available when no one else booked yet
+  const canGoExclusive = booked === 0 && avState === 'ready'
 
   function changeAdults(d: number) {
     const next = adults + d
@@ -126,21 +132,30 @@ export default function BookingSection() {
     setFormError(null)
     setSubmitting(true)
     try {
+      const groupSizeToSend = isExclusive ? MAX_SEATS : totalPersons
       const res = await fetch('/api/bookings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ booking_date: date, group_size: totalPersons, contact_name: name, email, adults_count: adults, kids_count: kids, liability_accepted: true }),
+        body: JSON.stringify({
+          booking_date: date,
+          group_size: groupSizeToSend,
+          contact_name: name,
+          email,
+          adults_count: adults,
+          kids_count: kids,
+          liability_accepted: true,
+          is_exclusive: isExclusive,
+        }),
       })
       let data: { error?: string; success?: boolean } = {}
       try { data = await res.json() } catch { data = { error: `Fehler ${res.status}` } }
       if (!res.ok) { setFormError(data.error || `Fehler ${res.status}`) }
       else {
         setSuccess(true)
-        const newAvail = available - totalPersons
-        setBooked(b => b + totalPersons)
-        setAvailable(Math.max(0, newAvail))
-        if (newAvail <= 0) setAvState('soldout')
-        setName(''); setEmail(''); setAdults(1); setKids(0)
+        setBooked(b => b + groupSizeToSend)
+        setAvailable(0)
+        setAvState('soldout')
+        setName(''); setEmail(''); setAdults(1); setKids(0); setIsExclusive(false)
       }
     } catch (err) {
       console.error('Booking submit error:', err)
@@ -245,21 +260,16 @@ export default function BookingSection() {
               </div>
             )}
             {(avState === 'soldout' || avState === 'blocked') && (
-              <div className="flex flex-col gap-3">
-                <div className="flex items-center gap-3">
-                  <div className="flex gap-1.5">
-                    {Array.from({ length: MAX_SEATS }).map((_, i) => (
-                      <div key={i} className="seat-dot taken" />
-                    ))}
-                  </div>
-                  <span className="font-outfit text-xs tracking-wider uppercase px-3 py-1 rounded-full"
-                    style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
-                    {avState === 'blocked' ? t.noTrip : t.soldOut}
-                  </span>
+              <div className="flex items-center gap-3">
+                <div className="flex gap-1.5">
+                  {Array.from({ length: MAX_SEATS }).map((_, i) => (
+                    <div key={i} className="seat-dot taken" />
+                  ))}
                 </div>
-                <p className="font-outfit text-xs leading-relaxed" style={{ color: 'rgba(245,237,216,0.4)' }}>
-                  {avState === 'blocked' ? t.blockedAvail : t.soldoutAvail}
-                </p>
+                <span className="font-outfit text-xs tracking-wider uppercase px-3 py-1 rounded-full"
+                  style={{ background: 'rgba(248,113,113,0.1)', color: '#f87171', border: '1px solid rgba(248,113,113,0.2)' }}>
+                  {avState === 'blocked' ? t.noTrip : t.soldOut}
+                </span>
               </div>
             )}
             {avState === 'error' && (
@@ -274,11 +284,11 @@ export default function BookingSection() {
             <div className="m-6 rounded-xl p-6 text-center success-appear"
               style={{ background: 'rgba(74,222,128,0.07)', border: '1px solid rgba(74,222,128,0.18)' }}>
               <div className="text-3xl mb-3">⚓</div>
-              <p className="font-cormorant text-xl font-medium" style={{ color: '#86efac' }}>{t.successTitle}</p>
-              <p className="font-outfit text-sm mt-1" style={{ color: 'rgba(245,237,216,0.5)' }}>
-                {t.successSub} {formatDateDE(date)} {lang === 'de' ? 'um 19:00 Uhr' : 'at 7 PM'}!
+              <p className="font-cormorant text-xl font-medium" style={{ color: '#F5EDD8' }}>{t.successTitle}</p>
+              <p className="font-outfit text-sm mt-1" style={{ color: '#F5EDD8' }}>
+                {t.successSub} {formatDateDE(date)} {lang === 'de' ? 'um 19 Uhr' : 'at 7 PM'}!
               </p>
-              <p className="font-outfit text-xs mt-2" style={{ color: 'rgba(245,237,216,0.3)' }}>
+              <p className="font-outfit text-xs mt-2" style={{ color: '#F5EDD8' }}>
                 {t.successNote}
               </p>
             </div>
@@ -336,14 +346,52 @@ export default function BookingSection() {
                       : booked + ' person' + (booked !== 1 ? 's' : '') + ' already booked — you can join solo.'}
                   </p>
                 )}
+
+                {/* Exclusive toggle */}
+                {canGoExclusive && (
+                  <div className="mt-5 pt-4 border-t" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+                    <button
+                      type="button"
+                      onClick={() => setIsExclusive(v => !v)}
+                      className="w-full flex items-center justify-between rounded-xl px-4 py-3 transition-all"
+                      style={{
+                        background: isExclusive ? 'rgba(212,168,67,0.12)' : 'rgba(255,255,255,0.04)',
+                        border: `1.5px solid ${isExclusive ? 'rgba(212,168,67,0.5)' : 'rgba(255,255,255,0.1)'}`,
+                      }}>
+                      <div className="text-left">
+                        <p className="font-outfit text-sm font-medium text-cream">{t.exclusiveLabel}</p>
+                        <p className="font-outfit text-xs mt-0.5" style={{ color: isExclusive ? '#ECC564' : 'rgba(245,237,216,0.5)' }}>
+                          {t.exclusiveDesc}
+                        </p>
+                      </div>
+                      <div className="w-6 h-6 rounded-full flex-shrink-0 flex items-center justify-center ml-3"
+                        style={{
+                          background: isExclusive ? 'rgba(212,168,67,0.25)' : 'rgba(255,255,255,0.06)',
+                          border: `1.5px solid ${isExclusive ? '#ECC564' : 'rgba(255,255,255,0.15)'}`,
+                        }}>
+                        {isExclusive && <span style={{ color: '#ECC564', fontSize: '13px', lineHeight: 1 }}>✓</span>}
+                      </div>
+                    </button>
+                    {isExclusive && (
+                      <p className="font-outfit text-xs mt-2 px-1 text-cream">
+                        {lang === 'de'
+                          ? `Das Boot gehört nur euch — alle 6 Plätze werden reserviert.`
+                          : `The boat is all yours — all 6 seats will be reserved.`}
+                      </p>
+                    )}
+                  </div>
+                )}
               </div>
 
               {/* Price total */}
               {totalPersons > 0 && (
                 <div className="px-6 py-3.5 border-b flex items-center justify-between"
                   style={{ borderColor: 'rgba(255,255,255,0.05)', background: 'rgba(212,168,67,0.04)' }}>
-                  <span className="font-outfit text-sm" style={{ color: 'rgba(245,237,216,0.45)' }}>
+                  <span className="font-outfit text-sm text-cream">
                     {totalPersons} {t.persons} · {t.cashNote}
+                    {isExclusive && (
+                      <span style={{ color: '#ECC564' }}> · exkl. +{totalPersons * PRICE_EXCLUSIVE_SURCHARGE} €</span>
+                    )}
                   </span>
                   <span className="font-cormorant text-2xl font-semibold gold-text">{totalPrice} €</span>
                 </div>
@@ -351,6 +399,7 @@ export default function BookingSection() {
 
               {/* Contact */}
               <div className="px-6 py-5 space-y-4">
+                <p className="form-label block mb-1">{lang === 'de' ? 'Platz im Boot sichern' : 'Secure your spot'}</p>
                 <div>
                   <label className="form-label block mb-2">{t.nameLabel}</label>
                   <input type="text" placeholder={t.namePlaceholder} value={name}
@@ -361,7 +410,7 @@ export default function BookingSection() {
                 <div>
                   <label className="form-label block mb-2">
                     {t.emailLabel}{' '}
-                    <span style={{ color: 'rgba(245,237,216,0.3)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
+                    <span style={{ color: 'var(--cream)', fontWeight: 400, textTransform: 'none', letterSpacing: 0 }}>
                       {t.emailHint}
                     </span>
                   </label>
@@ -447,7 +496,7 @@ export default function BookingSection() {
               <p className="font-cormorant text-2xl font-light mb-2" style={{ color: '#fca5a5' }}>
                 {avState === 'blocked' ? t.blockedTitle : t.soldoutTitle}
               </p>
-              <p className="font-outfit text-sm leading-relaxed" style={{ color: 'rgba(245,237,216,0.4)' }}>
+              <p className="font-outfit text-sm leading-relaxed text-cream">
                 {avState === 'blocked' ? t.blockedDesc : t.soldoutDesc}
               </p>
             </div>

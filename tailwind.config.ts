@@ -44,10 +44,10 @@ const config: Config = {
           '100%': { transform: 'translateX(-50%)' },
         },
         boatRock: {
-          '0%, 100%': { transform: 'translateY(0px) rotate(-1.2deg)' },
-          '25%':       { transform: 'translateY(-9px) rotate(0deg)' },
-          '50%':       { transform: 'translateY(-14px) rotate(1.2deg)' },
-          '75%':       { transform: 'translateY(-7px) rotate(0deg)' },
+          '0%, 100%': { transform: 'translateY(0px) rotate(-2.5deg)' },
+          '25%':       { transform: 'translateY(-18px) rotate(0deg)' },
+          '50%':       { transform: 'translateY(-28px) rotate(2.5deg)' },
+          '75%':       { transform: 'translateY(-14px) rotate(0deg)' },
         },
         fadeUp: {
           '0%': { opacity: '0', transform: 'translateY(30px)' },
