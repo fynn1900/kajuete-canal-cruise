@@ -38,7 +38,7 @@ export default function VatertagMenuPage() {
           <Course
             roman="II"
             label="Hauptgang"
-            name="Sansibas Lachsnudeln"
+            name="Sansibars Lachsnudeln"
             note="Hausgemacht, mit ganz viel Herz aus der Küche."
           />
 
@@ -47,7 +47,7 @@ export default function VatertagMenuPage() {
           <Course
             roman="III"
             label="Nachtisch"
-            name="Anikes Schokoladenkuchen"
+            name="Aniks Schokoladenkuchen"
             note="Süßer Abschluss eines schönen Tages."
           />
         </section>
