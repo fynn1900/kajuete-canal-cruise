@@ -11,8 +11,8 @@ const PRICE_EXCLUSIVE_SURCHARGE = 6
 
 function getSupabase() {
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vtrpbvjckliwyuccbhvm.supabase.co',
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cnBidmpja2xpd3l1Y2NiaHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2ODM3MjUsImV4cCI6MjA4OTI1OTcyNX0.yvyUfF5q2G1yabH6NFG8Tk5DqVH-wCJpct4iTzF90Fg'
   )
 }
 
@@ -194,7 +194,7 @@ export default function BookingSection() {
           <h2 className="font-cormorant text-4xl md:text-5xl font-light text-cream">
             {t.secureSpot} <em className="gold-text not-italic">{t.secureSpotEm}</em>
           </h2>
-          <p className="font-outfit text-sm mt-3" style={{ color: 'rgba(245,237,216,0.4)' }}>
+          <p className="font-outfit text-sm mt-3" style={{ color: '#F5EDD8' }}>
             {t.bookingSub}
           </p>
           <div className="inline-flex items-center gap-2 mt-3 px-3 py-1 rounded-full"

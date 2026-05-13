@@ -118,19 +118,8 @@ export default function Home() {
               </p>
             </div>
 
-            <div className="card-glow rounded-2xl p-5 relative"
-              style={{
-                background: 'rgba(10,22,40,0.7)',
-                backdropFilter: 'blur(8px)',
-                border: '1px solid rgba(212,168,67,0.3)',
-                borderTop: '2px solid rgba(212,168,67,0.65)',
-              }}>
-              <div className="absolute top-4 right-4 px-2.5 py-0.5 rounded-full"
-                style={{ background: 'rgba(212,168,67,0.15)', border: '1px solid rgba(212,168,67,0.35)' }}>
-                <span className="font-outfit text-[10px] font-semibold tracking-widest uppercase" style={{ color: '#ECC564' }}>
-                  {t.card2Title}
-                </span>
-              </div>
+            <div className="card-glow nautical-border rounded-2xl p-5"
+              style={{ background: 'rgba(10,22,40,0.6)', backdropFilter: 'blur(8px)' }}>
               <div className="mb-3 text-3xl">🍺</div>
               <h3 className="font-cormorant text-2xl font-medium text-cream mb-3 uppercase">
                 {t.card2Title}
@@ -138,14 +127,8 @@ export default function Home() {
               <div className="flex items-center gap-2 mb-3 flex-wrap">
                 <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(212,168,67,0.1)' }}>
                   <span className="text-sm">🍺</span>
-                  <span className="font-outfit text-xs font-medium text-cream">1621 Bier</span>
+                  <span className="font-outfit text-xs font-medium text-cream">{lang === 'de' ? '1621 an Bord' : '1621 on Board'}</span>
                 </div>
-                <span className="font-outfit text-xs text-cream">{lang === 'de' ? 'oder' : 'or'}</span>
-                <div className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg" style={{ background: 'rgba(212,168,67,0.1)' }}>
-                  <span className="text-sm">🥤</span>
-                  <span className="font-outfit text-xs font-medium text-cream">Softdrink</span>
-                </div>
-                <span className="font-outfit text-xs text-cream">{lang === 'de' ? '· je Person' : '· per person'}</span>
               </div>
               <p className="font-outfit text-sm text-cream leading-relaxed">
                 {t.card2Sub}
@@ -162,7 +145,7 @@ export default function Home() {
                 <br /><br />
                 <span className="text-cream/70">{t.card3Note}</span>
                 <br /><br />
-                <span style={{ color: '#ECC564', fontSize: '0.75rem' }}>{t.card3Exclusive}</span>
+                <span style={{ color: '#ECC564', fontSize: '0.82rem' }}>{t.card3Exclusive}</span>
               </p>
             </div>
 
