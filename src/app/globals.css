@@ -289,6 +289,68 @@ blockquote::after {
     width: 44px;
     height: 44px;
   }
+
+  /* Better section padding on small screens */
+  section {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  /* Card grid: single col gets proper vertical spacing */
+  .grid.grid-cols-1 {
+    gap: 1rem;
+  }
+
+  /* Booking card: full width, no side gaps */
+  #buchen .rounded-2xl {
+    border-radius: 1rem;
+  }
+
+  /* Heading scale for mobile */
+  .font-cormorant.text-4xl {
+    font-size: 2rem;
+  }
+}
+
+/* ── Tablet / iPad optimizations ── */
+@media (min-width: 768px) and (max-width: 1024px) {
+  /* Better section padding on tablet */
+  section {
+    padding-left: 2rem;
+    padding-right: 2rem;
+  }
+
+  /* Info cards: equal height */
+  .grid.md\:grid-cols-2 > div {
+    display: flex;
+    flex-direction: column;
+  }
+
+  /* Booking form: wider on tablet */
+  #buchen > div > div:last-child {
+    max-width: 540px;
+  }
+
+  /* Better touch targets for tablet */
+  input[type="date"] {
+    font-size: 16px;
+    min-height: 52px;
+  }
+
+  .form-input {
+    font-size: 16px;
+    min-height: 52px;
+  }
+
+  /* Slightly larger body text on tablet */
+  .font-outfit.text-sm {
+    font-size: 0.9rem;
+  }
+
+  /* Card padding on tablet */
+  .card-glow.rounded-2xl {
+    padding: 1.5rem;
+  }
 }
 
 /* ── Success state ── */

@@ -312,22 +312,24 @@ export default function Home() {
       {/* Safety Modal */}
       {safetyOpen && (
         <div className="fixed inset-0 z-50 overflow-y-auto"
-          style={{ background: 'rgba(0,0,0,0.75)', backdropFilter: 'blur(4px)', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
+          style={{ background: 'rgba(0,0,0,0.8)', backdropFilter: 'blur(4px)', WebkitOverflowScrolling: 'touch' } as React.CSSProperties}
           onClick={() => setSafetyOpen(false)}>
-          <div className="flex min-h-full items-center justify-center p-4">
-            <div className="rounded-2xl max-w-md w-full p-8"
+          <div className="flex min-h-full items-start justify-center px-4 pt-8 pb-12">
+            <div className="rounded-2xl max-w-md w-full p-7"
               style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.25)' }}
               onClick={e => e.stopPropagation()}>
-              <h3 className="font-cormorant text-2xl font-medium text-cream mb-5">{t.safetyTitle}</h3>
-              <div className="font-outfit text-base text-cream leading-relaxed space-y-3">
+              <h3 className="font-cormorant text-2xl font-semibold mb-4 leading-snug" style={{ color: '#ECC564' }}>
+                {t.safetyTitle}
+              </h3>
+              <div className="font-outfit text-sm text-cream leading-relaxed space-y-3 mb-6">
                 {t.safetyHints.split('\n\n').map((line, i) => (
                   <p key={i}>{line}</p>
                 ))}
               </div>
               <button onClick={() => setSafetyOpen(false)}
-                className="mt-7 w-full rounded-xl py-3 font-outfit text-sm font-medium"
+                className="w-full rounded-xl py-3.5 font-outfit text-sm font-semibold"
                 style={{ background: 'rgba(212,168,67,0.12)', border: '1px solid rgba(212,168,67,0.3)', color: '#ECC564' }}>
-                Schließen
+                {lang === 'de' ? 'Schließen' : 'Close'}
               </button>
             </div>
           </div>
@@ -382,7 +384,7 @@ export default function Home() {
                 OPTRIQ
               </span>
               <span className="font-outfit text-xs text-cream" style={{ letterSpacing: '0.04em' }}>
-                {lang === 'de' ? 'Website & Buchungssystem' : 'Website & Booking System'}
+                {lang === 'de' ? 'Websites · Buchung & Reservierung' : 'Websites · Booking & Reservation Systems'}
               </span>
             </div>
           </a>
