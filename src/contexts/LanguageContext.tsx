@@ -205,7 +205,7 @@ const translations = {
 } as const
 
 type Lang = 'de' | 'en'
-type T = typeof translations.de
+type T = { [K in keyof typeof translations.de]: string }
 
 const LanguageContext = createContext<{ lang: Lang; t: T; toggle: () => void }>({
   lang: 'de',
