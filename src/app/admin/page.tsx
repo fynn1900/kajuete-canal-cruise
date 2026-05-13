@@ -11,10 +11,11 @@ type Booking = {
   contact_name: string
   email: string | null
   created_at: string
+  is_exclusive: boolean | null
 }
 
 type BlockedDate = { id: string; blocked_date: string; reason: string | null }
-type DaySummary = { booked: number }
+type DaySummary = { booked: number; isExclusive: boolean }
 
 const MAX = 6
 const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
@@ -81,8 +82,9 @@ export default function AdminPage() {
       const summaries: Record<string, DaySummary> = {}
       if (Array.isArray(bookingsRaw)) {
         for (const b of bookingsRaw) {
-          if (!summaries[b.booking_date]) summaries[b.booking_date] = { booked: 0 }
+          if (!summaries[b.booking_date]) summaries[b.booking_date] = { booked: 0, isExclusive: false }
           summaries[b.booking_date].booked += b.group_size
+          if (b.is_exclusive) summaries[b.booking_date].isExclusive = true
         }
       }
       setDaySummaries(summaries)
@@ -112,8 +114,9 @@ export default function AdminPage() {
       const summaries: Record<string, DaySummary> = {}
       if (Array.isArray(bookingsRaw)) {
         for (const b of bookingsRaw) {
-          if (!summaries[b.booking_date]) summaries[b.booking_date] = { booked: 0 }
+          if (!summaries[b.booking_date]) summaries[b.booking_date] = { booked: 0, isExclusive: false }
           summaries[b.booking_date].booked += b.group_size
+          if (b.is_exclusive) summaries[b.booking_date].isExclusive = true
         }
       }
       setDaySummaries(summaries)
@@ -164,6 +167,8 @@ export default function AdminPage() {
     fontFamily: 'var(--font-outfit)', fontSize: '0.875rem', outline: 'none', width: '100%',
   }
 
+  const isExclusiveDay = dayBookings.some(b => b.is_exclusive)
+  const actualPersons = dayBookings.reduce((s, b) => s + (b.adults_count ?? 0) + (b.kids_count ?? 0), 0)
   const totalBooked = dayBookings.reduce((s, b) => s + b.group_size, 0)
 
   return (
@@ -233,11 +238,13 @@ export default function AdminPage() {
                     const booked = summary?.booked ?? 0
                     const isFull = booked >= MAX
                     const hasBookings = booked > 0
+                    const isExclusive = summary?.isExclusive ?? false
                     const col = (i + startOffset) % 7
 
                     let bg = 'transparent'
                     if (isSelected) bg = 'rgba(212,168,67,0.18)'
                     else if (isBlocked) bg = 'rgba(248,113,113,0.07)'
+                    else if (isExclusive) bg = 'rgba(212,168,67,0.08)'
                     else if (hasBookings) bg = 'rgba(74,222,128,0.05)'
 
                     return (
@@ -262,17 +269,23 @@ export default function AdminPage() {
                         {/* Booking indicator */}
                         {!isBlocked && hasBookings && (
                           <div style={{ width: '100%' }}>
-                            <div style={{ display: 'flex', gap: '2px' }}>
-                              {Array.from({ length: MAX }).map((_, s) => (
-                                <div key={s} style={{
-                                  flex: 1, height: '3px', borderRadius: '2px',
-                                  background: s < booked ? (isFull ? '#f87171' : c.gold) : 'rgba(255,255,255,0.08)',
-                                }} />
-                              ))}
-                            </div>
-                            <span style={{ fontSize: '0.65rem', color: isFull ? '#f87171' : c.gold, marginTop: '2px', display: 'block' }}>
-                              {booked}/{MAX}
-                            </span>
+                            {isExclusive ? (
+                              <span style={{ fontSize: '0.65rem', color: c.gold, display: 'block', marginTop: '2px' }}>⭐ exkl.</span>
+                            ) : (
+                              <>
+                                <div style={{ display: 'flex', gap: '2px' }}>
+                                  {Array.from({ length: MAX }).map((_, s) => (
+                                    <div key={s} style={{
+                                      flex: 1, height: '3px', borderRadius: '2px',
+                                      background: s < booked ? (isFull ? '#f87171' : c.gold) : 'rgba(255,255,255,0.08)',
+                                    }} />
+                                  ))}
+                                </div>
+                                <span style={{ fontSize: '0.65rem', color: isFull ? '#f87171' : c.gold, marginTop: '2px', display: 'block' }}>
+                                  {booked}/{MAX}
+                                </span>
+                              </>
+                            )}
                           </div>
                         )}
 
@@ -290,6 +303,7 @@ export default function AdminPage() {
             {/* Legend */}
             <div style={{ display: 'flex', gap: '1rem', marginBottom: '1.25rem', fontSize: '0.72rem', color: c.dim, flexWrap: 'wrap' }}>
               <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><span style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(74,222,128,0.2)', display: 'inline-block' }} /> Buchungen</span>
+              <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><span style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(212,168,67,0.15)', border: `1px solid rgba(212,168,67,0.3)`, display: 'inline-block' }} /> ⭐ Exklusiv</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><span style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(248,113,113,0.2)', display: 'inline-block' }} /> Gesperrt</span>
               <span style={{ display: 'flex', alignItems: 'center', gap: '5px' }}><span style={{ width: 10, height: 10, borderRadius: 2, background: 'rgba(212,168,67,0.2)', border: `1px solid ${c.gold}`, display: 'inline-block' }} /> Ausgewählt</span>
             </div>
@@ -298,22 +312,34 @@ export default function AdminPage() {
             {selectedDate && (
               <div style={{ background: c.card, border: `1px solid ${c.border}`, borderTop: `2px solid ${c.borderTop}`, borderRadius: '16px', overflow: 'hidden' }}>
                 {/* Day header */}
-                <div style={{ padding: '1rem 1.25rem', borderBottom: `1px solid ${c.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+                <div style={{ padding: '1rem 1.25rem', borderBottom: `1px solid ${c.border}`, display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '0.5rem', flexWrap: 'wrap' }}>
                   <div>
                     <span style={{ fontFamily: 'var(--font-cormorant)', fontSize: '1.3rem', color: c.cream }}>{toDE(selectedDate)}</span>
-                    <span style={{ fontSize: '0.78rem', color: c.dim, marginLeft: '0.75rem' }}>19:00 Uhr</span>
+                    <span style={{ fontSize: '0.78rem', color: c.dim, marginLeft: '0.75rem' }}>19 Uhr</span>
                   </div>
-                  <span style={{ fontSize: '0.82rem', fontWeight: 600, color: totalBooked >= MAX ? '#f87171' : totalBooked > 0 ? c.green : c.faint }}>
-                    {totalBooked} / {MAX} Plätze
-                  </span>
+                  {isExclusiveDay ? (
+                    <span style={{ fontSize: '0.8rem', fontWeight: 700, color: c.gold, background: 'rgba(212,168,67,0.12)', border: `1px solid rgba(212,168,67,0.35)`, borderRadius: '99px', padding: '3px 10px' }}>
+                      ⭐ EXKLUSIV · {actualPersons} {actualPersons === 1 ? 'Person' : 'Personen'}
+                    </span>
+                  ) : (
+                    <span style={{ fontSize: '0.82rem', fontWeight: 600, color: totalBooked >= MAX ? '#f87171' : totalBooked > 0 ? c.green : c.faint }}>
+                      {totalBooked} / {MAX} Plätze
+                    </span>
+                  )}
                 </div>
 
                 {/* Seat bar */}
-                <div style={{ display: 'flex', gap: '6px', padding: '0.75rem 1.25rem', borderBottom: `1px solid ${c.border}` }}>
-                  {Array.from({ length: MAX }).map((_, i) => (
-                    <div key={i} style={{ flex: 1, height: '5px', borderRadius: '3px', background: i < totalBooked ? c.gold : 'rgba(255,255,255,0.07)', transition: 'background 0.3s' }} />
-                  ))}
-                </div>
+                {isExclusiveDay ? (
+                  <div style={{ padding: '0.75rem 1.25rem', borderBottom: `1px solid ${c.border}`, fontSize: '0.75rem', color: c.gold }}>
+                    ⭐ Exklusive Fahrt — Boot vollständig für diese Gruppe reserviert. Kein weiterer Zustieg.
+                  </div>
+                ) : (
+                  <div style={{ display: 'flex', gap: '6px', padding: '0.75rem 1.25rem', borderBottom: `1px solid ${c.border}` }}>
+                    {Array.from({ length: MAX }).map((_, i) => (
+                      <div key={i} style={{ flex: 1, height: '5px', borderRadius: '3px', background: i < totalBooked ? c.gold : 'rgba(255,255,255,0.07)', transition: 'background 0.3s' }} />
+                    ))}
+                  </div>
+                )}
 
                 {/* Bookings */}
                 {dayLoading && <div style={{ padding: '1.5rem', textAlign: 'center', color: c.faint, fontSize: '0.85rem' }}>Lädt…</div>}
@@ -324,27 +350,36 @@ export default function AdminPage() {
                   </div>
                 )}
 
-                {!dayLoading && dayBookings.map((b, idx) => (
-                  <div key={b.id} style={{ padding: '0.85rem 1.25rem', borderBottom: idx < dayBookings.length - 1 ? `1px solid ${c.border}` : 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
-                    <div style={{ flex: 1, minWidth: 0 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
-                        <span style={{ fontWeight: 600, color: c.cream, fontSize: '0.88rem' }}>{b.contact_name}</span>
-                        <span style={{ fontSize: '0.72rem', color: c.gold, background: 'rgba(212,168,67,0.1)', border: `1px solid rgba(212,168,67,0.2)`, borderRadius: '99px', padding: '1px 7px' }}>
-                          {b.group_size} {b.group_size === 1 ? 'Person' : 'Pers.'}
-                        </span>
+                {!dayLoading && dayBookings.map((b, idx) => {
+                  const personCount = (b.adults_count ?? 0) + (b.kids_count ?? 0)
+                  return (
+                    <div key={b.id} style={{ padding: '0.85rem 1.25rem', borderBottom: idx < dayBookings.length - 1 ? `1px solid ${c.border}` : 'none', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+                      <div style={{ flex: 1, minWidth: 0 }}>
+                        <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem', marginBottom: '0.2rem', flexWrap: 'wrap' }}>
+                          <span style={{ fontWeight: 600, color: c.cream, fontSize: '0.88rem' }}>{b.contact_name}</span>
+                          {b.is_exclusive ? (
+                            <span style={{ fontSize: '0.72rem', fontWeight: 700, color: c.gold, background: 'rgba(212,168,67,0.12)', border: `1px solid rgba(212,168,67,0.35)`, borderRadius: '99px', padding: '1px 8px' }}>
+                              ⭐ EXKLUSIV · {personCount} {personCount === 1 ? 'Person' : 'Pers.'}
+                            </span>
+                          ) : (
+                            <span style={{ fontSize: '0.72rem', color: c.gold, background: 'rgba(212,168,67,0.1)', border: `1px solid rgba(212,168,67,0.2)`, borderRadius: '99px', padding: '1px 7px' }}>
+                              {personCount} {personCount === 1 ? 'Person' : 'Pers.'}
+                            </span>
+                          )}
+                        </div>
+                        <div style={{ fontSize: '0.73rem', color: c.dim, display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
+                          {b.adults_count != null && <span>{b.adults_count} Erw.</span>}
+                          {b.kids_count != null && b.kids_count > 0 && <span>{b.kids_count} Kids</span>}
+                          {b.email && <span>{b.email}</span>}
+                          <span style={{ color: c.faint }}>{timeStr(b.created_at)}</span>
+                        </div>
                       </div>
-                      <div style={{ fontSize: '0.73rem', color: c.dim, display: 'flex', gap: '0.6rem', flexWrap: 'wrap' }}>
-                        {b.adults_count != null && <span>{b.adults_count} Erw.</span>}
-                        {b.kids_count != null && b.kids_count > 0 && <span>{b.kids_count} Kids</span>}
-                        {b.email && <span>{b.email}</span>}
-                        <span style={{ color: c.faint }}>{timeStr(b.created_at)}</span>
-                      </div>
+                      <button onClick={() => deleteBooking(b.id)} style={{ background: 'none', border: `1px solid rgba(248,113,113,0.22)`, borderRadius: '8px', padding: '0.3rem 0.65rem', color: '#f87171', cursor: 'pointer', fontSize: '0.73rem', flexShrink: 0 }}>
+                        Löschen
+                      </button>
                     </div>
-                    <button onClick={() => deleteBooking(b.id)} style={{ background: 'none', border: `1px solid rgba(248,113,113,0.22)`, borderRadius: '8px', padding: '0.3rem 0.65rem', color: '#f87171', cursor: 'pointer', fontSize: '0.73rem', flexShrink: 0 }}>
-                      Löschen
-                    </button>
-                  </div>
-                ))}
+                  )
+                })}
               </div>
             )}
           </div>

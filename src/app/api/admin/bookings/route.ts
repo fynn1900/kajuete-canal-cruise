@@ -17,7 +17,7 @@ export async function GET(req: NextRequest) {
 
     const { data, error } = await db
       .from('canal_cruise_bookings')
-      .select('booking_date, group_size')
+      .select('booking_date, group_size, adults_count, kids_count, is_exclusive')
       .gte('booking_date', from)
       .lte('booking_date', to)
 
