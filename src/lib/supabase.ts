@@ -5,17 +5,11 @@ const SB_ANON = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsIn
 const SB_SERVICE = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cnBidmpja2xpd3l1Y2NiaHZtIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc3MzY4MzcyNSwiZXhwIjoyMDg5MjU5NzI1fQ.CksMt8WrbDlM8kluS0roRcsCw5zF7uccoy0yHaM8KLk'
 
 export function supabase() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || SB_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || SB_ANON
-  )
+  return createClient(SB_URL, SB_ANON)
 }
 
 export function supabaseAdmin() {
-  return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || SB_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY || SB_SERVICE
-  )
+  return createClient(SB_URL, SB_SERVICE)
 }
 
 export type Booking = {

@@ -11,8 +11,8 @@ const PRICE_EXCLUSIVE_SURCHARGE = 6
 
 function getSupabase() {
   return createClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://vtrpbvjckliwyuccbhvm.supabase.co',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cnBidmpja2xpd3l1Y2NiaHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2ODM3MjUsImV4cCI6MjA4OTI1OTcyNX0.yvyUfF5q2G1yabH6NFG8Tk5DqVH-wCJpct4iTzF90Fg'
+    'https://vtrpbvjckliwyuccbhvm.supabase.co',
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZ0cnBidmpja2xpd3l1Y2NiaHZtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM2ODM3MjUsImV4cCI6MjA4OTI1OTcyNX0.yvyUfF5q2G1yabH6NFG8Tk5DqVH-wCJpct4iTzF90Fg'
   )
 }
 

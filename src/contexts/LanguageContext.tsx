@@ -50,7 +50,7 @@ const translations = {
     antifa: '✊ Antifaschistischer Wohlfühlort',
     discoverKajuete: 'Kajüte 1876 entdecken →',
     beforeTrip: 'Vor der Fahrt bei uns essen',
-    beforeTripDesc: 'Kommt doch um 17:30 oder 18 Uhr zum Flammkuchen-Essen. Nur hier könnt ihr einen Tisch reservieren lassen.',
+    beforeTripDesc: 'Kommt doch um 17:30 oder 18 Uhr zum Flammkuchen-Essen. Hier könnt ihr einen Tisch reservieren.',
     tableBook: 'Tisch reservieren →',
     tableNote: 'Tischreservierung und Bootsfahrt sind unabhängig voneinander.',
     // Booking
@@ -149,7 +149,7 @@ const translations = {
     antifa: '✊ Antifascist Feel-Good Place',
     discoverKajuete: 'Discover Kajüte 1876 →',
     beforeTrip: 'Eat with us before the trip',
-    beforeTripDesc: 'Come for tarte flambée at 5:30 or 6 PM. You can only reserve a table here.',
+    beforeTripDesc: 'Come for tarte flambée at 5:30 or 6 PM. Here you can reserve a table.',
     tableBook: 'Reserve a Table →',
     tableNote: 'Table reservation and boat trip are independent.',
     reservation: 'Reservation',
