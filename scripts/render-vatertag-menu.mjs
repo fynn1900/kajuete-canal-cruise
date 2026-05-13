@@ -97,26 +97,43 @@ const svg = `<?xml version="1.0" encoding="UTF-8"?>
 
   ${ornament(cx, 1240)}
 
-  <!-- ─────────── Nachtisch ─────────── -->
-  ${courseBlock({
-    y: 1320,
-    roman: 'III',
-    label: 'NACHTISCH',
-    name: 'Aniks Schokoladenkuchen',
-    note: 'Süßer Abschluss',
-    note2: 'eines schönen Tages.',
-  })}
+  <!-- ─────────── Nachtisch (zwei Desserts) ─────────── -->
+  <text x="${cx}" y="1310" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="26" fill="${MUTED}">
+    III
+  </text>
+  <text x="${cx}" y="1345" text-anchor="middle"
+        font-family="Liberation Sans, DejaVu Sans, sans-serif"
+        font-size="20" letter-spacing="10" fill="${INK}">
+    NACHTISCH
+  </text>
+  <text x="${cx}" y="1400" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="42" fill="${INK}">
+    Zitronenkuchen in Herzform
+  </text>
+  <text x="${cx}" y="1445" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="26" fill="${MUTED}">
+    &amp;
+  </text>
+  <text x="${cx}" y="1495" text-anchor="middle"
+        font-family="Liberation Serif, DejaVu Serif, serif"
+        font-style="italic" font-size="42" fill="${INK}">
+    Zitronen-Biskuit-Rolle
+  </text>
 
   <!-- Fußzeile -->
-  ${diamondRule(cx, 1500, 140)}
-  <text x="${cx}" y="1555" text-anchor="middle"
+  ${diamondRule(cx, 1540, 140)}
+  <text x="${cx}" y="1585" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-style="italic" font-size="32" fill="${INK}">
+        font-style="italic" font-size="30" fill="${INK}">
     Guten Appetit, lieber Papa
   </text>
-  <text x="${cx}" y="1605" text-anchor="middle"
+  <text x="${cx}" y="1625" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-size="32" fill="${INK}">
+        font-size="28" fill="${INK}">
     ❦
   </text>
 </svg>

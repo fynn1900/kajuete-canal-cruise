@@ -117,47 +117,46 @@
         font-size="14" fill="#14110d">◆</text>
   <line x1="638" y1="1240" x2="728" y2="1240" stroke="#14110d" stroke-width="1"/>
 
-  <!-- ─────────── Nachtisch ─────────── -->
-  
-  <text x="620" y="1320" text-anchor="middle"
+  <!-- ─────────── Nachtisch (zwei Desserts) ─────────── -->
+  <text x="620" y="1310" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
         font-style="italic" font-size="26" fill="#4a4236">
     III
   </text>
-  <text x="620" y="1355" text-anchor="middle"
+  <text x="620" y="1345" text-anchor="middle"
         font-family="Liberation Sans, DejaVu Sans, sans-serif"
         font-size="20" letter-spacing="10" fill="#14110d">
     NACHTISCH
   </text>
-  <text x="620" y="1410" text-anchor="middle"
+  <text x="620" y="1400" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-style="italic" font-size="48" fill="#14110d">
-    Aniks Schokoladenkuchen
+        font-style="italic" font-size="42" fill="#14110d">
+    Zitronenkuchen in Herzform
   </text>
-  <text x="620" y="1450" text-anchor="middle"
+  <text x="620" y="1445" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-style="italic" font-size="24" fill="#4a4236">
-    Süßer Abschluss
+        font-style="italic" font-size="26" fill="#4a4236">
+    &amp;
   </text>
-  <text x="620" y="1480" text-anchor="middle"
+  <text x="620" y="1495" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-style="italic" font-size="24" fill="#4a4236">
-    eines schönen Tages.
+        font-style="italic" font-size="42" fill="#14110d">
+    Zitronen-Biskuit-Rolle
   </text>
 
   <!-- Fußzeile -->
   
-  <line x1="550" y1="1500" x2="690" y2="1500" stroke="#14110d" stroke-width="1.5"/>
-  <polygon points="543,1500 550,1493 557,1500 550,1507" fill="#14110d"/>
-  <polygon points="683,1500 690,1493 697,1500 690,1507" fill="#14110d"/>
-  <text x="620" y="1555" text-anchor="middle"
+  <line x1="550" y1="1540" x2="690" y2="1540" stroke="#14110d" stroke-width="1.5"/>
+  <polygon points="543,1540 550,1533 557,1540 550,1547" fill="#14110d"/>
+  <polygon points="683,1540 690,1533 697,1540 690,1547" fill="#14110d"/>
+  <text x="620" y="1585" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-style="italic" font-size="32" fill="#14110d">
+        font-style="italic" font-size="30" fill="#14110d">
     Guten Appetit, lieber Papa
   </text>
-  <text x="620" y="1605" text-anchor="middle"
+  <text x="620" y="1625" text-anchor="middle"
         font-family="Liberation Serif, DejaVu Serif, serif"
-        font-size="32" fill="#14110d">
+        font-size="28" fill="#14110d">
     ❦
   </text>
 </svg>
