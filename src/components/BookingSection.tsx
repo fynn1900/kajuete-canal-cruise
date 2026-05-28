@@ -204,7 +204,7 @@ export default function BookingSection() {
               {lang === 'de' ? 'Nur 6 Plätze pro Abfahrt – begrenzt' : 'Only 6 spots per trip – limited'}
             </span>
           </div>
-          <p className="font-outfit text-xs mt-2" style={{ color: 'rgba(245,237,216,0.28)' }}>
+          <p className="font-outfit text-xs mt-2" style={{ color: 'rgba(245,237,216,0.6)' }}>
             {t.langNotice}
           </p>
         </div>
