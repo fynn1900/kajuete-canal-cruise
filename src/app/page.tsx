@@ -156,6 +156,8 @@ export default function Home() {
                 {t.card4Text}
                 <br /><br />
                 {t.card4Sub}
+                <br /><br />
+                {t.langNotice}
               </p>
             </div>
           </div>
