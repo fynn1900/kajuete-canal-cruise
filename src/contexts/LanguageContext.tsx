@@ -6,7 +6,7 @@ const translations = {
   de: {
     // Badge
     season: 'Saison 2026',
-    langNotice: 'Touren auch auf Englisch & Dänisch möglich',
+    langNotice: 'Touren auch auf Englisch möglich',
     // Hero
     heroTitle1: 'Die etwas andere',
     heroTitle2: '1621 Grachtenfahrt',
@@ -110,7 +110,7 @@ const translations = {
   },
   en: {
     season: 'Season 2026',
-    langNotice: 'Tours also available in German & Danish',
+    langNotice: 'Tours also available in German',
     heroTitle1: 'The Canal Cruise',
     heroTitle2: '1621 Canal Cruise',
     heroSub: 'Daily 7 PM · Friedrichstadt · Max. 6 People',
@@ -206,7 +206,7 @@ const translations = {
   },
   da: {
     season: 'Sæson 2026',
-    langNotice: 'Ture mulige på tysk, engelsk & dansk',
+    langNotice: 'Toure mulige på tysk & engelsk',
     heroTitle1: 'Den anderledes',
     heroTitle2: '1621 Kanaltur',
     heroSub: 'Dagligt kl. 19 · Friedrichstadt · Maks. 6 personer',
