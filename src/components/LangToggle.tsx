@@ -2,13 +2,17 @@
 
 import { useLanguage } from '@/contexts/LanguageContext'
 
+const FLAGS = [
+  { lang: 'de' as const, emoji: '🇩🇪', label: 'Deutsch' },
+  { lang: 'en' as const, emoji: '🇬🇧', label: 'English' },
+  { lang: 'da' as const, emoji: '🇩🇰', label: 'Dansk' },
+]
+
 export default function LangToggle() {
-  const { lang, toggle } = useLanguage()
+  const { lang, setLang } = useLanguage()
 
   return (
-    <button
-      onClick={toggle}
-      aria-label="Switch language"
+    <div
       style={{
         position: 'fixed',
         top: '1rem',
@@ -21,18 +25,30 @@ export default function LangToggle() {
         backdropFilter: 'blur(10px)',
         border: '1px solid rgba(212,168,67,0.25)',
         borderRadius: '999px',
-        padding: '5px 12px',
-        cursor: 'pointer',
-        fontFamily: 'var(--font-outfit), sans-serif',
-        fontSize: '0.7rem',
-        fontWeight: 600,
-        letterSpacing: '0.1em',
-        transition: 'border-color 0.2s, background 0.2s',
+        padding: '4px 6px',
       }}
     >
-      <span style={{ color: lang === 'de' ? '#ECC564' : 'rgba(245,237,216,0.35)', transition: 'color 0.2s' }}>DE</span>
-      <span style={{ color: 'rgba(245,237,216,0.2)', margin: '0 3px' }}>|</span>
-      <span style={{ color: lang === 'en' ? '#ECC564' : 'rgba(245,237,216,0.35)', transition: 'color 0.2s' }}>EN</span>
-    </button>
+      {FLAGS.map(({ lang: l, emoji, label }) => (
+        <button
+          key={l}
+          onClick={() => setLang(l)}
+          aria-label={label}
+          style={{
+            background: 'none',
+            border: 'none',
+            cursor: 'pointer',
+            padding: '3px 5px',
+            borderRadius: '999px',
+            fontSize: '1.15rem',
+            lineHeight: 1,
+            opacity: lang === l ? 1 : 0.3,
+            transition: 'opacity 0.2s',
+            WebkitTapHighlightColor: 'transparent',
+          }}
+        >
+          {emoji}
+        </button>
+      ))}
+    </div>
   )
 }

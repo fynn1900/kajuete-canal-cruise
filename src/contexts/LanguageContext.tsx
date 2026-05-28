@@ -6,6 +6,7 @@ const translations = {
   de: {
     // Badge
     season: 'Saison 2026',
+    langNotice: 'Touren auch auf Englisch & Dänisch möglich',
     // Hero
     heroTitle1: 'Die etwas andere',
     heroTitle2: '1621 Grachtenfahrt',
@@ -109,6 +110,7 @@ const translations = {
   },
   en: {
     season: 'Season 2026',
+    langNotice: 'Tours also available in German & Danish',
     heroTitle1: 'The Canal Cruise',
     heroTitle2: '1621 Canal Cruise',
     heroSub: 'Daily 7 PM · Friedrichstadt · Max. 6 People',
@@ -202,33 +204,135 @@ const translations = {
     footerAddress: 'Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de',
     automatedBy: 'Booking system automated by',
   },
+  da: {
+    season: 'Sæson 2026',
+    langNotice: 'Ture mulige på tysk, engelsk & dansk',
+    heroTitle1: 'Den anderledes',
+    heroTitle2: '1621 Kanaltur',
+    heroSub: 'Dagligt kl. 19 · Friedrichstadt · Maks. 6 personer',
+    bookSpot: 'Reservér plads',
+    learnMore: 'Læs mere',
+    onBoard: 'Om bord',
+    whatToExpect: 'Hvad I',
+    whatToExpectEm: 'kan forvente',
+    card1Title: 'Eksklusiv tur',
+    card1Text: 'Eksklusiv 1621-øl & kanaltur med maks. 6 personer. Afslappet aftensejlads med vores Skipper Fynn.',
+    card1Sub: '60 minutter inkl. af- og anlægning direkte ved Kajütengracht.',
+    card2Title: '1621 Øl inkluderet',
+    card2Text: 'I aftenlyset inkl. 1× 1621-øl til Friedrichstadt / sodavand.',
+    card2Sub: 'Kanalmusik og historier om Friedrichstadt — nydes i aftenlyset på vandet.',
+    card3Title: 'Priser',
+    card3Adult: 'pr. person',
+    card3Kid: 'Børn 2–7 år',
+    card3Note: 'Betaling på Kajüte · Ingen forudbetaling',
+    card3Exclusive: 'Eksklusiv tur med Skipper Fynn kun for jer to / jeres gruppe / familie · +6 € pr. person',
+    card4Title: 'Godt at vide',
+    card4Text: 'Åben båd — turen kører kun ved godt, tørt vejr (min. 14°C).',
+    card4Sub: 'Vi afgår fra 2 personer.',
+    descLabel: 'Den lille kanalby i Nordfriesland',
+    descQuote: 'Kajüte 1876, 1621 Øl!',
+    descQuoteEm: 'Det er Friedrichstadt!',
+    descText: 'Besøg Kajüte 1876 og kombiner jeres Flammkuchen-aften med en 1621-øl & kanaltur. Lær vores 1621 og den lille kanalby at kende på en ganske særlig måde. Friedrichstadt er smukkest fra vandet — og 1621-øllet smager bedst om bord.',
+    descText2: 'Kanalskipper Fynn viser jer den hollandske by fra vandsiden og fortæller om vores øl og sit Friedrichstadt. 1621-øllet om bord er garanteret iskoldt. Det særlige Kajüte-event for par, familier og små grupper. Skål & Velkommen til Kajüte 1876 og om bord!',
+    startGoal: 'Start & Mål',
+    kajueteTitle: '',
+    kajueteEm: 'Kajüte 1876',
+    kajueteDesc: 'Gæstehus ved vandet, 1621-ølbar, Veras Flammkuchenküche og kanalhave — lige der hvor bådturen starter og slutter.',
+    flammkuchenLabel: 'Veras Flammkuchenküche',
+    flammkuchenHours: '12–19',
+    bierLabel: 'Ølautomat',
+    bierHours: 'Dagligt 11–23',
+    gardenLabel: 'Kanalhaven',
+    gardenDesc: 'Overdækkede pladser ved kanalen. Altid åben.',
+    antifa: '✊ Antifascistisk hyggespot',
+    discoverKajuete: 'Opdag Kajüte 1876 →',
+    beforeTrip: 'Spis hos os inden turen',
+    beforeTripDesc: 'Kom til Flammkuchen kl. 17:30 eller 18:00. Her kan I reservere et bord.',
+    tableBook: 'Reservér bord →',
+    tableNote: 'Bordreservation og bådtur er uafhængige af hinanden.',
+    reservation: 'Reservation',
+    secureSpot: 'Reservér plads',
+    secureSpotEm: 'i båden',
+    bookingSub: 'Dagligt kl. 19 · Maks. 6 personer · Kajüten-Gracht',
+    chooseDate: 'Vælg dato',
+    seasonNote: 'Sæson 2026',
+    loading: 'Indlæser…',
+    spotsLeft: 'ledige',
+    of: 'af',
+    noTrip: 'Ingen tur',
+    soldOut: 'Udsolgt',
+    loadError: 'Kunne ikke indlæse — genindlæs siden.',
+    successTitle: 'Reservation modtaget!',
+    successSub: 'Vi ses den',
+    successNote: 'Betaling på stedet (kontant & kort) · 19 € pr. pers. · Børn 2–7 år 5 €',
+    blockedTitle: 'Ingen tur denne dag.',
+    blockedDesc: 'Skipper Fynn holder pause. Prøv en anden dato.',
+    soldoutTitle: 'Udsolgt.',
+    soldoutDesc: 'Alle 6 pladser er taget — måske er en anden aften mulig.',
+    persons: 'Personer',
+    adults: 'Personer fra 8 år',
+    kids: 'Børn (2–7 år)',
+    cashNote: 'Betaling på stedet (kontant & kort)',
+    minPersons: 'Mindst 2 personer kræves til en tur.',
+    namePlaceholder: 'Dit navn',
+    emailPlaceholder: 'din@mail.dk',
+    nameLabel: 'Navn *',
+    emailLabel: 'E-mail',
+    emailHint: '(til bekræftelsesmail)',
+    submitBtn: 'Reservér nu',
+    submitting: 'Sender…',
+    footerNote: 'Åben båd · Kun ved godt vejr (min. 14°C)',
+    blockedAvail: 'Skipper Fynn holder pause i dag — vælg venligst en anden dato.',
+    soldoutAvail: 'Alle 6 pladser er taget for denne dag — vælg venligst en anden dato.',
+    nameError: 'Angiv venligst dit navn.',
+    minError: 'Mindst 2 personer kræves til en tur.',
+    exclusiveLabel: 'Eksklusiv tur — kun for jer',
+    exclusiveDesc: '+6 € pr. person · Båd & skipper helt for jer selv',
+    safetyTitle: 'Sikkerhedsoplysninger',
+    safetyHints: 'Redningsveste er tilgængelige om bord på anmodning.\n\nVær venlig at sidde ned under turen — det er et smalt, åbent fartøj.\n\nBørn skal have opsyn til enhver tid.\n\nTure aflyses ved kraftig vind, regn eller under 14°C. I vil blive underrettet så tidligt som muligt.\n\nSkipperen har det endelige ord om turens sikkerhed.',
+    liabilityTitle: 'Sikkerhedsoplysninger & ansvarsfritagelse',
+    liabilityText: 'for 1621-øl & kanalturen hos Kajüte 1876\n\nVed at foretage en online reservation af en 1621-øl & kanaltur bekræfter jeg, at jeg vil deltage og accepterer følgende betingelser:\n\n1. Deltagelse på eget ansvar\nJeg deltager på eget ansvar. Operatøren (Kajüte 1876) og skipperen hæfter ikke for ulykker, skader forårsaget af min egen adfærd eller force majeure.\n\n2. Sikkerhedsregler\n• Jeg bærer den medfølgende redningsvest under turen.\n• Jeg følger skipperens instrukser.\n\n3. Ansvarsbegrænsning\nKajüte 1876 og skipperen hæfter ikke for skader på din ejendom (f.eks. telefoner, kameraer), skader forårsaget af manglende overholdelse af sikkerhedsanvisningerne, eller vejrbetingede aflysninger.\n\n4. Databeskyttelse\nMine data bruges kun til reservationen / bookingen og videregives ikke til tredjeparter.',
+    liabilityCheck: 'Jeg har læst sikkerhedsoplysningerne & ansvarsfritagelsen og accepterer.',
+    liabilityLink: 'Sikkerhedsoplysninger & ansvarsfritagelsen',
+    liabilityRequired: 'Acceptér venligst sikkerhedsoplysningerne & ansvarsfritagelsen.',
+    footerSlogan: 'Kajüte 1876 · Friedrichstadt',
+    footerSub: '1621 Øl & Kanaltur · Dagligt kl. 19',
+    footerAddress: 'Holmertorstrasse 11 · 25840 Friedrichstadt · kontakt@kajuete1876.de',
+    automatedBy: 'Bookingsystem automatiseret af',
+  },
 } as const
 
-type Lang = 'de' | 'en'
+type Lang = 'de' | 'en' | 'da'
 type T = { [K in keyof typeof translations.de]: string }
 
-const LanguageContext = createContext<{ lang: Lang; t: T; toggle: () => void }>({
+const LanguageContext = createContext<{ lang: Lang; t: T; toggle: () => void; setLang: (l: Lang) => void }>({
   lang: 'de',
   t: translations.de,
   toggle: () => {},
+  setLang: () => {},
 })
 
 export function LanguageProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>('de')
+  const [lang, setLangState] = useState<Lang>('de')
 
   useEffect(() => {
     const saved = localStorage.getItem('lang') as Lang | null
-    if (saved === 'de' || saved === 'en') setLang(saved)
+    if (saved === 'de' || saved === 'en' || saved === 'da') setLangState(saved)
   }, [])
 
   function toggle() {
-    const next: Lang = lang === 'de' ? 'en' : 'de'
-    setLang(next)
+    const next: Lang = lang === 'de' ? 'en' : lang === 'en' ? 'da' : 'de'
+    setLangState(next)
     localStorage.setItem('lang', next)
   }
 
+  function setLang(l: Lang) {
+    setLangState(l)
+    localStorage.setItem('lang', l)
+  }
+
   return (
-    <LanguageContext.Provider value={{ lang, t: translations[lang], toggle }}>
+    <LanguageContext.Provider value={{ lang, t: translations[lang], toggle, setLang }}>
       {children}
     </LanguageContext.Provider>
   )
