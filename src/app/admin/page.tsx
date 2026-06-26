@@ -431,7 +431,7 @@ export default function AdminPage() {
                       <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
                         <input
                           type="text"
-                          placeholder="Name (optional, z.B. „Klaus")"
+                          placeholder="Name (optional, z.B. Klaus)"
                           value={addName}
                           onChange={e => setAddName(e.target.value)}
                           style={inputStyle}
