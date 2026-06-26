@@ -68,6 +68,14 @@ export default function AdminPage() {
   const [newReason, setNewReason] = useState('')
   const [saving, setSaving] = useState(false)
 
+  // Add booking form
+  const [addOpen, setAddOpen] = useState(false)
+  const [addName, setAddName] = useState('')
+  const [addAdults, setAddAdults] = useState(1)
+  const [addKids, setAddKids] = useState(0)
+  const [addSubmitting, setAddSubmitting] = useState(false)
+  const [addError, setAddError] = useState<string | null>(null)
+
   const monthKey = `${year}-${String(month).padStart(2, '0')}`
 
   // Load month bookings + blocked
@@ -97,30 +105,58 @@ export default function AdminPage() {
   useEffect(() => {
     if (!selectedDate) return
     setDayLoading(true)
+    setAddOpen(false)
+    setAddError(null)
     fetch(`/api/admin/bookings?date=${selectedDate}`)
       .then(r => r.json())
       .then(data => { setDayBookings(Array.isArray(data) ? data : []); setDayLoading(false) })
       .catch(() => setDayLoading(false))
   }, [selectedDate])
 
+  async function refreshMonth() {
+    const bookingsRaw = await fetch(`/api/admin/bookings?month=${monthKey}`).then(r => r.json())
+    const summaries: Record<string, DaySummary> = {}
+    if (Array.isArray(bookingsRaw)) {
+      for (const b of bookingsRaw) {
+        if (!summaries[b.booking_date]) summaries[b.booking_date] = { booked: 0, isExclusive: false }
+        summaries[b.booking_date].booked += b.group_size
+        if (b.is_exclusive) summaries[b.booking_date].isExclusive = true
+      }
+    }
+    setDaySummaries(summaries)
+  }
+
+  async function addBooking() {
+    if (!selectedDate) return
+    setAddSubmitting(true)
+    setAddError(null)
+    try {
+      const res = await fetch('/api/admin/bookings', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ date: selectedDate, adults: addAdults, kids: addKids, name: addName }),
+      })
+      const data = await res.json()
+      if (!res.ok) { setAddError(data.error || 'Fehler'); return }
+      const updated = await fetch(`/api/admin/bookings?date=${selectedDate}`).then(r => r.json())
+      setDayBookings(Array.isArray(updated) ? updated : [])
+      await refreshMonth()
+      setAddName('')
+      setAddAdults(1)
+      setAddKids(0)
+      setAddOpen(false)
+    } catch { setAddError('Verbindungsfehler') }
+    finally { setAddSubmitting(false) }
+  }
+
   async function deleteBooking(id: string) {
     if (!confirm('Buchung löschen?')) return
     await fetch('/api/admin/bookings', { method: 'DELETE', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ id }) })
     if (selectedDate) {
-      fetch(`/api/admin/bookings?date=${selectedDate}`).then(r => r.json()).then(d => setDayBookings(Array.isArray(d) ? d : []))
+      const updated = await fetch(`/api/admin/bookings?date=${selectedDate}`).then(r => r.json())
+      setDayBookings(Array.isArray(updated) ? updated : [])
     }
-    // Refresh month summary
-    fetch(`/api/admin/bookings?month=${monthKey}`).then(r => r.json()).then(bookingsRaw => {
-      const summaries: Record<string, DaySummary> = {}
-      if (Array.isArray(bookingsRaw)) {
-        for (const b of bookingsRaw) {
-          if (!summaries[b.booking_date]) summaries[b.booking_date] = { booked: 0, isExclusive: false }
-          summaries[b.booking_date].booked += b.group_size
-          if (b.is_exclusive) summaries[b.booking_date].isExclusive = true
-        }
-      }
-      setDaySummaries(summaries)
-    })
+    await refreshMonth()
   }
 
   async function blockDate() {
@@ -380,6 +416,70 @@ export default function AdminPage() {
                     </div>
                   )
                 })}
+
+                {/* ── ADD BOOKING ── */}
+                {!blockedSet.has(selectedDate) && totalBooked < MAX && (
+                  <div style={{ borderTop: `1px solid ${c.border}` }}>
+                    <button
+                      onClick={() => { setAddOpen(v => !v); setAddError(null) }}
+                      style={{ width: '100%', background: 'none', border: 'none', padding: '0.9rem 1.25rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', color: c.gold, fontFamily: 'var(--font-outfit)', fontSize: '0.85rem', fontWeight: 500 }}>
+                      <span>+ Buchung manuell eintragen</span>
+                      <span style={{ fontSize: '0.75rem', color: c.dim }}>{MAX - totalBooked} {MAX - totalBooked === 1 ? 'Platz' : 'Plätze'} frei</span>
+                    </button>
+
+                    {addOpen && (
+                      <div style={{ padding: '0 1.25rem 1.25rem', display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+                        <input
+                          type="text"
+                          placeholder="Name (optional, z.B. „Klaus")"
+                          value={addName}
+                          onChange={e => setAddName(e.target.value)}
+                          style={inputStyle}
+                        />
+                        <div style={{ display: 'flex', gap: '1rem' }}>
+                          {/* Adults */}
+                          <div style={{ flex: 1 }}>
+                            <p style={{ fontSize: '0.72rem', color: c.dim, marginBottom: '0.45rem', margin: '0 0 0.45rem' }}>Erwachsene (19 €)</p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                              <button type="button" onClick={() => setAddAdults(v => Math.max(0, v - 1))}
+                                style={{ width: 36, height: 36, borderRadius: '50%', border: `1px solid ${c.border}`, background: 'none', color: c.cream, cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1 }}>−</button>
+                              <span style={{ color: c.cream, fontWeight: 700, minWidth: 20, textAlign: 'center', fontSize: '1rem' }}>{addAdults}</span>
+                              <button type="button" onClick={() => setAddAdults(v => Math.min(v + 1, MAX - totalBooked - addKids))}
+                                style={{ width: 36, height: 36, borderRadius: '50%', border: `1px solid ${c.border}`, background: 'none', color: c.cream, cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1 }}>+</button>
+                            </div>
+                          </div>
+                          {/* Kids */}
+                          <div style={{ flex: 1 }}>
+                            <p style={{ fontSize: '0.72rem', color: c.dim, marginBottom: '0.45rem', margin: '0 0 0.45rem' }}>Kids 2–7 (5 €)</p>
+                            <div style={{ display: 'flex', alignItems: 'center', gap: '0.6rem' }}>
+                              <button type="button" onClick={() => setAddKids(v => Math.max(0, v - 1))}
+                                style={{ width: 36, height: 36, borderRadius: '50%', border: `1px solid ${c.border}`, background: 'none', color: c.cream, cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1 }}>−</button>
+                              <span style={{ color: c.cream, fontWeight: 700, minWidth: 20, textAlign: 'center', fontSize: '1rem' }}>{addKids}</span>
+                              <button type="button" onClick={() => setAddKids(v => Math.min(v + 1, MAX - totalBooked - addAdults))}
+                                style={{ width: 36, height: 36, borderRadius: '50%', border: `1px solid ${c.border}`, background: 'none', color: c.cream, cursor: 'pointer', fontSize: '1.2rem', lineHeight: 1 }}>+</button>
+                            </div>
+                          </div>
+                        </div>
+
+                        {addError && <p style={{ color: '#f87171', fontSize: '0.8rem', margin: 0 }}>{addError}</p>}
+
+                        <button
+                          onClick={addBooking}
+                          disabled={addSubmitting || addAdults + addKids < 1}
+                          style={{
+                            background: addAdults + addKids > 0 ? `linear-gradient(135deg,${c.gold},#F0C96E)` : 'rgba(255,255,255,0.05)',
+                            color: addAdults + addKids > 0 ? c.bg : c.faint,
+                            border: 'none', borderRadius: '10px', padding: '0.8rem',
+                            fontWeight: 600, fontSize: '0.85rem',
+                            cursor: addAdults + addKids > 0 && !addSubmitting ? 'pointer' : 'default',
+                            fontFamily: 'var(--font-outfit)', transition: 'all 0.2s',
+                          }}>
+                          {addSubmitting ? 'Wird eingetragen…' : `⚓ ${addAdults + addKids} ${addAdults + addKids === 1 ? 'Person' : 'Personen'} eintragen`}
+                        </button>
+                      </div>
+                    )}
+                  </div>
+                )}
               </div>
             )}
           </div>
