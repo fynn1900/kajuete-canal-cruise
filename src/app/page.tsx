@@ -157,6 +157,8 @@ export default function Home() {
                 <br /><br />
                 {t.card4Sub}
                 <br /><br />
+                {t.card4Dogs}
+                <br /><br />
                 {t.langNotice}
               </p>
             </div>

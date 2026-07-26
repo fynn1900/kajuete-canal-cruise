@@ -31,6 +31,7 @@ const translations = {
     card4Title: 'Gut zu wissen',
     card4Text: 'Offenes Boot — die Fahrt findet nur bei gutem, trockenem Wetter statt (mind. 14 °C).',
     card4Sub: 'Wir fahren ab 2 Personen.',
+    card4Dogs: 'Kleine Hunde sind willkommen. Große Hunde auf Anfrage.',
     // Description
     descLabel: 'Das Grachtenstädtchen in Nordfriesland',
     descQuote: 'Kajüte 1876, 1621 Bier!',
@@ -133,6 +134,7 @@ const translations = {
     card4Title: 'Good to Know',
     card4Text: 'Open boat — trips only run in good, dry weather (min. 14°C / 57°F).',
     card4Sub: 'We depart from 2 people.',
+    card4Dogs: 'Small dogs are welcome. Large dogs on request.',
     descLabel: 'The Little Dutch Town in North Frisia',
     descQuote: 'Kajüte 1876, 1621 Beer!',
     descQuoteEm: "That's Friedrichstadt!",
@@ -229,6 +231,7 @@ const translations = {
     card4Title: 'Godt at vide',
     card4Text: 'Åben båd — turen kører kun ved godt, tørt vejr (min. 14°C).',
     card4Sub: 'Vi afgår fra 2 personer.',
+    card4Dogs: 'Små hunde er velkomne. Store hunde på forespørgsel.',
     descLabel: 'Den lille kanalby i Nordfriesland',
     descQuote: 'Kajüte 1876, 1621 Øl!',
     descQuoteEm: 'Det er Friedrichstadt!',
