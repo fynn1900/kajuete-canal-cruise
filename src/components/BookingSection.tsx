@@ -43,6 +43,7 @@ export default function BookingSection() {
   const seasonMin = getSeasonMin()
   const seasonMax = getSeasonMax()
   const today = new Date()
+  const isOffSeason = today > seasonMax
   const defaultDate = today >= seasonMin && today <= seasonMax ? toDateString(today) : toDateString(seasonMin)
 
   const [date, setDate] = useState(defaultDate)
@@ -209,6 +210,18 @@ export default function BookingSection() {
           </p>
         </div>
 
+        {isOffSeason ? (
+          <div className="rounded-2xl text-center py-12 px-8" style={{
+            background: 'rgba(19,34,64,0.75)',
+            backdropFilter: 'blur(14px)',
+            border: '1px solid rgba(212,168,67,0.15)',
+            borderTop: '2px solid rgba(212,168,67,0.35)',
+          }}>
+            <div className="text-4xl mb-4">⚓</div>
+            <h3 className="font-cormorant text-2xl font-light text-cream mb-3">{t.seasonEndTitle}</h3>
+            <p className="font-outfit text-sm leading-relaxed" style={{ color: 'rgba(245,237,216,0.55)' }}>{t.seasonEndText}</p>
+          </div>
+        ) : (
         <div className="rounded-2xl overflow-hidden" style={{
           background: 'rgba(19,34,64,0.75)',
           backdropFilter: 'blur(14px)',
@@ -523,6 +536,7 @@ export default function BookingSection() {
             </div>
           )}
         </div>
+        )}
 
 
       </div>

@@ -50,6 +50,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Ungültige Gruppengröße' }, { status: 400 })
     }
 
+    const bookingYear = parseInt(booking_date.split('-')[0])
+    const seasonEnd = new Date(bookingYear, 8, 30) // Sept 30
+    if (new Date(booking_date) > seasonEnd) {
+      return NextResponse.json({ error: 'Saison beendet — keine Buchungen ab Oktober.' }, { status: 400 })
+    }
+
     const db = supabaseAdmin()
 
     const { data: existing, error: fetchError } = await db
