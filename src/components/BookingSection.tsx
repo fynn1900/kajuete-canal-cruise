@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { useLanguage } from '@/contexts/LanguageContext'
+import CalendarPicker from '@/components/CalendarPicker'
 
 const MAX_SEATS = 6
 const PRICE_ADULT = 19
@@ -40,11 +41,10 @@ type AvState = 'idle' | 'loading' | 'ready' | 'soldout' | 'blocked' | 'error'
 export default function BookingSection() {
   const { t, lang } = useLanguage()
 
-  const seasonMin = getSeasonMin()
   const seasonMax = getSeasonMax()
   const today = new Date()
   const isOffSeason = today > seasonMax
-  const defaultDate = today >= seasonMin && today <= seasonMax ? toDateString(today) : toDateString(seasonMin)
+  const defaultDate = toDateString(today)
 
   const [date, setDate] = useState(defaultDate)
   const [avState, setAvState] = useState<AvState>('idle')
@@ -230,14 +230,15 @@ export default function BookingSection() {
         }}>
 
           {/* Date */}
-          <div className="pt-5 pb-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <label className="form-label block mb-2 px-5">{t.chooseDate}</label>
-            <input type="date" value={date}
-              min={toDateString(seasonMin)} max={toDateString(seasonMax)}
-              onChange={e => setDate(e.target.value)}
-              className="form-input w-full py-3 text-base text-center"
-              style={{ fontSize: '16px', display: 'block' }} />
-            <p className="font-outfit text-xs mt-1.5 px-5" style={{ color: 'rgba(245,237,216,0.25)' }}>{t.seasonNote}</p>
+          <div className="pt-5 pb-4 border-b px-5" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
+            <label className="form-label block mb-3">{t.chooseDate}</label>
+            <CalendarPicker
+              value={date}
+              onChange={setDate}
+              lang={lang}
+              offSeasonMsg={t.offSeasonMsg}
+            />
+            <p className="font-outfit text-xs mt-3" style={{ color: 'rgba(245,237,216,0.2)' }}>{t.seasonNote}</p>
           </div>
 
           {/* Availability */}
