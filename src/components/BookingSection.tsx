@@ -254,10 +254,10 @@ export default function BookingSection() {
 
           {/* Calendar popup */}
           {calOpen && (
-            <div onClick={() => setCalOpen(false)}
-              style={{ position: 'fixed', inset: 0, zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', background: 'rgba(5,12,25,0.72)', backdropFilter: 'blur(6px)' }}>
-              <div onClick={e => e.stopPropagation()}
-                style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.22)', borderTop: '2px solid rgba(212,168,67,0.5)', borderRadius: '20px', padding: '1.4rem 1.25rem 1.5rem', width: '100%', maxWidth: '340px' }}>
+            <div onClick={e => { if (e.target === e.currentTarget) setCalOpen(false) }}
+              style={{ position: 'fixed', inset: 0, zIndex: 150, display: 'flex', alignItems: 'flex-start', justifyContent: 'center', padding: '1rem', paddingTop: '5vh', background: 'rgba(5,12,25,0.72)', backdropFilter: 'blur(6px)', overflowY: 'auto' }}>
+              <div
+                style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.22)', borderTop: '2px solid rgba(212,168,67,0.5)', borderRadius: '20px', padding: '1.4rem 1.25rem 1.5rem', width: '100%', maxWidth: '340px', flexShrink: 0 }}>
                 <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.1rem' }}>
                   <span style={{ fontFamily: 'var(--font-outfit)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.55)' }}>{t.chooseDate}</span>
                   <button onClick={() => setCalOpen(false)}
