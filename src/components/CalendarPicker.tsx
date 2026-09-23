@@ -127,7 +127,6 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg, bl
           const isSelected = iso === value
           const isToday = iso === todayISO
 
-          // Opacity layers: past = 0.15, off-season = 0.3, blocked = 0.45
           let opacity = 1
           if (isPast) opacity = 0.15
           else if (isBlocked) opacity = 0.45
@@ -135,23 +134,23 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg, bl
 
           const bg = isSelected ? gold : isBlocked && !isPast ? 'rgba(248,113,113,0.08)' : 'transparent'
           const color = isSelected ? '#07111f' : isBlocked && !isPast ? '#fca5a5' : cream
-          const cursor = isPast ? 'default' : 'pointer'
           const outline = isToday && !isSelected ? `1.5px solid rgba(212,168,67,0.55)` : 'none'
 
           return (
-            <div key={day} onClick={() => handleDay(day)}
+            <button key={day} type="button" onClick={() => handleDay(day)}
               style={{
                 textAlign: 'center', borderRadius: '7px',
                 fontSize: '0.8rem', fontFamily: 'var(--font-outfit)',
-                background: bg, color, opacity, cursor,
+                background: bg, color, opacity,
                 outline, outlineOffset: '-1.5px',
-                transition: 'background 0.12s',
+                border: 'none', transition: 'background 0.12s',
                 height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
+                width: '100%', cursor: isPast ? 'default' : 'pointer',
                 WebkitTapHighlightColor: 'transparent',
                 fontWeight: isToday ? 700 : 400,
               }}>
               {day}
-            </div>
+            </button>
           )
         })}
       </div>
