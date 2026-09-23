@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClient } from '@supabase/supabase-js'
 import { useLanguage } from '@/contexts/LanguageContext'
-import CalendarPicker from '@/components/CalendarPicker'
+import CalendarPicker, { BlockedDate } from '@/components/CalendarPicker'
 
 const MAX_SEATS = 6
 const PRICE_ADULT = 19
@@ -62,11 +62,24 @@ export default function BookingSection() {
   const [formError, setFormError] = useState<string | null>(null)
   const [liabilityAccepted, setLiabilityAccepted] = useState(false)
   const [liabilityOpen, setLiabilityOpen] = useState(false)
+  const [calOpen, setCalOpen] = useState(false)
+  const [allBlockedDates, setAllBlockedDates] = useState<BlockedDate[]>([])
 
   useEffect(() => {
-    document.body.style.overflow = liabilityOpen ? 'hidden' : ''
+    fetch('/api/blocked-dates')
+      .then(r => r.json())
+      .then((data: Array<{ blocked_date: string; reason: string | null }>) => {
+        if (Array.isArray(data)) {
+          setAllBlockedDates(data.map(d => ({ date: d.blocked_date, reason: d.reason })))
+        }
+      })
+      .catch(() => {})
+  }, [])
+
+  useEffect(() => {
+    document.body.style.overflow = (liabilityOpen || calOpen) ? 'hidden' : ''
     return () => { document.body.style.overflow = '' }
-  }, [liabilityOpen])
+  }, [liabilityOpen, calOpen])
 
   const totalPersons = adults + kids
   const exclusiveSurcharge = isExclusive ? totalPersons * PRICE_EXCLUSIVE_SURCHARGE : 0
@@ -229,17 +242,38 @@ export default function BookingSection() {
           borderTop: '2px solid rgba(212,168,67,0.35)',
         }}>
 
-          {/* Date */}
+          {/* Date — trigger button */}
           <div className="pt-5 pb-4 border-b px-5" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>
-            <label className="form-label block mb-3">{t.chooseDate}</label>
-            <CalendarPicker
-              value={date}
-              onChange={setDate}
-              lang={lang}
-              offSeasonMsg={t.offSeasonMsg}
-            />
-            <p className="font-outfit text-xs mt-3" style={{ color: 'rgba(245,237,216,0.2)' }}>{t.seasonNote}</p>
+            <label className="form-label block mb-2">{t.chooseDate}</label>
+            <button onClick={() => setCalOpen(true)}
+              style={{ width: '100%', background: 'rgba(255,255,255,0.04)', border: '1px solid rgba(212,168,67,0.22)', borderRadius: '12px', padding: '0.75rem 1.1rem', color: '#F5EDD8', fontFamily: 'var(--font-cormorant)', fontSize: '1.1rem', cursor: 'pointer', display: 'flex', alignItems: 'center', justifyContent: 'space-between', letterSpacing: '0.02em', WebkitTapHighlightColor: 'transparent' }}>
+              <span>{formatDateDE(date)}</span>
+              <span style={{ fontFamily: 'var(--font-outfit)', fontSize: '0.72rem', color: 'rgba(212,168,67,0.5)', letterSpacing: '0.08em' }}>▾ {t.seasonNote}</span>
+            </button>
           </div>
+
+          {/* Calendar popup */}
+          {calOpen && (
+            <div onClick={() => setCalOpen(false)}
+              style={{ position: 'fixed', inset: 0, zIndex: 150, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '1rem', background: 'rgba(5,12,25,0.72)', backdropFilter: 'blur(6px)' }}>
+              <div onClick={e => e.stopPropagation()}
+                style={{ background: '#0A1628', border: '1px solid rgba(212,168,67,0.22)', borderTop: '2px solid rgba(212,168,67,0.5)', borderRadius: '20px', padding: '1.4rem 1.25rem 1.5rem', width: '100%', maxWidth: '340px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '1.1rem' }}>
+                  <span style={{ fontFamily: 'var(--font-outfit)', fontSize: '0.68rem', letterSpacing: '0.18em', textTransform: 'uppercase', color: 'rgba(212,168,67,0.55)' }}>{t.chooseDate}</span>
+                  <button onClick={() => setCalOpen(false)}
+                    style={{ background: 'none', border: 'none', color: 'rgba(245,237,216,0.35)', cursor: 'pointer', fontSize: '1.1rem', padding: '0 0.1rem', lineHeight: 1 }}>✕</button>
+                </div>
+                <CalendarPicker
+                  value={date}
+                  onChange={(iso) => { setDate(iso); setCalOpen(false) }}
+                  lang={lang}
+                  offSeasonMsg={t.offSeasonMsg}
+                  blockedTitle={t.blockedTitle}
+                  blockedDates={allBlockedDates}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Availability */}
           <div className="px-6 py-4 border-b" style={{ borderColor: 'rgba(255,255,255,0.05)' }}>

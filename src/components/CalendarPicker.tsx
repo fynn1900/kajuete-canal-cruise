@@ -9,29 +9,29 @@ const MONTH_FULL: Record<string, string[]> = {
   da: ['Januar', 'Februar', 'Marts', 'April', 'Maj', 'Juni', 'Juli', 'August', 'September', 'Oktober', 'November', 'December'],
 }
 
+export type BlockedDate = { date: string; reason: string | null }
+
 function toISO(y: number, m: number, d: number) {
   return `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`
 }
 
-// Season: June 15 – Sept 30 of each year
-// For current year only, also allow dates from today through Sept 30 (season may have started May 11)
-function isInSeason(year: number, month: number, day: number, currentYear: number): boolean {
-  if (month > 9) return false   // Oct–Dec: off
-  if (month < 6) return false   // Jan–May: off
-  if (month === 6 && day < 15) return false  // June 1–14: off
-  if (year === currentYear && month <= 9) return true  // rest of current season
-  if (year > currentYear && month <= 9) return true   // next season
-  return false
+// Season: June 1 – Sept 30
+function isInSeason(month: number): boolean {
+  return month >= 6 && month <= 9
 }
+
+type MsgState = { type: 'offseason' } | { type: 'blocked'; reason: string | null } | null
 
 type Props = {
   value: string
   onChange: (iso: string) => void
   lang: 'de' | 'en' | 'da'
   offSeasonMsg: string
+  blockedTitle: string
+  blockedDates: BlockedDate[]
 }
 
-export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: Props) {
+export default function CalendarPicker({ value, onChange, lang, offSeasonMsg, blockedTitle, blockedDates }: Props) {
   const now = new Date()
   const currentYear = now.getFullYear()
   const todayISO = toISO(currentYear, now.getMonth() + 1, now.getDate())
@@ -41,11 +41,10 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: 
 
   const [calYear, setCalYear] = useState(initYear)
   const [calMonth, setCalMonth] = useState(initMonth)
-  const [showMsg, setShowMsg] = useState(false)
+  const [msg, setMsg] = useState<MsgState>(null)
 
   const monthNames = MONTH_FULL[lang] ?? MONTH_FULL.de
 
-  // Max: Sept of next year
   const atMax = calYear >= currentYear + 1 && calMonth >= 9
   const atMin = calYear <= currentYear && calMonth <= now.getMonth() + 1
 
@@ -53,16 +52,18 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: 
   const offset = firstDay === 0 ? 6 : firstDay - 1
   const daysInMonth = new Date(calYear, calMonth, 0).getDate()
 
+  const blockedSet = new Map(blockedDates.map(b => [b.date, b.reason]))
+
   function prevMonth() {
     if (atMin) return
-    setShowMsg(false)
+    setMsg(null)
     if (calMonth === 1) { setCalYear(y => y - 1); setCalMonth(12) }
     else setCalMonth(m => m - 1)
   }
 
   function nextMonth() {
     if (atMax) return
-    setShowMsg(false)
+    setMsg(null)
     if (calMonth === 12) { setCalYear(y => y + 1); setCalMonth(1) }
     else setCalMonth(m => m + 1)
   }
@@ -70,11 +71,16 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: 
   function handleDay(day: number) {
     const iso = toISO(calYear, calMonth, day)
     if (iso < todayISO) return
-    if (!isInSeason(calYear, calMonth, day, currentYear)) {
-      setShowMsg(true)
+
+    if (blockedSet.has(iso)) {
+      setMsg({ type: 'blocked', reason: blockedSet.get(iso) ?? null })
       return
     }
-    setShowMsg(false)
+    if (!isInSeason(calMonth)) {
+      setMsg({ type: 'offseason' })
+      return
+    }
+    setMsg(null)
     onChange(iso)
   }
 
@@ -116,13 +122,19 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: 
           const day = i + 1
           const iso = toISO(calYear, calMonth, day)
           const isPast = iso < todayISO
-          const inSeason = isInSeason(calYear, calMonth, day, currentYear)
+          const isBlocked = blockedSet.has(iso)
+          const inSeason = isInSeason(calMonth)
           const isSelected = iso === value
           const isToday = iso === todayISO
 
-          const bg = isSelected ? gold : 'transparent'
-          const color = isSelected ? '#07111f' : cream
-          const opacity = isPast ? 0.15 : !inSeason ? 0.28 : 1
+          // Opacity layers: past = 0.15, off-season = 0.3, blocked = 0.45
+          let opacity = 1
+          if (isPast) opacity = 0.15
+          else if (isBlocked) opacity = 0.45
+          else if (!inSeason) opacity = 0.28
+
+          const bg = isSelected ? gold : isBlocked && !isPast ? 'rgba(248,113,113,0.08)' : 'transparent'
+          const color = isSelected ? '#07111f' : isBlocked && !isPast ? '#fca5a5' : cream
           const cursor = isPast ? 'default' : 'pointer'
           const outline = isToday && !isSelected ? `1.5px solid rgba(212,168,67,0.55)` : 'none'
 
@@ -133,7 +145,7 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: 
                 fontSize: '0.8rem', fontFamily: 'var(--font-outfit)',
                 background: bg, color, opacity, cursor,
                 outline, outlineOffset: '-1.5px',
-                transition: 'background 0.12s, opacity 0.1s',
+                transition: 'background 0.12s',
                 height: '36px', display: 'flex', alignItems: 'center', justifyContent: 'center',
                 WebkitTapHighlightColor: 'transparent',
                 fontWeight: isToday ? 700 : 400,
@@ -144,10 +156,17 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg }: 
         })}
       </div>
 
-      {/* Off-season message */}
-      {showMsg && (
-        <div style={{ marginTop: '0.85rem', padding: '0.6rem 0.85rem', borderRadius: '10px', background: 'rgba(212,168,67,0.06)', border: '1px solid rgba(212,168,67,0.18)', fontSize: '0.77rem', color: 'rgba(245,237,216,0.6)', fontFamily: 'var(--font-outfit)', textAlign: 'center', lineHeight: 1.55 }}>
-          ⚓ {offSeasonMsg}
+      {/* Message */}
+      {msg && (
+        <div
+          style={msg.type === 'blocked'
+            ? { marginTop: '0.85rem', padding: '0.65rem 0.9rem', borderRadius: '10px', fontFamily: 'var(--font-outfit)', fontSize: '0.77rem', textAlign: 'center' as const, lineHeight: 1.55, background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.2)', color: 'rgba(252,165,165,0.85)' }
+            : { marginTop: '0.85rem', padding: '0.65rem 0.9rem', borderRadius: '10px', fontFamily: 'var(--font-outfit)', fontSize: '0.77rem', textAlign: 'center' as const, lineHeight: 1.55, background: 'rgba(212,168,67,0.06)', border: '1px solid rgba(212,168,67,0.18)', color: 'rgba(245,237,216,0.6)' }
+          }>
+          {msg.type === 'blocked'
+            ? <>🚫 {blockedTitle}{msg.reason ? ` — ${msg.reason}` : ''}</>
+            : <>⚓ {offSeasonMsg}</>
+          }
         </div>
       )}
     </div>
