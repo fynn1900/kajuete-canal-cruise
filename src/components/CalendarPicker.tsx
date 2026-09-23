@@ -1,5 +1,5 @@
 'use client'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 const WEEKDAYS = ['Mo', 'Di', 'Mi', 'Do', 'Fr', 'Sa', 'So']
 
@@ -42,6 +42,18 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg, bl
   const [calYear, setCalYear] = useState(initYear)
   const [calMonth, setCalMonth] = useState(initMonth)
   const [msg, setMsg] = useState<MsgState>(null)
+  const [toastVisible, setToastVisible] = useState(false)
+
+  // Auto-dismiss toast after 3.5 s
+  useEffect(() => {
+    if (!msg) { setToastVisible(false); return }
+    setToastVisible(true)
+    const timer = setTimeout(() => {
+      setToastVisible(false)
+      setTimeout(() => setMsg(null), 300) // wait for fade-out
+    }, 3500)
+    return () => clearTimeout(timer)
+  }, [msg])
 
   const monthNames = MONTH_FULL[lang] ?? MONTH_FULL.de
 
@@ -91,6 +103,40 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg, bl
 
   return (
     <div style={{ userSelect: 'none' }}>
+      {/* Toast — floats above popup, auto-dismisses */}
+      {msg && (
+        <div
+          style={{
+            position: 'fixed',
+            top: '8vh',
+            left: '50%',
+            transform: 'translateX(-50%)',
+            zIndex: 300,
+            padding: '0.9rem 1.4rem',
+            borderRadius: '16px',
+            fontFamily: 'var(--font-outfit)',
+            fontSize: '0.875rem',
+            textAlign: 'center',
+            lineHeight: 1.5,
+            maxWidth: 'calc(100vw - 2.5rem)',
+            width: 'max-content',
+            boxShadow: '0 12px 40px rgba(0,0,0,0.6)',
+            pointerEvents: 'none',
+            transition: 'opacity 0.3s ease, transform 0.3s ease',
+            opacity: toastVisible ? 1 : 0,
+            ...(msg.type === 'blocked'
+              ? { background: 'rgba(18,6,6,0.97)', border: '1.5px solid rgba(248,113,113,0.5)', color: 'rgba(252,165,165,0.95)' }
+              : { background: 'rgba(7,14,28,0.97)', border: '1.5px solid rgba(212,168,67,0.5)', color: 'rgba(245,237,216,0.9)' }
+            ),
+          }}
+        >
+          {msg.type === 'blocked'
+            ? <>🚫 {blockedTitle}{msg.reason ? ` — ${msg.reason}` : ''}</>
+            : <>⚓ {offSeasonMsg}</>
+          }
+        </div>
+      )}
+
       {/* Month navigation */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '0.85rem' }}>
         <button onClick={prevMonth} disabled={atMin}
@@ -154,20 +200,6 @@ export default function CalendarPicker({ value, onChange, lang, offSeasonMsg, bl
           )
         })}
       </div>
-
-      {/* Message */}
-      {msg && (
-        <div
-          style={msg.type === 'blocked'
-            ? { marginTop: '0.85rem', padding: '0.65rem 0.9rem', borderRadius: '10px', fontFamily: 'var(--font-outfit)', fontSize: '0.77rem', textAlign: 'center' as const, lineHeight: 1.55, background: 'rgba(248,113,113,0.07)', border: '1px solid rgba(248,113,113,0.2)', color: 'rgba(252,165,165,0.85)' }
-            : { marginTop: '0.85rem', padding: '0.65rem 0.9rem', borderRadius: '10px', fontFamily: 'var(--font-outfit)', fontSize: '0.77rem', textAlign: 'center' as const, lineHeight: 1.55, background: 'rgba(212,168,67,0.06)', border: '1px solid rgba(212,168,67,0.18)', color: 'rgba(245,237,216,0.6)' }
-          }>
-          {msg.type === 'blocked'
-            ? <>🚫 {blockedTitle}{msg.reason ? ` — ${msg.reason}` : ''}</>
-            : <>⚓ {offSeasonMsg}</>
-          }
-        </div>
-      )}
     </div>
   )
 }
