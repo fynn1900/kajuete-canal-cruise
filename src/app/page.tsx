@@ -290,7 +290,7 @@ export default function Home() {
                   {t.beforeTripDesc}
                 </p>
                 <a
-                  href="https://tally.so/r/9q6Wp1"
+                  href="https://reservierung.optriq.de/kajuete"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="btn-primary rounded-full px-7 py-3 text-sm text-center"
